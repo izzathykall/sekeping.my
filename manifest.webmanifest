@@ -1,21 +1,21 @@
 {
-  "name": "Memento — Kenangan Majlis",
-  "short_name": "Memento",
-  "description": "Kamera disposable dan galeri gambar majlis",
+  "name": "Sekeping — Setiap Gambar, Satu Kenangan",
+  "short_name": "Sekeping",
+  "description": "Kamera disposable digital, QR dan galeri gambar majlis oleh Sekeping",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f6f4ec",
-  "theme_color": "#20362f",
+  "background_color": "#F7F3EC",
+  "theme_color": "#344D40",
   "icons": [
     {
-      "src": "./assets/icon-192.png",
+      "src": "./icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./assets/icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

@@ -1,16 +1,30 @@
-# Memento — Website Kenangan Majlis
+# Sekeping — Website Kenangan Majlis
 
-Website asal tersendiri, diinspirasikan oleh konsep kamera disposable dan QR galeri majlis. **Siap untuk GitHub Pages**, tanpa proses build.
+Website asal tersendiri, diinspirasikan oleh konsep kamera disposable dan QR galeri majlis. **Siap untuk GitHub Pages**, tanpa proses build. Semua fail berada terus dalam folder utama, tanpa subfolder.
+
+## Identiti Sekeping
+
+- **Nama:** Sekeping
+- **Tagline:** *Setiap gambar, satu kenangan.*
+- **Gaya:** minimal, romantik, timeless; elemen fotografi filem klasik.
+- **Warna:** Forest `#344D40`, Sage `#A8B9A3`, Cream `#F7F3EC`, Soft Gold `#C9A86A`.
+- **Fon:** Cormorant Garamond (judul/logo), Inter (paparan aplikasi).
+- **Logo:** bingkai foto Sekeping (`logo.svg`). Ikon aplikasi disediakan pada 192 dan 512 px.
+- **Domain yang dicadangkan:** `sekeping.my` (cadangan sahaja, **belum disemak atau dibeli**). Anda masih boleh guna URL GitHub Pages tanpa domain sendiri.
 
 ## 1. Cuba dahulu tanpa Firebase
 
-1. Extract ZIP. Muat naik **semua kandungan folder ini** ke root repository GitHub, termasuk `index.html`, `admin.html`, `src/`, `vendor/`, `assets/` dan `config.js`.
+1. Extract ZIP. Muat naik **semua fail dalam folder ini** ke root repository GitHub, termasuk `index.html`, `admin.html`, ``, ``, `` dan `config.js`.
 2. Di GitHub, pilih **Settings → Pages → Deploy from a branch → main → / (root) → Save**.
 3. Buka `https://USERNAME.github.io/NAMA-REPO/` dan `https://USERNAME.github.io/NAMA-REPO/admin.html`.
 4. Website bermula dalam **MOD DEMO** kerana Firebase belum diisi. Klik **Buka dashboard demo**, ubah majlis atau cipta majlis baru, kemudian buka halaman tetamu.
 5. Cuba kamera, filter, ambil gambar, upload galeri, moderasi, QR, ucapan, ZIP. Foto disimpan menggunakan IndexedDB *dalam browser/peranti semasa sahaja*. Ia **tidak berkongsi foto antara peranti**. Jangan gunakan mod demo untuk majlis sebenar!
 
 **Perhatian QR:** Cipta majlis terlebih dahulu setelah website di-host pada URL akhir; kemudian download QR dari dashboard. QR yang dihasilkan daripada laman `file://` atau `localhost` tidak boleh digunakan oleh telefon tetamu.
+
+### Domain sendiri (pilihan)
+
+Jika anda sudah membeli domain seperti `sekeping.my`, boleh buka **Repository → Settings → Pages → Custom domain**, kemudian ikut rekod DNS yang GitHub tunjuk dan aktifkan **Enforce HTTPS** setelah sijil tersedia. Tambah domain itu juga pada **Firebase Authentication → Settings → Authorized domains**. **Jangan bina fail CNAME sehingga domain itu benar-benar milik anda.**
 
 ## 2. Hidupkan galeri live sebenar (Firebase)
 
@@ -25,8 +39,8 @@ Firebase ialah komponen cloud untuk menghubungkan telefon tetamu dan admin. GitH
 7. Isi medan `firebase` dalam `config.js` dengan nilai objek Web config dari Firebase Console:
 
 ```javascript
-window.MEMORIA_CONFIG = {
-  siteName: 'Memento',
+window.SEKEPING_CONFIG = {
+  siteName: 'Sekeping',
   firebase: {
     apiKey: 'AIza...',
     authDomain: 'projek-anda.firebaseapp.com',
@@ -73,30 +87,41 @@ gcloud storage buckets update gs://NAMA_BUCKET --cors-file=cors.json
 - Untuk elakkan spam upload, pertimbangkan Firebase App Check (reCAPTCHA Enterprise), rate limiting menggunakan Cloud Functions dan program antivirus/moderasi upload bagi majlis terbuka.
 - Browser iPhone Safari lama atau izin kamera yang ditolak mungkin memerlukan tetamu memuat naik gambar dari galeri.
 
-## Struktur fail
+## Struktur fail — semua di root (tiada subfolder)
 
 ```
 index.html             ← Halaman tetamu
 admin.html             ← Dashboard penganjur
 styles.css             ← Semua reka bentuk responsive
 config.js              ← Isi Firebase Web config
-src/app.js             ← UI kamera, galeri, admin, QR, ZIP
-src/firebase-service.js← Firebase auth, Firestore, Storage
-src/demo-service.js    ← Penyimpanan setempat IndexedDB
-src/util.js            ← QR canvas / utilities
-vendor/qr.js           ← QRCode JavaScript (MIT)
-vendor/jszip.min.js     ← JSZip (MIT/GPLv3; license included)
+app.js             ← UI kamera, galeri, admin, QR, ZIP
+firebase-service.js← Firebase auth, Firestore, Storage
+demo-service.js    ← Penyimpanan setempat IndexedDB
+util.js            ← QR canvas / utilities
+qr.js           ← QRCode JavaScript (MIT)
+jszip.min.js     ← JSZip (MIT/GPLv3; license included)
 firestore.rules         ← Rules database
 storage.rules           ← Rules fail gambar
 cors.example.json       ← Example CORS export ZIP
 manifest.webmanifest    ← PWA
 sw.js                   ← PWA shell cache
-assets/logo.svg         ← Logo SVG
-assets/icon-192.png / icon-512.png ← Ikon PWA
+logo.svg         ← Logo SVG
+icon-192.png / icon-512.png ← Ikon PWA
 ```
 
 ## Teknologi & credits
 
-HTML/CSS/JavaScript, Firebase Web SDK CDN, QRCode for JavaScript oleh Kazuhiko Arase (MIT), JSZip oleh Stuart Knightley & contributors (MIT atau GPLv3), Google Fonts DM Sans dan DM Serif Display.
+HTML/CSS/JavaScript, Firebase Web SDK CDN, QRCode for JavaScript oleh Kazuhiko Arase (MIT), JSZip oleh Stuart Knightley & contributors (MIT atau GPLv3), Google Fonts Cormorant Garamond dan Inter.
 
-Design original "Memento", bukan salinan logo/asset Kenang.my.
+Reka bentuk dan identiti Sekeping adalah original; bukan salinan logo atau aset Kenang.my.
+
+## Semakan sebelum majlis sebenar
+
+1. Uji GitHub Pages pada iPhone dan Android dengan pautan HTTPS sebenar; benarkan akses kamera.
+2. Di Firebase, uji dua peranti berasingan, pastikan galeri live, upload, moderasi dan kunci galeri berfungsi ikut polisi yang diingini.
+3. Periksa bahawa admin hanya boleh log masuk dengan akaun penganjur dan tetamu tidak mendapat akses admin.
+4. Uji penggunaan storage, bajet, serta muat turun sandaran semua gambar sebelum tamat majlis.
+5. Selepas website di-host pada URL tetap, jana semula QR dan **scan QR menggunakan telefon lain** sebelum dicetak.
+6. Untuk pratonton pautan media sosial, ubah `og:image` dalam `index.html` kepada URL HTTPS mutlak bagi `og-cover.png` selepas domain dimuktamadkan.
+
+**Status pengujian:** Struktur HTML, rujukan fail dan sintaks JavaScript diperiksa dalam persekitaran pembangunan. Ujian penuh aplikasi pada browser telefon sebenar dan Firebase dengan akaun anda masih perlu dilakukan selepas konfigurasi.
