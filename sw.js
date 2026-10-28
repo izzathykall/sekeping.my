@@ -1,5 +1,5 @@
 // Network-first avoids a stale config.js when Firebase is connected after a demo.
-const CACHE='sekeping-shell-v5-flat';
+const CACHE='sekeping-shell-v6-svg-camera';
 const FILES=['./','./index.html','./admin.html','./styles.css','./config.js','./app.js','./util.js','./demo-service.js','./firebase-service.js','./qr.js','./jszip.min.js','./logo.svg','./og-cover.png','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));

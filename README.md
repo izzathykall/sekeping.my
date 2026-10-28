@@ -14,11 +14,11 @@ Website asal tersendiri, diinspirasikan oleh konsep kamera disposable dan QR gal
 
 ## 1. Cuba dahulu tanpa Firebase
 
-1. Extract ZIP. Muat naik **semua fail dalam folder ini** ke root repository GitHub, termasuk `index.html`, `admin.html`, ``, ``, `` dan `config.js`.
+1. Extract ZIP. Muat naik **semua fail dalam folder ini** ke root repository GitHub, termasuk `index.html`, `admin.html`, `app.js`, `styles.css`, `util.js` dan `config.js`.
 2. Di GitHub, pilih **Settings → Pages → Deploy from a branch → main → / (root) → Save**.
 3. Buka `https://USERNAME.github.io/NAMA-REPO/` dan `https://USERNAME.github.io/NAMA-REPO/admin.html`.
 4. Website bermula dalam **MOD DEMO** kerana Firebase belum diisi. Klik **Buka dashboard demo**, ubah majlis atau cipta majlis baru, kemudian buka halaman tetamu.
-5. Cuba kamera, filter, ambil gambar, upload galeri, moderasi, QR, ucapan, ZIP. Foto disimpan menggunakan IndexedDB *dalam browser/peranti semasa sahaja*. Ia **tidak berkongsi foto antara peranti**. Jangan gunakan mod demo untuk majlis sebenar!
+5. Cuba kamera live dengan butang **Aktifkan kamera**. Jika tidak tersedia, gunakan **Ambil menggunakan kamera telefon** atau pilih gambar; kemudian cuba filter, ambil gambar, upload galeri, moderasi, QR, ucapan, ZIP. Foto disimpan menggunakan IndexedDB *dalam browser/peranti semasa sahaja*. Ia **tidak berkongsi foto antara peranti**. Jangan gunakan mod demo untuk majlis sebenar!
 
 **Perhatian QR:** Cipta majlis terlebih dahulu setelah website di-host pada URL akhir; kemudian download QR dari dashboard. QR yang dihasilkan daripada laman `file://` atau `localhost` tidak boleh digunakan oleh telefon tetamu.
 
@@ -125,3 +125,12 @@ Reka bentuk dan identiti Sekeping adalah original; bukan salinan logo atau aset 
 6. Untuk pratonton pautan media sosial, ubah `og:image` dalam `index.html` kepada URL HTTPS mutlak bagi `og-cover.png` selepas domain dimuktamadkan.
 
 **Status pengujian:** Struktur HTML, rujukan fail dan sintaks JavaScript diperiksa dalam persekitaran pembangunan. Ujian penuh aplikasi pada browser telefon sebenar dan Firebase dengan akaun anda masih perlu dilakukan selepas konfigurasi.
+
+## 0. Kamera tidak dapat dibuka? (iPhone & Android)
+
+- **Buka website melalui HTTPS** (`https://...github.io/...`). Kamera live tidak boleh digunakan apabila fail HTML dibuka terus dari ZIP (`file://`) atau pada kebanyakan browser yang memaparkan fail secara tempatan. Modul JavaScript juga mungkin disekat dalam `file://`.
+- Tekan **Aktifkan kamera** untuk memberi kebenaran kamera. Pada iPhone, buka dalam **Safari**; pada Android gunakan **Chrome**. Jika kebenaran pernah ditolak, benarkan akses kamera dalam tetapan browser kemudian reload.
+- Butang **Ambil menggunakan kamera telefon** menggunakan pemilih kamera native telefon (`input type=file capture=environment`) sebagai pilihan kedua jika `getUserMedia` disekat oleh in-app browser atau peranti. Pemilih kamera sebenar mungkin berbeza antara browser/peranti.
+- Jika gambar sudah diambil, tekan **Hantar ke galeri** dan masukkan nama tetamu. Dalam mod demo, gambar hanya disimpan di browser itu.
+- Versi ini menggunakan **SVG** untuk semua ikon UI (tiada emoji), dan **tiada folder src, vendor, assets**.
+- Had gambar dalam frontend adalah per-browser sahaja; penguatkuasaan ketat merentas semua peranti memerlukan backend.
