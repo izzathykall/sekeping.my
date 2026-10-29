@@ -3,7 +3,8 @@ service firebase.storage {
   match /b/{bucket}/o {
     // V6: Originals are only readable by the organiser UID from the event metadata.
     match /events/{eventId}/vault/{ownerUid}/{kind}/{guestUid}/{fileName} {
-      allow read, delete: if request.auth != null && request.auth.uid == ownerUid;
+      allow read: if request.auth != null && (request.auth.uid == ownerUid || (kind == 'photos' && request.auth.uid == guestUid));
+      allow delete: if request.auth != null && request.auth.uid == ownerUid;
       allow create: if request.auth != null && request.auth.uid == guestUid
         && ((kind == 'photos' && request.resource.size < 8 * 1024 * 1024
                     && request.resource.contentType == 'image/jpeg')

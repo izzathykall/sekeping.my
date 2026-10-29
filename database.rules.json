@@ -7,7 +7,7 @@
         ".read": "auth != null && auth.uid === $uid",
         "events": {
           "$eventId": {
-            ".write": "auth != null && auth.uid === $uid && newData.val() === true && root.child('events').child($eventId).child('meta').child('ownerUid').val() === $uid"
+            ".write": "auth != null && auth.uid === $uid && root.child('events').child($eventId).child('meta').child('ownerUid').val() === $uid && (newData.val() === true || !newData.exists())"
           }
         }
       }
@@ -46,7 +46,8 @@
             ".validate": "!newData.exists() || (newData.hasChildren(['uid','guestName','message','createdAt']) && newData.child('guestName').isString() && newData.child('guestName').val().length <= 55 && newData.child('message').isString() && newData.child('message').val().length > 0 && newData.child('message').val().length <= 600)"
           },
           ".read": "(root.child('events').child($eventId).child('meta').child('status').val() === 'published' && root.child('events').child($eventId).child('meta').child('allowWishes').val() === true) || (auth != null && root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid)"
-        }
+        },
+        ".write": "auth != null && !newData.exists() && data.child('meta').child('ownerUid').val() === auth.uid"
       }
     }
   }

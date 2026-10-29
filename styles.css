@@ -153,3 +153,22 @@
 
 /* Owner-only export panel */
 .archive-head{display:flex;gap:15px;align-items:flex-start;margin-bottom:20px}.archive-head>.ico{color:#365f4d;border:1px solid #dce8da;border-radius:10px;background:#edf3eb;padding:9px;width:49px;height:49px}.archive-head h3{margin:3px 0 8px}.archive-head p{margin:0;line-height:1.7}.archive-stat{margin:18px 0}.archive-contents{border:1px solid #e4e8de;border-radius:12px;background:#fafbf6;padding:18px;margin:0 0 23px;color:#375748}.archive-contents p{font-size:12px;color:#78897d;line-height:1.8;margin:8px 0 0}.archive-contents b{font-weight:700;color:#3e6853}
+
+/* Sekeping V7: prevent native Safari date/time fields from colliding at iPad widths. */
+.dash-card form .two-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px;row-gap:8px;min-width:0}
+.dash-card form .two-fields>.field{min-width:0;width:100%;max-width:100%;overflow:visible}
+.dash-card form .two-fields>.field>.input{width:100%;min-width:0;max-width:100%;box-sizing:border-box;display:block}
+.dash-card form .two-fields input[type="date"],.dash-card form .two-fields input[type="time"]{min-width:0;max-width:100%;appearance:none;-webkit-appearance:none;min-height:47px;padding:12px 10px}
+.dash-card form .two-fields input[type="date"]::-webkit-date-and-time-value,.dash-card form .two-fields input[type="time"]::-webkit-date-and-time-value{text-align:left;min-width:0}
+.dashboard-active-strip{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:13px 18px;margin-bottom:22px;border:1px solid #dfe8dd;background:#f0f4ed;border-radius:12px}
+.dashboard-active-info{display:flex;flex-wrap:wrap;align-items:center;gap:10px;color:#315749;font-size:12px;min-width:0}
+.dashboard-active-info>span:not(.pill){font-size:10px;letter-spacing:1.2px;color:#829387;font-weight:700}
+.dashboard-active-info>b{font-weight:700;overflow-wrap:anywhere}.dashboard-active-strip>.btn{flex-shrink:0}
+.active-event-pill{background:#e1efe3!important;color:#316447!important}
+.event-delete-btn{margin-left:auto}.detail-form-actions{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:8px}
+.delete-modal-icon{width:53px;height:53px;border-radius:16px;background:#fff0ec;color:#b15e50;display:grid;place-items:center;margin-bottom:15px}
+.delete-modal p{line-height:1.75;color:#6f7770}.delete-modal .banner{margin:17px 0}.delete-modal .field{margin-bottom:22px}
+.photo-owner-save{position:absolute;top:10px;left:10px;width:35px;height:35px;z-index:3;background:#f5f8f1f0;color:#294e3c;border:1px solid #fff;border-radius:50%;display:grid;place-items:center;box-shadow:0 3px 10px #122c243b}
+.photo-owner-save:hover{background:#fff}
+@media(max-width:1140px){.dash-card form .two-fields{grid-template-columns:minmax(0,1fr);gap:0}}
+@media(max-width:720px){.dashboard-active-strip{margin-bottom:16px;padding:12px;align-items:start}.dashboard-active-info{gap:5px 10px}.dashboard-active-strip>.btn{padding:8px 10px;font-size:11px}.dash-card form .two-fields{grid-template-columns:1fr}}

@@ -29,3 +29,8 @@
 @media(max-width:1120px){.qr-studio-top{grid-template-columns:minmax(265px,.8fr) minmax(0,1.2fr);gap:16px}.qr-theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:850px){.qr-studio-top{grid-template-columns:minmax(0,1fr)}.qr-studio-preview{position:static}.qr-theme-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:420px){.qr-theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.qr-studio-config .dash-card{padding:17px}}
+
+/* V7: show actual printable designs, not generic placeholder thumbnails. */
+.qr-theme-card .qr-theme-thumb{width:95%;height:auto;aspect-ratio:1240 / 1754;border:1px solid #d8ddd5;background:#fbf8f1;display:block;margin:auto;box-shadow:0 4px 12px #163a2a13;border-radius:2px}
+.qr-theme-card.selected .qr-theme-thumb{box-shadow:0 0 0 2px #4e7a5a33,0 6px 15px #183a2b12}
+.qr-theme-card .qr-theme-name{font-size:11px;letter-spacing:.1px}

@@ -4,12 +4,12 @@
 (function(){'use strict';
 const WIDTH=1240, HEIGHT=1754;
 const templates=[
- {id:'minimal',name:'Minimal Cream',description:'Bersih & klasik',accent:'#254b42',paper:'#faf8f3',ink:'#254b42'},
- {id:'sage',name:'Sage Floral',description:'Daun sage halus',accent:'#446e59',paper:'#f1f5ee',ink:'#254b42'},
- {id:'arch',name:'Classic Arch',description:'Gerbang romantik',accent:'#ac8b64',paper:'#f7f0e5',ink:'#493d30'},
- {id:'editorial',name:'Premium Editorial',description:'Tipografi moden',accent:'#254b42',paper:'#fffdf8',ink:'#223d35'},
- {id:'botanical',name:'Soft Botanical',description:'Corak daun lembut',accent:'#738e70',paper:'#f9f5e9',ink:'#365b49'},
- {id:'night',name:'Dark Elegant',description:'Gelap eksklusif',accent:'#c6ac86',paper:'#1d2b27',ink:'#f8f2e6'}
+ {id:'minimal',name:'Classic Cream',description:'Garis warisan elegan',accent:'#8f7457',paper:'#fbf8f0',ink:'#284c41'},
+ {id:'sage',name:'Sage Floral',description:'Botani lembut romantik',accent:'#54765d',paper:'#f3f5ed',ink:'#284c41'},
+ {id:'arch',name:'Royal Arch',description:'Gerbang emas berlapis',accent:'#a5855a',paper:'#faf4e9',ink:'#473b32'},
+ {id:'editorial',name:'Editorial Classic',description:'Gaya majalah klasik',accent:'#426153',paper:'#fffdf8',ink:'#243e34'},
+ {id:'botanical',name:'Botanical Elegance',description:'Floral artisanal',accent:'#7f946f',paper:'#f8f6ee',ink:'#365b49'},
+ {id:'night',name:'Dark Heritage',description:'Hijau gelap & emas',accent:'#c6ac86',paper:'#1e302a',ink:'#f8f2e6'}
 ];
 const defaults={template:'sage',accent:'#446e59',showDate:true,showVenue:true,showTagline:true,tagline:'Imbas & rakam kenangan'};
 function getTemplate(id){return templates.find(t=>t.id===id)||templates[1]}
@@ -18,13 +18,59 @@ function rgba(hex,alpha){let x=hex.replace('#','');return`rgba(${parseInt(x.slic
 function strokeArch(ctx,x,y,w,h,accent,thickness=3){ctx.save();ctx.strokeStyle=accent;ctx.lineWidth=thickness;ctx.beginPath();ctx.moveTo(x,y+h);ctx.lineTo(x,y+w/2);ctx.arc(x+w/2,y+w/2,w/2,Math.PI,0);ctx.lineTo(x+w,y+h);ctx.stroke();ctx.restore()}
 function drawSprig(ctx,x,y,size,flip,color){ctx.save();ctx.translate(x,y);ctx.scale(flip*size,size);ctx.strokeStyle=color;ctx.lineWidth=2.1;ctx.beginPath();ctx.moveTo(0,0);ctx.bezierCurveTo(45,-65,48,-150,32,-205);ctx.stroke();for(let i=0;i<5;i++){let px=11+i*6,py=-34-i*33;ctx.beginPath();ctx.moveTo(px,py);ctx.quadraticCurveTo(px-70,py-35,px-53,py-62);ctx.quadraticCurveTo(px-6,py-57,px,py);ctx.stroke();ctx.beginPath();ctx.moveTo(px,py-8);ctx.quadraticCurveTo(px+71,py-33,px+55,py-64);ctx.quadraticCurveTo(px+6,py-49,px,py-8);ctx.stroke()}ctx.restore()}
 function cornerLine(ctx,color){ctx.strokeStyle=color;ctx.lineWidth=2;ctx.strokeRect(74,74,WIDTH-148,HEIGHT-148)}
+function ornament(ctx,x,y,r,color){
+ ctx.save();ctx.translate(x,y);ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,r*.6,0,Math.PI*2);ctx.stroke();
+ for(let i=0;i<8;i++){const rad=i*Math.PI/4;ctx.save();ctx.rotate(rad);ctx.beginPath();ctx.ellipse(0,-r*.58,r*.27,r*.48,0,0,Math.PI*2);ctx.stroke();ctx.restore()}
+ ctx.beginPath();ctx.arc(0,0,r*.14,0,Math.PI*2);ctx.stroke();ctx.restore();
+}
+function vine(ctx,x,y,length,direction,color){
+ ctx.save();ctx.translate(x,y);ctx.scale(direction,1);ctx.strokeStyle=color;ctx.lineWidth=2.4;
+ ctx.beginPath();ctx.moveTo(0,0);ctx.bezierCurveTo(45,-length*.18,23,-length*.72,70,-length);ctx.stroke();
+ for(let i=0;i<6;i++){const yy=-25-i*length/7,xx=9+i*8,sign=i%2?1:-1;
+ ctx.beginPath();ctx.moveTo(xx,yy);ctx.quadraticCurveTo(xx+sign*48,yy-18,xx+sign*43,yy-45);ctx.quadraticCurveTo(xx+sign*5,yy-34,xx,yy);ctx.stroke()}
+ ctx.restore();
+}
+function capLine(ctx,x1,x2,y,color){ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(x2,y);ctx.stroke();ctx.beginPath();ctx.arc((x1+x2)/2,y,4,0,Math.PI*2);ctx.stroke()}
 function design(ctx,theme,accent){const id=theme.id;ctx.fillStyle=theme.paper;ctx.fillRect(0,0,WIDTH,HEIGHT);ctx.save();
- if(id==='minimal'){cornerLine(ctx,rgba(accent,.2));ctx.strokeStyle=rgba(accent,.22);ctx.beginPath();ctx.moveTo(464,210);ctx.lineTo(776,210);ctx.moveTo(464,1537);ctx.lineTo(776,1537);ctx.stroke()}
- if(id==='sage'){cornerLine(ctx,rgba(accent,.22));drawSprig(ctx,115,410,.85,1,rgba(accent,.36));drawSprig(ctx,1125,1344,.85,-1,rgba(accent,.36));ctx.strokeStyle=rgba(accent,.2);ctx.beginPath();ctx.arc(83,88,152,0,Math.PI*2);ctx.stroke()}
- if(id==='arch'){strokeArch(ctx,85,80,1070,1556,rgba(accent,.42),4);strokeArch(ctx,108,102,1024,1510,rgba(accent,.18),2);ctx.fillStyle=rgba(accent,.5);ctx.beginPath();ctx.arc(620,214,7,0,Math.PI*2);ctx.fill()}
- if(id==='editorial'){ctx.fillStyle=rgba(accent,.065);ctx.fillRect(66,66,1108,152);ctx.fillStyle=accent;ctx.fillRect(66,1666,1108,12);ctx.strokeStyle=rgba(accent,.22);ctx.beginPath();ctx.moveTo(120,266);ctx.lineTo(1120,266);ctx.stroke()}
- if(id==='botanical'){cornerLine(ctx,rgba(accent,.23));for(let i=0;i<3;i++){drawSprig(ctx,65+i*25,520-i*110,.73,1,rgba(accent,.32));drawSprig(ctx,1175-i*25,1250+i*92,.73,-1,rgba(accent,.32))}ctx.fillStyle=rgba(accent,.07);ctx.beginPath();ctx.arc(620,860,460,0,Math.PI*2);ctx.fill()}
- if(id==='night'){cornerLine(ctx,rgba(accent,.65));ctx.strokeStyle=rgba(accent,.28);ctx.lineWidth=2;ctx.strokeRect(92,92,1056,1570);ctx.beginPath();ctx.arc(620,195,65,0,Math.PI*2);ctx.stroke();ctx.font='normal 44px Georgia,serif';ctx.fillStyle=accent;ctx.textAlign='center';ctx.fillText('✦',620,210);ctx.strokeStyle=rgba(accent,.35);ctx.beginPath();ctx.moveTo(360,1600);ctx.lineTo(880,1600);ctx.stroke()}
+ const pale=rgba(accent,.2),soft=rgba(accent,.1),strong=rgba(accent,.55);
+ if(id==='minimal'){
+   ctx.strokeStyle=pale;ctx.lineWidth=2;ctx.strokeRect(68,68,1104,1618);ctx.strokeRect(90,90,1060,1574);
+   ornament(ctx,620,112,28,strong);capLine(ctx,382,858,239,pale);capLine(ctx,462,778,1580,pale);
+   for(const sx of [112,1128]){ctx.strokeStyle=pale;ctx.beginPath();ctx.moveTo(sx-16,120);ctx.lineTo(sx+16,120);ctx.moveTo(sx,104);ctx.lineTo(sx,136);ctx.stroke()}
+ }
+ if(id==='sage'){
+   ctx.strokeStyle=pale;ctx.lineWidth=2;ctx.strokeRect(78,78,1084,1598);
+   vine(ctx,110,593,300,1,rgba(accent,.37));vine(ctx,1126,1494,300,-1,rgba(accent,.37));
+   drawSprig(ctx,145,370,.52,1,rgba(accent,.35));drawSprig(ctx,1095,1390,.52,-1,rgba(accent,.35));
+   ornament(ctx,620,104,32,rgba(accent,.28));ctx.fillStyle=soft;ctx.beginPath();ctx.ellipse(90,95,210,100,-.4,0,Math.PI*2);ctx.fill();
+ }
+ if(id==='arch'){
+   strokeArch(ctx,80,92,1080,1570,rgba(accent,.54),3);strokeArch(ctx,102,114,1036,1524,rgba(accent,.22),3);
+   strokeArch(ctx,125,136,990,1478,rgba(accent,.16),1);
+   ornament(ctx,620,105,28,rgba(accent,.56));
+   for(const x of [148,1092]){ornament(ctx,x,1198,22,rgba(accent,.36))}
+   ctx.strokeStyle=strong;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(416,591);ctx.lineTo(824,591);ctx.stroke();
+ }
+ if(id==='editorial'){
+   ctx.fillStyle=rgba(accent,.065);ctx.fillRect(70,69,1100,142);ctx.fillRect(70,1594,1100,90);
+   ctx.fillStyle=accent;ctx.fillRect(70,69,11,1540);ctx.fillRect(1159,69,11,1540);
+   ctx.fillStyle=pale;ctx.fillRect(146,232,948,2);ctx.fillRect(146,1566,948,2);
+   for(let i=0;i<12;i++){ctx.fillStyle=rgba(accent,.14);ctx.fillRect(168+i*80,244,1,34)}
+   ornament(ctx,1050,140,28,rgba(accent,.36));
+ }
+ if(id==='botanical'){
+   ctx.strokeStyle=pale;ctx.lineWidth=2;ctx.strokeRect(72,72,1096,1610);
+   for(let i=0;i<3;i++){vine(ctx,95+i*34,485-i*110,230,1,rgba(accent,.24+i*.02));vine(ctx,1145-i*34,1440+i*85,240,-1,rgba(accent,.24+i*.02))}
+   ornament(ctx,620,106,35,strong);ornament(ctx,620,1598,25,rgba(accent,.3));
+   ctx.fillStyle=rgba(accent,.055);ctx.beginPath();ctx.ellipse(620,880,390,570,0,0,Math.PI*2);ctx.fill();
+ }
+ if(id==='night'){
+   ctx.strokeStyle=strong;ctx.lineWidth=3;ctx.strokeRect(71,71,1098,1612);
+   ctx.strokeStyle=rgba(accent,.24);ctx.lineWidth=2;ctx.strokeRect(91,91,1058,1572);
+   ornament(ctx,620,105,26,accent);ornament(ctx,620,1580,26,rgba(accent,.54));
+   for(let i=0;i<5;i++){const y=470+i*105;ctx.strokeStyle=rgba(accent,.11);ctx.beginPath();ctx.moveTo(106,y);ctx.lineTo(1134,y);ctx.stroke()}
+   vine(ctx,155,575,210,1,rgba(accent,.35));vine(ctx,1085,1450,210,-1,rgba(accent,.35));
+ }
  ctx.restore()}
 function getQR(text,size=520){if(window.SekepingPDF?.qrCanvas)return window.SekepingPDF.qrCanvas(text,size);throw Error('Enjin kod QR tidak tersedia.')}
 function dateLabel(date){if(!date)return'';const d=new Date(date+'T12:00:00');return isNaN(d)?'':new Intl.DateTimeFormat('ms-MY',{day:'numeric',month:'long',year:'numeric'}).format(d)}

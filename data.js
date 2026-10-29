@@ -21,7 +21,7 @@ const write=(kind,id,value)=>localStorage.setItem(key(kind,id),JSON.stringify(va
 const uuid=()=> crypto.randomUUID?.()||'id-'+Date.now()+'-'+Math.random().toString(36).slice(2);
 let f=null, db=null, storage=null, auth=null, authReady=false;
 const $getPath=(id,what)=>`events/${id}/${what}`;
-function demoInit(){if(!localStorage.getItem(key('event','demo')))write('event','demo',demoEvent);if(!localStorage.getItem(key('all','events')))write('all','events',['demo']);if(!localStorage.getItem(key('guest','id')))localStorage.setItem(key('guest','id'),uuid());}
+function demoInit(){if(!localStorage.getItem('sekeping_demo_seeded')){if(!localStorage.getItem(key('event','demo')))write('event','demo',demoEvent);if(!localStorage.getItem(key('all','events')))write('all','events',['demo']);localStorage.setItem('sekeping_demo_seeded','1')}if(!localStorage.getItem(key('guest','id')))localStorage.setItem(key('guest','id'),uuid());}
 async function setup(){if(isDemo()){demoInit();return true;}if(authReady)return true;
  try{
   const [appMod,authMod,dbMod,storageMod]=await Promise.all([
@@ -73,6 +73,43 @@ const store={
   const id=uuid().replace(/-/g,'').slice(0,14);const event={...demoEvent,...input,id,ownerUid,coverUrl:'',coverX:50,coverY:50,coverZoom:100,createdAt:Date.now()};
   if(isDemo()){write('event',id,event);write('all','events',[...read('all','events',[]),id]);return event}
   await dbSet($getPath(id,'meta'),event);await dbSet(`owners/${ownerUid}/events/${id}`,true);return event;
+ },
+ async deleteEvent(id){
+  await setup();const event=await store.getEvent(id);if(!event)throw Error('Majlis tidak dijumpai.');
+  const u=await store.user();if(!isDemo()&&(!u||u.isAnonymous||u.uid!==event.ownerUid))throw Error('Hanya pengurus majlis boleh padam majlis.');
+  if(isDemo()){
+   const kinds=['photos','voices','wishes'];const old=await Promise.all(kinds.map(k=>store.listContent(id,k)));
+   const images=[read('cover',id,null),read('giftqr',id,null)].filter(Boolean);
+   try{const d=await idb(),keys=[...old.flat().map(x=>x.mediaKey),...images.map(x=>x.mediaKey)].filter(Boolean);
+    if(keys.length)await new Promise((resolve,reject)=>{const tx=d.transaction('blobs','readwrite');for(const key of keys)tx.objectStore('blobs').delete(key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})
+   }catch(err){console.warn('Demo media cleanup:',err)}
+   for(const k of [...kinds,'event','cover','giftqr'])localStorage.removeItem(key(k,id));
+   write('all','events',read('all','events',[]).filter(x=>x!==id));return;
+  }
+  // Atomically remove event database records and its owner index. Storage objects need separate cleanup.
+  const updates={};updates[`events/${id}`]=null;updates[`owners/${u.uid}/events/${id}`]=null;
+  await f.dbMod.update(f.dbMod.ref(db),updates);
+ },
+ async readOwnPhoto(id,photoId){
+  await setup();const u=await store.guest(),event=await store.getEvent(id);
+  if(!event)throw Error('Majlis telah dipadam.');
+  const photos=await store.listContent(id,'photos'),item=photos.find(x=>x.id===photoId);
+  if(!item||!u||item.uid!==u.uid)throw Error('Anda hanya boleh muat turun gambar milik sendiri.');
+  if(isDemo()){
+   const blob=item.mediaKey?await readBlob(item.mediaKey):null;
+   if(!blob)throw Error('Gambar asal tidak ditemui dalam peranti ini.');
+   return new Uint8Array(await blob.arrayBuffer());
+  }
+  if(item.privatePath){
+   const safe=`events/${id}/vault/${event.ownerUid}/photos/${u.uid}/`;
+   if(!item.privatePath.startsWith(safe))throw Error('Laluan fail bukan milik anda.');
+   return new Uint8Array(await f.storageMod.getBytes(f.storageMod.ref(storage,item.privatePath),15*1024*1024));
+  }
+  if(!item.url)throw Error('Pautan gambar asal tidak tersedia.');
+  const parsed=new URL(item.url);
+  if(parsed.protocol!=='https:'||parsed.hostname!=='firebasestorage.googleapis.com'||!parsed.pathname.includes('/b/'+firebaseConfig.storageBucket+'/'))throw Error('Pautan lama tidak sah.');
+  const res=await fetch(item.url);if(!res.ok)throw Error('Gambar lama tidak dapat dimuat turun.');
+  return new Uint8Array(await res.arrayBuffer());
  },
  async updateEvent(id,updates){await setup();if(isDemo()){const existing=await store.getEvent(id);write('event',id,{...existing,...updates});return}const u=auth.currentUser;const event=await store.getEvent(id);if(!u||event.ownerUid!==u.uid)throw Error('Hanya pengurus majlis boleh mengubah tetapan.');await dbUpdate($getPath(id,'meta'),updates)},
  async listContent(id,kind){await setup();let data;if(isDemo())data=read(kind,id,[]);else{const d=await dbRead($getPath(id,kind))||{};data=Object.entries(d).map(([k,v])=>({...v,id:k}))}
