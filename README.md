@@ -73,7 +73,7 @@ README.md
 
 © Sekeping — contoh prototaip dan asas sistem acara. Kod QR menggunakan adaptasi algoritma QR Code for JavaScript oleh Kazuhiko Arase (MIT); lihat `qrcode.js`.
 
-## Kamera Studio — kemas kini V2
+## Kamera Studio — kemas kini V3
 
 - 26 filter berbeza: Asli, Lembut, Cerah, Bersih, Dreamy; Klasik 94, Kodak Gold, Fuji 400, Polaroid, Pudar 70s, Disposable; Cinema, Teal & Orange, Moody, Matte Film, Midnight; Sunset, Golden Hour, Rosy, Olive, Biru Sejuk, Pop Colour; B&W Klasik, Silver, Noir, Sepia.
 - Pilih tab kategori atau skrol senarai gambar mini untuk memilih filter.
@@ -82,3 +82,21 @@ README.md
 - Filter dan tetapan Grain/Vignette diingati pada peranti yang sama melalui penyimpanan browser.
 - Selepas gambar ditangkap, pilih Simpan Gambar atau Ambil Semula; untuk mengubah efek, ambil semula foto sebelum simpan.
 - Mod demo mengekalkan foto hanya dalam storan setempat browser (IndexedDB). Untuk berkongsi antara peranti, aktifkan Firebase seperti panduan di atas.
+
+## Sekeping V3 — aliran tetamu lengkap (referensi reka bentuk Kenang.my)
+
+Versi ini menambah **fungsi lain yang telah diminta**, bukan kamera sahaja.
+
+- **Laman tetamu**: hero gambar pasangan (muat naik sendiri melalui dashboard), nama dan tarikh pengantin, input nama tetamu, kuota baki keping filem, butang utama **Jadi Photographer Kami**, navigasi **Album Saya**, **Suara**, **Ucapan**, **Salam Kaut Digital**, dan **Album Tetamu Lain**. Paparan hero fallback menggunakan hiasan generik sekiranya belum ada gambar majlis.
+- **Album Saya**: hanya gambar daripada tetamu semasa (berdasarkan anonymous UID). Kegemaran disimpan pada peranti sendiri. Muat turun gambar individu atau semua gambar sebagai ZIP.
+- **Album Tetamu Lain**: galeri tersusun dengan tab **All / Guests / Wishes**, filter **All / Favourites / With a Wish**, pilihan nama tetamu dan butang muat turun. **With a Wish** mencari foto yang dimuat naik oleh tetamu yang juga telah meninggalkan ucapan. Statistik ialah data sebenar, tidak direka.
+- **Suara**: rakam, pratonton, main semula, hantar rakaman dan dengar rakaman tetamu.
+- **Ucapan**: isi nama, kirim doa dan baca ucapan tetamu; pengurus boleh memadam kandungan melalui dashboard.
+- **Salam Kaut**: pengurus menetapkan nama penerima, bank, nombor akaun, status ON/OFF dan mengupload **imej QR pembayaran rasmi**. Tetamu boleh salin nombor akaun dan simpan QR yang diupload. Laman **tidak menjana QR DuitNow sah** daripada nombor akaun sahaja dan **tidak memproses bayaran**. Selagi pengurus belum tetapkan akaun/QR, tetamu akan melihat notis yang jelas, bukannya QR/akaun rekaan.
+- **Dashboard pengurus**: bahagian baharu **Salam Kaut**, di samping semua tetapan terdahulu, galeri, voice, ucapan, QR majlis A5, acara, framing gambar pasangan dan statistik.
+- **Kamera**: 26 filter + grain/vignette ON/OFF dengan kekuatan boleh laras, potret/landskap, kamera depan/belakang, flash bergantung browser, upload dari galeri.
+- **Tanpa subfolder**: semua fail berada di root ZIP, termasuk `zip-export.js` dan `camera-effects.js`.
+
+**Privasi:** Galeri tetamu yang diterbitkan boleh dilihat oleh sesiapa yang memiliki pautan/QR majlis. Aktifkan persetujuan tetamu dan pastikan anda mempunyai hak terhadap gambar yang dimuat naik. Favourites dikekalkan secara setempat dan bukan sync akaun. `Album Saya` bukan sistem identiti yang kebal kerana anonymous UID mungkin berubah apabila data browser dipadam. Cloud Functions/App Check/moderasi disarankan untuk kegunaan awam berskala besar.
+
+**Penting:** QR pembayaran hanya diterima sebagai **imej yang diupload** oleh pengurus melalui papan pemuka, berasingan daripada QR **pautan majlis** yang dijana dalam PDF A5. Jangan tertukar kedua-dua QR ini.

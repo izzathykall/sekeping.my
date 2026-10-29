@@ -11,7 +11,7 @@ const firebaseConfig={
   appId:'1:158820023594:web:5e933b4bb4a6c9b1bb3253',
   measurementId:'G-EBTX2F8BT5'
 };
-const demoEvent={id:'demo',ownerUid:'demo-organizer',name:'Majlis Perkahwinan',bride:'Aina',groom:'Haziq',date:'2026-12-12',time:'11:00',venue:'Dewan Seri Indah',description:'Sebuah hari yang indah, dikongsi bersama insan tersayang.',photoLimit:3,voiceLimit:45,status:'published',allowGallery:true,allowVoices:true,allowWishes:true,theme:'#254b42',coverUrl:'',coverX:50,coverY:50,coverZoom:100,createdAt:Date.now()};
+const demoEvent={id:'demo',ownerUid:'demo-organizer',name:'Majlis Perkahwinan',bride:'Aina',groom:'Haziq',date:'2026-12-12',time:'11:00',venue:'Dewan Seri Indah',description:'Sebuah hari yang indah, dikongsi bersama insan tersayang.',photoLimit:3,voiceLimit:45,status:'published',allowGallery:true,allowVoices:true,allowWishes:true,giftEnabled:true,giftBank:'',giftRecipient:'',giftAccount:'',giftQrUrl:'',theme:'#254b42',coverUrl:'',coverX:50,coverY:50,coverZoom:100,createdAt:Date.now()};
 function isDemo(){const p=new URLSearchParams(location.search);return p.get('demo')==='1'||p.get('e')==='demo';}
 const prefix='sekeping_v4_';
 const key=(kind,id)=>prefix+kind+'_'+id;
@@ -89,7 +89,14 @@ const store={
   if(isDemo()){const mediaKey=`${id}_cover_${uuid()}`;await putBlob(mediaKey,file);const url=await getUrl({mediaKey});write('cover',id,{mediaKey});await store.updateEvent(id,{coverUrl:''});return url}
   const path=`events/${id}/covers/${u.uid}/${uuid()}.jpg`;const uploaded=await f.storageMod.uploadBytes(f.storageMod.ref(storage,path),file,{contentType:file.type});const url=await f.storageMod.getDownloadURL(uploaded.ref);await store.updateEvent(id,{coverUrl:url});return url;
  },
- async cover(id,event){if(!isDemo())return event.coverUrl||'';const cover=read('cover',id,null);return cover?getUrl(cover):event.coverUrl||''}
+ async cover(id,event){if(!isDemo())return event.coverUrl||'';const cover=read('cover',id,null);return cover?getUrl(cover):event.coverUrl||''},
+ async giftQr(id,event){if(!isDemo())return event.giftQrUrl||'';const data=read('giftqr',id,null);return data?getUrl(data):event.giftQrUrl||''},
+ async uploadGiftQr(id,file){await setup();const ev=await store.getEvent(id);const u=await store.user();if(!ev||(!isDemo()&&(!u||u.uid!==ev.ownerUid)))throw Error('Hanya pengurus boleh menambah QR pembayaran.');
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw Error('Hanya imej JPG, PNG atau WebP dibenarkan.');if(file.size>5*1024*1024)throw Error('QR terlalu besar; maksimum 5 MB.');
+  if(isDemo()){const mediaKey=`${id}_giftqr_${uuid()}`;await putBlob(mediaKey,file);write('giftqr',id,{mediaKey});return getUrl({mediaKey})}
+  const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';const path=`events/${id}/giftqr/${u.uid}/${uuid()}.${ext}`;
+  const uploaded=await f.storageMod.uploadBytes(f.storageMod.ref(storage,path),file,{contentType:file.type});const url=await f.storageMod.getDownloadURL(uploaded.ref);await store.updateEvent(id,{giftQrUrl:url});return url;
+ }
 };
 window.SekepingStore=store;
 })();
