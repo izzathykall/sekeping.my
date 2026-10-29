@@ -1,136 +1,73 @@
-# Sekeping — Website Kenangan Majlis
+# Sekeping.my — laman majlis & dashboard tetamu
 
-Website asal tersendiri, diinspirasikan oleh konsep kamera disposable dan QR galeri majlis. **Siap untuk GitHub Pages**, tanpa proses build. Semua fail berada terus dalam folder utama, tanpa subfolder.
+Pakej website statik yang boleh terus dipasang di GitHub Pages. Direka berasaskan aliran dan inspirasi halaman tetamu Kenang.my (bukan salinan kod/aset Kenang.my).
 
-## Identiti Sekeping
+## Apa yang disediakan
 
-- **Nama:** Sekeping
-- **Tagline:** *Setiap gambar, satu kenangan.*
-- **Gaya:** minimal, romantik, timeless; elemen fotografi filem klasik.
-- **Warna:** Forest `#344D40`, Sage `#A8B9A3`, Cream `#F7F3EC`, Soft Gold `#C9A86A`.
-- **Fon:** Cormorant Garamond (judul/logo), Inter (paparan aplikasi).
-- **Logo:** bingkai foto Sekeping (`logo.svg`). Ikon aplikasi disediakan pada 192 dan 512 px.
-- **Domain yang dicadangkan:** `sekeping.my` (cadangan sahaja, **belum disemak atau dibeli**). Anda masih boleh guna URL GitHub Pages tanpa domain sendiri.
+- **Laman tetamu**: maklumat majlis, kamera (depan/belakang), filter Asli/Hangat/Filem Lama/Hitam Putih/Dreamy/Sejuk, potret/landskap, flash *skrin*, had gambar per tetamu, album, pesanan suara boleh dimainkan dan ucapan bertulis.
+- **Dashboard pengurus sahaja**: daftar/log masuk e-mel, cipta banyak majlis, sunting maklumat majlis, muat naik foto pengantin dan laraskan zum/X/Y, terbit/draf, had gambar (1–20), durasi suara (5–90s), buka/tutup galeri/voice/ucapan, semak dan padam item dalam galeri, statistik, salin URL.
+- **Jana QR A5 PDF**: PDF saiz 148 x 210 mm, poster bercorak botani, nama pengantin, tarikh, lokasi dan QR yang boleh diimbas. Tiada perkhidmatan luar diperlukan untuk menjana PDF.
+- **Mod demo tanpa Firebase**: `?e=demo` (tetamu) dan `?view=dashboard&demo=1` (dashboard). Data disimpan dalam localStorage + IndexedDB pada peranti itu sahaja. **Mod demo tidak berkongsi data antara peranti**.
+- Responsif desktop, tablet, iPhone dan Android. Ikon SVG dan animasi CSS; tiada emoji untuk navigasi.
 
-## 1. Cuba dahulu tanpa Firebase
+## 1 — Terbitkan di GitHub Pages
 
-1. Extract ZIP. Muat naik **semua fail dalam folder ini** ke root repository GitHub, termasuk `index.html`, `admin.html`, `app.js`, `styles.css`, `util.js` dan `config.js`.
-2. Di GitHub, pilih **Settings → Pages → Deploy from a branch → main → / (root) → Save**.
-3. Buka `https://USERNAME.github.io/NAMA-REPO/` dan `https://USERNAME.github.io/NAMA-REPO/admin.html`.
-4. Website bermula dalam **MOD DEMO** kerana Firebase belum diisi. Klik **Buka dashboard demo**, ubah majlis atau cipta majlis baru, kemudian buka halaman tetamu.
-5. Cuba kamera live dengan butang **Aktifkan kamera**. Jika tidak tersedia, gunakan **Ambil menggunakan kamera telefon** atau pilih gambar; kemudian cuba filter, ambil gambar, upload galeri, moderasi, QR, ucapan, ZIP. Foto disimpan menggunakan IndexedDB *dalam browser/peranti semasa sahaja*. Ia **tidak berkongsi foto antara peranti**. Jangan gunakan mod demo untuk majlis sebenar!
+1. Nyahzip pakej, dan muat naik **kandungan folder** ke akar repositori GitHub (pastikan `index.html` berada di root).
+2. Pergi ke **Settings > Pages > Build and deployment**, pilih **Deploy from a branch**, cawangan **main** dan folder **/(root)**. Simpan.
+3. Tunggu GitHub Pages terbitkan URL anda seperti `https://username.github.io/sekeping/`.
+4. Uji `https://username.github.io/sekeping/?e=demo` untuk demo (akan gunakan local storage peranti tersebut).
 
-**Perhatian QR:** Cipta majlis terlebih dahulu setelah website di-host pada URL akhir; kemudian download QR dari dashboard. QR yang dihasilkan daripada laman `file://` atau `localhost` tidak boleh digunakan oleh telefon tetamu.
+> Website kamera dan mikrofon perlu **HTTPS** atau `http://localhost`; `file://` tidak mencukupi. GitHub Pages menggunakan HTTPS.
 
-### Domain sendiri (pilihan)
+## 2 — Aktifkan Firebase sebenar
 
-Jika anda sudah membeli domain seperti `sekeping.my`, boleh buka **Repository → Settings → Pages → Custom domain**, kemudian ikut rekod DNS yang GitHub tunjuk dan aktifkan **Enforce HTTPS** setelah sijil tersedia. Tambah domain itu juga pada **Firebase Authentication → Settings → Authorized domains**. **Jangan bina fail CNAME sehingga domain itu benar-benar milik anda.**
+Konfigurasi Firebase daripada projek **sekeping-my** telah dimasukkan ke `data.js`, tetapi ini **tidak** mengaktifkan perkhidmatan Firebase secara automatik.
 
-## 2. Hidupkan galeri live sebenar (Firebase)
+1. Buka https://console.firebase.google.com/ → projek `sekeping-my`.
+2. Authentication → Sign-in method → **Enable Email/Password** **dan Anonymous**.
+3. Authentication → Settings → Authorized domains → tambah domain hosting anda (`username.github.io` dan/atau domain sendiri).
+4. Realtime Database → Rules → gantikan rules dengan kandungan `database.rules.json` → **Publish**.
+5. Storage → Rules → gantikan rules dengan kandungan `storage.rules` → **Publish**. Pastikan Firebase Storage sudah diwujudkan dan billing memenuhi keperluan projek Firebase anda.
+6. Buka `https://.../index.html?view=dashboard` → **Daftar** akaun pengurus → **Cipta majlis** → terbitkan → **QR & cetakan**.
+7. Semak QR menghala kepada URL sebenar yang telah diterbitkan. Masukkan URL asas laman GitHub Pages di ruang **URL Asas Website** jika perlu.
 
-Firebase ialah komponen cloud untuk menghubungkan telefon tetamu dan admin. GitHub Pages hanya meng-host fail statik.
+## 3 — Cara pengguna menggunakan website
 
-1. Buka https://console.firebase.google.com/ dan cipta projek baru. Dalam Project Settings → Your apps → Web app, daftarkan aplikasi web dan dapatkan `firebaseConfig`.
-2. **Authentication → Sign-in method**: aktifkan **Anonymous** (tetamu tanpa akaun) dan **Email/Password** (penganjur). Di **Authentication → Users**, gunakan **Add user** untuk cipta akaun admin sendiri. Jangan tambah fungsi daftar admin terbuka kepada tetamu.
-3. **Firestore Database**: cipta database, kemudian pada **Rules**, **gantikan** kandungan dengan fail `firestore.rules` dalam ZIP ini dan **Publish**.
-4. **Cloud Storage**: cipta bucket, pada **Rules**, gantikan kandungan dengan fail `storage.rules` dan **Publish**. Pastikan Storage bucket dalam `storageBucket` adalah tepat.
-5. **PENTING (2026)**: Cloud Storage for Firebase memerlukan pelan **Blaze (pay as you go)** serta akaun billing, walaupun penggunaan tertentu boleh kekal percuma. Tetapkan billing budget/alert untuk mengelakkan kos tak dijangka. Semak https://firebase.google.com/docs/storage/faqs-storage-changes-announced-sept-2024
-6. Pada **Authentication → Settings → Authorized domains**, tambah domain GitHub Pages anda (`USERNAME.github.io`) atau domain custom. URL Firebase SDK memerlukan internet.
-7. Isi medan `firebase` dalam `config.js` dengan nilai objek Web config dari Firebase Console:
+**Pengurus:** `?view=dashboard` → log masuk → cipta/edit majlis → tambah gambar pengantin → laraskan crop → simpan → tetapkan had foto → terbitkan → QR & cetakan → muat turun PDF A5.
 
-```javascript
-window.SEKEPING_CONFIG = {
-  siteName: 'Sekeping',
-  firebase: {
-    apiKey: 'AIza...',
-    authDomain: 'projek-anda.firebaseapp.com',
-    projectId: 'projek-anda',
-    storageBucket: 'projek-anda.firebasestorage.app',
-    messagingSenderId: '...',
-    appId: '1:...:web:...'
-  }
-};
-```
+**Tetamu:** scan QR → halaman `?e=<id>` → isi nama → buka kamera → ambil foto dan simpan → album, rakam dan main semula suara, hantar ucapan.
 
-8. Upload semula `config.js` ke GitHub Pages. Refresh website. Pergi `admin.html`, login menggunakan e-mel/password yang dibuat di Firebase Authentication, klik **+ Majlis baru**, kemudian download kod QR. Peranti yang scan QR kini berkongsi foto dalam galeri yang sama melalui Firebase.
-9. Uji dari dua peranti: telefon A ambil gambar, telefon B masuk QR dan lihat gambar muncul; cuba `Moderasi gambar` dan `Kunci galeri`.
+## Maklumat penting sebelum majlis sebenar
 
-### Export ZIP dalam mod Firebase
+- **Had gambar adalah berdasarkan Firebase Anonymous UID**, bukan identiti fizikal. Tetamu boleh dapat UID baharu jika menukar peranti atau membersihkan data browser. Untuk penguatkuasaan ketat, gunakan sistem tiket jemputan atau fungsi backend Cloud Functions yang memeriksa token tetamu dan mengawal upload.
+- Firebase Storage **masih menyimpan fail asal** apabila pengurus memadam metadata dari galeri. Sediakan proses penghapusan fail Storage melalui Cloud Functions atau pemadaman berkala oleh pengurus apabila digunakan dalam produksi.
+- QR demo dan data demo tidak boleh dikongsi antara peranti. Data sebenar akan disimpan pada Firebase jika rules, Storage, Authentication dan internet berfungsi.
+- Untuk acara umum, tambah **App Check**, kawalan muat naik, moderasi kandungan, dan mekanisme persetujuan gambar/voice/privacy sebelum meluas.
+- Kamera belakang/depan bergantung sokongan browser. Flash dalam versi ini ialah **kilatan skrin**; ia bukan jaminan lampu LED fizikal pada semua telefon.
+- Rakaman audio menggunakan MediaRecorder; fail audio mungkin berbeza format bergantung browser (contohnya `.m4a` / `.webm`). Browser pengguna perlu menyokong format untuk memainkannya.
+- Jangan masukkan sebarang kunci akaun servis atau credential Firebase Admin dalam fail frontend. Konfigurasi Web Firebase bukan rahsia; **rules** menentukan keselamatan data.
 
-`Muat turun ZIP` membaca fail dari Firebase Storage menggunakan Web SDK `getBlob()`. Sesetengah browser/bucket memerlukan tetapan CORS. Jika eksport gagal, salin `cors.example.json`, gantikan `USERNAME.github.io` dengan domain sebenar, kemudian jalankan melalui Google Cloud SDK yang mempunyai izin bucket:
-
-```bash
-gcloud storage buckets update gs://NAMA_BUCKET --cors-file=cors.json
-```
-
-`cors.json` ialah salinan yang diedit daripada `cors.example.json`. Export ZIP perlu membaca semua gambar ke memori browser; untuk majlis dengan ribuan foto, gunakan alat eksport backend/cloud agar tidak membebankan telefon.
-
-## Ciri yang tersedia
-
-- Kamera telefon melalui `getUserMedia` (perlu HTTPS dan izin browser), kamera depan/belakang, flash visual, 4 filter gambar, cop tarikh, pratonton serta retake.
-- Alternatif upload gambar terus dari galeri telefon.
-- Bilangan filem boleh ditetapkan per majlis (1–50) dengan pengiraan per akaun anonymous Firebase/browser.
-- Album gallery realtime, lightbox, simpan imej, buku ucapan.
-- Dashboard admin: pelbagai majlis, tukar tetapan, galeri live, moderasi approve/hide/delete, buku ucapan, CSV, ZIP dan cetak/PNG QR.
-- Kod QR dihasilkan secara lokal tanpa bergantung pada QR service luaran, dengan quiet zone.
-- Responsive untuk telefon, tablet dan desktop; PWA cache fail antaramuka (akses kamera dan Firebase tetap memerlukan rangkaian ketika live).
-
-## Keselamatan & batasan penting
-
-- **Had filem ialah kawalan di pihak browser, BUKAN had yang tidak boleh dipintas**. Pengguna boleh kosongkan data browser atau cipta sesi anonymous baharu; enforcement mutlak dan anti-spam perlukan backend, App Check dan quota peranti/pengguna.
-- **Link majlis ialah unlisted URL, bukan privasi kriptografi.** Sesiapa yang mendapat QR/link boleh memasuki majlis. Galeri yang dibuka boleh dilihat oleh pengguna berpautan. Untuk galeri sulit, tambah sistem token/undangan server-side dan pengurusan akses.
-- Firebase Rules dalam ZIP memberi kawalan admin/guest untuk dokumen dan foto. Namun URL muat turun Firebase Storage mungkin mengandungi token akses; **gambar yang telah dimuat turun, dikongsi, atau tokennya tersebar tidak boleh dijamin ditarik balik** oleh moderasi sahaja. Untuk privacy yang lebih ketat, gunakan backend proxy dengan signed URLs jangka pendek serta token revocation.
-- **Jangan letakkan service account key/secret dalam `config.js`**. Web Firebase config bukan kata laluan, akses sebenar dikawal oleh Firebase Rules.
-- `getDownloadURL` dan `getBlob` mungkin perlu tetapan CORS dan rules yang diterbitkan dengan betul.
-- Moderasi gambar hanya mempengaruhi gambar baru selepas setting diaktifkan. Gambar lama yang approved tidak automatik berubah menjadi pending.
-- Simpan salinan ZIP dan uji sebelum hari majlis; Firebase Storage boleh mengenakan caj mengikut penggunaan.
-- Untuk elakkan spam upload, pertimbangkan Firebase App Check (reCAPTCHA Enterprise), rate limiting menggunakan Cloud Functions dan program antivirus/moderasi upload bagi majlis terbuka.
-- Browser iPhone Safari lama atau izin kamera yang ditolak mungkin memerlukan tetamu memuat naik gambar dari galeri.
-
-## Struktur fail — semua di root (tiada subfolder)
+## Struktur fail
 
 ```
-index.html             ← Halaman tetamu
-admin.html             ← Dashboard penganjur
-styles.css             ← Semua reka bentuk responsive
-config.js              ← Isi Firebase Web config
-app.js             ← UI kamera, galeri, admin, QR, ZIP
-firebase-service.js← Firebase auth, Firestore, Storage
-demo-service.js    ← Penyimpanan setempat IndexedDB
-util.js            ← QR canvas / utilities
-qr.js           ← QRCode JavaScript (MIT)
-jszip.min.js     ← JSZip (MIT/GPLv3; license included)
-firestore.rules         ← Rules database
-storage.rules           ← Rules fail gambar
-cors.example.json       ← Example CORS export ZIP
-manifest.webmanifest    ← PWA
-sw.js                   ← PWA shell cache
-logo.svg         ← Logo SVG
-icon-192.png / icon-512.png ← Ikon PWA
+index.html
+styles.css
+app.js
+pdf.js
+data.js
+favicon.svg
+qrcode.js
+database.rules.json
+storage.rules
+README.md
 ```
 
-## Teknologi & credits
+## Debug
 
-HTML/CSS/JavaScript, Firebase Web SDK CDN, QRCode for JavaScript oleh Kazuhiko Arase (MIT), JSZip oleh Stuart Knightley & contributors (MIT atau GPLv3), Google Fonts Cormorant Garamond dan Inter.
+- `auth/operation-not-allowed` → aktifkan Email/Password dan Anonymous.
+- `permission_denied` → semak Realtime Database Rules (bukan Firestore Rules).
+- `storage/unauthorized` → semak Storage Rules, bucket, dan login Anonymous.
+- Kamera/mikrofon tidak boleh buka → guna HTTPS, semak permission browser, cuba Safari/Chrome terkini.
+- Pautan QR salah → ubah URL Asas Website selepas terbit di GitHub Pages.
 
-Reka bentuk dan identiti Sekeping adalah original; bukan salinan logo atau aset Kenang.my.
-
-## Semakan sebelum majlis sebenar
-
-1. Uji GitHub Pages pada iPhone dan Android dengan pautan HTTPS sebenar; benarkan akses kamera.
-2. Di Firebase, uji dua peranti berasingan, pastikan galeri live, upload, moderasi dan kunci galeri berfungsi ikut polisi yang diingini.
-3. Periksa bahawa admin hanya boleh log masuk dengan akaun penganjur dan tetamu tidak mendapat akses admin.
-4. Uji penggunaan storage, bajet, serta muat turun sandaran semua gambar sebelum tamat majlis.
-5. Selepas website di-host pada URL tetap, jana semula QR dan **scan QR menggunakan telefon lain** sebelum dicetak.
-6. Untuk pratonton pautan media sosial, ubah `og:image` dalam `index.html` kepada URL HTTPS mutlak bagi `og-cover.png` selepas domain dimuktamadkan.
-
-**Status pengujian:** Struktur HTML, rujukan fail dan sintaks JavaScript diperiksa dalam persekitaran pembangunan. Ujian penuh aplikasi pada browser telefon sebenar dan Firebase dengan akaun anda masih perlu dilakukan selepas konfigurasi.
-
-## 0. Kamera tidak dapat dibuka? (iPhone & Android)
-
-- **Buka website melalui HTTPS** (`https://...github.io/...`). Kamera live tidak boleh digunakan apabila fail HTML dibuka terus dari ZIP (`file://`) atau pada kebanyakan browser yang memaparkan fail secara tempatan. Modul JavaScript juga mungkin disekat dalam `file://`.
-- Tekan **Aktifkan kamera** untuk memberi kebenaran kamera. Pada iPhone, buka dalam **Safari**; pada Android gunakan **Chrome**. Jika kebenaran pernah ditolak, benarkan akses kamera dalam tetapan browser kemudian reload.
-- Butang **Ambil menggunakan kamera telefon** menggunakan pemilih kamera native telefon (`input type=file capture=environment`) sebagai pilihan kedua jika `getUserMedia` disekat oleh in-app browser atau peranti. Pemilih kamera sebenar mungkin berbeza antara browser/peranti.
-- Jika gambar sudah diambil, tekan **Hantar ke galeri** dan masukkan nama tetamu. Dalam mod demo, gambar hanya disimpan di browser itu.
-- Versi ini menggunakan **SVG** untuk semua ikon UI (tiada emoji), dan **tiada folder src, vendor, assets**.
-- Had gambar dalam frontend adalah per-browser sahaja; penguatkuasaan ketat merentas semua peranti memerlukan backend.
+© Sekeping — contoh prototaip dan asas sistem acara. Kod QR menggunakan adaptasi algoritma QR Code for JavaScript oleh Kazuhiko Arase (MIT); lihat `qrcode.js`.

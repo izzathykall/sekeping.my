@@ -1,0 +1,53 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "owners": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "events": {
+          "$eventId": {
+            ".write": "auth != null && auth.uid === $uid && newData.val() === true && root.child('events').child($eventId).child('meta').child('ownerUid').val() === $uid"
+          }
+        }
+      }
+    },
+    "events": {
+      "$eventId": {
+        "meta": {
+          ".write": "auth != null && ((!data.exists() && newData.child('ownerUid').val() === auth.uid && auth.token.firebase.sign_in_provider === 'password') || (data.child('ownerUid').val() === auth.uid && newData.child('ownerUid').val() === auth.uid))",
+          ".validate": "newData.hasChildren(['id','ownerUid','bride','groom','date','photoLimit','status']) && newData.child('id').val() === $eventId && newData.child('photoLimit').isNumber() && newData.child('photoLimit').val() >= 1 && newData.child('photoLimit').val() <= 20 && (newData.child('status').val() === 'published' || newData.child('status').val() === 'draft')",
+          ".read": "data.child('status').val() === 'published' || (auth != null && data.child('ownerUid').val() === auth.uid)"
+        },
+        "usage": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid && root.child('events').child($eventId).child('meta').child('status').val() === 'published'",
+            ".validate": "newData.child('count').isNumber() && newData.child('count').val() >= 0 && newData.child('count').val() <= root.child('events').child($eventId).child('meta').child('photoLimit').val() && (newData.child('count').val() === data.child('count').val() + 1 || newData.child('count').val() === data.child('count').val() - 1 || (!data.exists() && newData.child('count').val() === 1))",
+            ".read": "auth != null && (auth.uid === $uid || root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid)"
+          }
+        },
+        "photos": {
+          "$photoId": {
+            ".write": "auth != null && (root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid || (!data.exists() && newData.child('uid').val() === auth.uid && root.child('events').child($eventId).child('meta').child('status').val() === 'published' && root.child('events').child($eventId).child('usage').child(auth.uid).child('count').val() > 0))",
+            ".validate": "!newData.exists() || (newData.hasChildren(['uid','guestName','url','createdAt']) && newData.child('guestName').isString() && newData.child('guestName').val().length <= 55 && newData.child('url').isString())"
+          },
+          ".read": "root.child('events').child($eventId).child('meta').child('status').val() === 'published' || (auth != null && root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid)"
+        },
+        "voices": {
+          "$voiceId": {
+            ".write": "auth != null && (root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid || (!data.exists() && newData.child('uid').val() === auth.uid && root.child('events').child($eventId).child('meta').child('status').val() === 'published' && root.child('events').child($eventId).child('meta').child('allowVoices').val() === true))",
+            ".validate": "!newData.exists() || (newData.hasChildren(['uid','guestName','url','createdAt']) && newData.child('guestName').isString() && newData.child('guestName').val().length <= 55 && newData.child('url').isString())"
+          },
+          ".read": "root.child('events').child($eventId).child('meta').child('status').val() === 'published' || (auth != null && root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid)"
+        },
+        "wishes": {
+          "$wishId": {
+            ".write": "auth != null && (root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid || (!data.exists() && newData.child('uid').val() === auth.uid && root.child('events').child($eventId).child('meta').child('status').val() === 'published' && root.child('events').child($eventId).child('meta').child('allowWishes').val() === true))",
+            ".validate": "!newData.exists() || (newData.hasChildren(['uid','guestName','message','createdAt']) && newData.child('guestName').isString() && newData.child('guestName').val().length <= 55 && newData.child('message').isString() && newData.child('message').val().length > 0 && newData.child('message').val().length <= 600)"
+          },
+          ".read": "root.child('events').child($eventId).child('meta').child('status').val() === 'published' || (auth != null && root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid)"
+        }
+      }
+    }
+  }
+}

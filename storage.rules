@@ -1,29 +1,26 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    function eventDoc(eventId) {
-      return firestore.get(/databases/(default)/documents/events/$(eventId));
-    }
-    function isOwner(eventId) {
-      return request.auth != null && eventDoc(eventId).data.ownerUid == request.auth.uid;
-    }
-    match /events/{eventId}/{uid}/{photoId} {
-      function picturePath() {
-        return /databases/(default)/documents/events/$(eventId)/photos/$(photoId);
-      }
-      // File names are generated UUID.jpg; owner and uploader can retrieve.
-      // NOTE: getDownloadURL provides bearer-token links: avoid publishing links to hidden photos.
-      allow read: if request.auth != null && firestore.exists(picturePath())
-        && (isOwner(eventId)
-          || (firestore.get(picturePath()).data.guestUid == request.auth.uid)
-          || (firestore.get(picturePath()).data.status == 'approved' && eventDoc(eventId).data.galleryLocked == false));
+    match /events/{eventId}/photos/{uid}/{fileName} {
+      allow read: if true;
       allow create: if request.auth != null && request.auth.uid == uid
-        && eventDoc(eventId).data.acceptUploads == true
-        && photoId.matches('[0-9a-f-]+')
-        && request.resource.size <= 5 * 1024 * 1024
-        && request.resource.contentType == 'image/jpeg';
-      allow update: if false;
-      allow delete: if request.auth != null && (request.auth.uid == uid || isOwner(eventId));
+        && request.resource.size < 8 * 1024 * 1024
+        && request.resource.contentType.matches('image/jpeg');
+      allow update, delete: if false;
+    }
+    match /events/{eventId}/voices/{uid}/{fileName} {
+      allow read: if true;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.size < 12 * 1024 * 1024
+        && request.resource.contentType.matches('audio/.*');
+      allow update, delete: if false;
+    }
+    match /events/{eventId}/covers/{uid}/{fileName} {
+      allow read: if true;
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.size < 8 * 1024 * 1024
+        && request.resource.contentType.matches('image/(jpeg|png|webp)');
+      allow update, delete: if false;
     }
   }
 }
