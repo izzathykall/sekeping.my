@@ -42,6 +42,23 @@ function idb(){if(idbPromise)return idbPromise;idbPromise=new Promise((resolve,r
 async function putBlob(id,blob){const d=await idb();return new Promise((resolve,reject)=>{const t=d.transaction('blobs','readwrite');t.objectStore('blobs').put(blob,id);t.oncomplete=()=>resolve(id);t.onerror=()=>reject(t.error)})}
 async function readBlob(id){const d=await idb();return new Promise((resolve,reject)=>{const t=d.transaction('blobs','readonly');const r=t.objectStore('blobs').get(id);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
 async function getUrl(data){if(data.url)return data.url;if(data.mediaKey){try{const blob=await readBlob(data.mediaKey);return blob?URL.createObjectURL(blob):''}catch{return ''}}return ''}
+async function makePublicPhoto(file){
+ const canvas=document.createElement('canvas'),max=860;
+ let img,src='';
+ try{
+  if(typeof createImageBitmap==='function'){try{img=await createImageBitmap(file)}catch{}}
+  if(!img){src=URL.createObjectURL(file);img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(Error('Pratonton gambar gagal dijana.'));img.src=src})}
+  const w=img.width||img.naturalWidth,h=img.height||img.naturalHeight,scale=Math.min(1,max/Math.max(w,h));
+  canvas.width=Math.max(1,Math.round(w*scale));canvas.height=Math.max(1,Math.round(h*scale));
+  const cx=canvas.getContext('2d');cx.drawImage(img,0,0,canvas.width,canvas.height);
+  return await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('Tidak dapat menjana pratonton.')),'image/jpeg',.69));
+ }finally{if(img?.close)img.close();if(src)URL.revokeObjectURL(src)}
+}
+function ownerCheck(event){
+ if(!event)throw Error('Majlis tidak wujud.');
+ if(isDemo()){if(new URLSearchParams(location.search).get('view')!=='dashboard')throw Error('Arkib hanya boleh dibuka dalam dashboard demo.');return}
+ if(!auth.currentUser||auth.currentUser.isAnonymous||auth.currentUser.uid!==event.ownerUid)throw Error('Akses ditolak. Hanya akaun pengurus majlis boleh muat turun arkib.');
+}
 const store={
  get isDemo(){return isDemo()},uuid,config:firebaseConfig,
  async init(){return setup()},
@@ -74,13 +91,40 @@ const store={
   }
   try{
    const ext=kind==='photos'?'jpg':(file.type.includes('mp4')?'m4a':file.type.includes('ogg')?'ogg':'webm');
-   const storagePath=`events/${id}/${kind}/${u.uid}/${mid}.${ext}`;
-   const result=await f.storageMod.uploadBytes(f.storageMod.ref(storage,storagePath),file,{contentType:file.type||'application/octet-stream'});
-   item.url=await f.storageMod.getDownloadURL(result.ref);item.storagePath=storagePath;
+   const privatePath=`events/${id}/vault/${event.ownerUid}/${kind}/${u.uid}/${mid}.${ext}`;
+   const publicPath=`events/${id}/public/${kind}/${u.uid}/${mid}.${kind==='photos'?'jpg':ext}`;
+   // The full original goes to an organiser-read-only vault; guests only get a display copy.
+   const original=f.storageMod.ref(storage,privatePath);
+   await f.storageMod.uploadBytes(original,file,{contentType:file.type||'application/octet-stream'});
+   const preview=kind==='photos'?await makePublicPhoto(file):file;
+   const published=f.storageMod.ref(storage,publicPath);
+   await f.storageMod.uploadBytes(published,preview,{contentType:kind==='photos'?'image/jpeg':file.type||'audio/webm'});
+   item.url=await f.storageMod.getDownloadURL(published);item.privatePath=privatePath;item.publicPath=publicPath;
    await dbSet($getPath(id,`${kind}/${mid}`),item);item.id=mid;return item;
   }catch(e){if(quotaReserved){try{await f.dbMod.runTransaction(f.dbMod.ref(db,$getPath(id,'usage/'+u.uid)),v=>({count:Math.max(0,(v?.count||1)-1)}),{applyLocally:false})}catch{}}throw e}
  },
  async saveWish(id,guestName,message){await setup();const event=await store.getEvent(id);if(!event||event.status!=='published'||!event.allowWishes)throw Error('Ucapan tidak dibenarkan untuk majlis ini.');const u=await store.guest();const item={id:uuid(),uid:u.uid,guestName:guestName.trim().slice(0,55),message:message.trim().slice(0,600),createdAt:Date.now()};if(isDemo()){const arr=read('wishes',id,[]);arr.push(item);write('wishes',id,arr)}else{await dbSet($getPath(id,`wishes/${item.id}`),{...item,id:null})}return item},
+ async getOwnerArchiveData(id){
+  await setup();const event=await store.getEvent(id);ownerCheck(event);
+  // Fresh data, not cached data passed by the browser user.
+  const [photos,voices,wishes]=await Promise.all(['photos','voices','wishes'].map(k=>store.listContent(id,k)));
+  return {event,photos,voices,wishes};
+ },
+ async readOwnerMedia(id,kind,item){
+  await setup();const event=await store.getEvent(id);ownerCheck(event);
+  if(kind!=='photos'&&kind!=='voices')throw Error('Format arkib tidak sah.');
+  if(isDemo()){const data=item.mediaKey?await readBlob(item.mediaKey):null;if(!data)throw Error('Fail demo tidak ditemui.');return new Uint8Array(await data.arrayBuffer())}
+  if(item.privatePath){const safe=`events/${id}/vault/${event.ownerUid}/${kind}/`;
+   if(!item.privatePath.startsWith(safe))throw Error('Laluan fail peribadi tidak sah.');
+   return new Uint8Array(await f.storageMod.getBytes(f.storageMod.ref(storage,item.privatePath),30*1024*1024));
+  }
+  // Files uploaded by older versions did not have a private vault. Legacy access is temporary.
+  if(item.url){const parsed=new URL(item.url);
+   if(parsed.protocol!=='https:'||parsed.hostname!=='firebasestorage.googleapis.com'||!parsed.pathname.includes('/b/'+firebaseConfig.storageBucket+'/'))throw Error('Pautan media lama tidak boleh dipercayai.');
+   const response=await fetch(item.url);if(!response.ok)throw Error('Fail media lama tidak dapat dicapai.');return new Uint8Array(await response.arrayBuffer());
+  }
+  throw Error('Fail asal media tidak dijumpai.');
+ },
  async deleteRecord(id,kind,recordId){await setup();if(isDemo()){write(kind,id,read(kind,id,[]).filter(v=>v.id!==recordId));return}
   const ev=await store.getEvent(id);if(!auth.currentUser||auth.currentUser.uid!==ev.ownerUid)throw Error('Akses tidak dibenarkan.');await f.dbMod.remove(f.dbMod.ref(db,$getPath(id,`${kind}/${recordId}`)));
  },

@@ -1,31 +1,48 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /events/{eventId}/photos/{uid}/{fileName} {
+    // V6: Originals are only readable by the organiser UID from the event metadata.
+    match /events/{eventId}/vault/{ownerUid}/{kind}/{guestUid}/{fileName} {
+      allow read, delete: if request.auth != null && request.auth.uid == ownerUid;
+      allow create: if request.auth != null && request.auth.uid == guestUid
+        && ((kind == 'photos' && request.resource.size < 8 * 1024 * 1024
+                    && request.resource.contentType == 'image/jpeg')
+        || (kind == 'voices' && request.resource.size < 12 * 1024 * 1024
+                    && request.resource.contentType.matches('audio/.*')));
+      allow update: if false;
+    }
+    // Guest-facing reduced-resolution photo previews and playable audio.
+    // The viewable previews remain obtainable through browser developer tools.
+    match /events/{eventId}/public/{kind}/{guestUid}/{fileName} {
+      allow read: if true;
+      allow create: if request.auth != null && request.auth.uid == guestUid
+        && ((kind == 'photos' && request.resource.size < 2 * 1024 * 1024
+                 && request.resource.contentType == 'image/jpeg')
+          || (kind == 'voices' && request.resource.size < 12 * 1024 * 1024
+                 && request.resource.contentType.matches('audio/.*')));
+      allow update, delete: if false;
+    }
+    // Older V1–V5 uploads are still viewable for backward compatibility.
+    // They are NOT protected originals. Owner must migrate or delete legacy files.
+    match /events/{eventId}/photos/{guestUid}/{fileName} {
+      allow read: if true;
+      allow create, update, delete: if false;
+    }
+    match /events/{eventId}/voices/{guestUid}/{fileName} {
+      allow read: if true;
+      allow create, update, delete: if false;
+    }
+    match /events/{eventId}/covers/{uid}/{fileName} {
       allow read: if true;
       allow create: if request.auth != null && request.auth.uid == uid
         && request.resource.size < 8 * 1024 * 1024
-        && request.resource.contentType.matches('image/jpeg');
-      allow update, delete: if false;
-    }
-    match /events/{eventId}/voices/{uid}/{fileName} {
-      allow read: if true;
-      allow create: if request.auth != null && request.auth.uid == uid
-        && request.resource.size < 12 * 1024 * 1024
-        && request.resource.contentType.matches('audio/.*');
+        && request.resource.contentType.matches('image/(jpeg|png|webp)');
       allow update, delete: if false;
     }
     match /events/{eventId}/giftqr/{uid}/{fileName} {
       allow read: if true;
       allow create: if request.auth != null && request.auth.uid == uid
         && request.resource.size < 5 * 1024 * 1024
-        && request.resource.contentType.matches('image/(jpeg|png|webp)');
-      allow update, delete: if false;
-    }
-    match /events/{eventId}/covers/{uid}/{fileName} {
-      allow read: if true;
-      allow create: if request.auth != null && request.auth.uid == uid
-        && request.resource.size < 8 * 1024 * 1024
         && request.resource.contentType.matches('image/(jpeg|png|webp)');
       allow update, delete: if false;
     }
