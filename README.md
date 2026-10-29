@@ -100,3 +100,11 @@ Versi ini menambah **fungsi lain yang telah diminta**, bukan kamera sahaja.
 **Privasi:** Galeri tetamu yang diterbitkan boleh dilihat oleh sesiapa yang memiliki pautan/QR majlis. Aktifkan persetujuan tetamu dan pastikan anda mempunyai hak terhadap gambar yang dimuat naik. Favourites dikekalkan secara setempat dan bukan sync akaun. `Album Saya` bukan sistem identiti yang kebal kerana anonymous UID mungkin berubah apabila data browser dipadam. Cloud Functions/App Check/moderasi disarankan untuk kegunaan awam berskala besar.
 
 **Penting:** QR pembayaran hanya diterima sebagai **imej yang diupload** oleh pengurus melalui papan pemuka, berasingan daripada QR **pautan majlis** yang dijana dalam PDF A5. Jangan tertukar kedua-dua QR ini.
+
+## V4: identiti sama dengan dashboard pengurus
+
+- Halaman tetamu direka semula supaya **selari dengan dashboard pengurus**, menggunakan latar krim dan putih, aksen hijau hutan, hijau sage, garis lembut, tipografi editorial, kad minimal dan ikon konsisten. Dashboard pengurus tidak dirombak atau ditukar tema.
+- Halaman utama memaparkan foto pasangan, tarikh, lokasi, borang nama dan butang kamera, diikuti grid enam tindakan: Album Saya, Galeri Tetamu, Pesanan Suara, Ucapan & Doa, Salam Kaut dan Kamera Majlis. Fungsi asal masih dikekalkan.
+- Subhalaman galeri, suara dan Salam Kaut mengikuti warna Sekeping yang sama. Kamera masih menggunakan pemidang tilik gelap yang sesuai untuk mengambil foto, dengan butang beraksen hijau.
+- Pratonton QR di dashboard telah disusun semula dengan komposisi A5 sebenar, QR di tengah, tajuk dan nama di atas, arahan serta tempat di bawah dan *safe margins* supaya teks terakhir tidak dipotong. Kandungan PDF A5 dijana dengan susun atur selamat yang sepadan.
+- Semua fail berada di akar ZIP, termasuk `guest-v4.css`. Upload kesemua fail ke root GitHub Pages — tiada subfolder.
