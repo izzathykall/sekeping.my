@@ -24,3 +24,105 @@
 @media(max-width:720px){.mobile-nav{display:flex}}
 
 .little-heart .ico{width:24px;height:24px;stroke-width:1.25}
+
+/* SEKeping Camera Studio V2 — immersive guest capture + adjustable analog effects */
+.camera-immersive{min-height:100dvh;background:#171614;color:#f8f4eb;padding:0 0 38px;overflow-x:clip}
+.camera-immersive .camera-frame{width:100%;max-width:760px;height:min(80dvh,850px);min-height:560px;max-height:none;aspect-ratio:auto!important;border-radius:0;margin:0 auto;position:relative;background:linear-gradient(145deg,#35312e,#121817);overflow:hidden;box-shadow:0 8px 36px #0004}
+.camera-immersive .camera-frame.landscape{height:min(78dvh,850px);max-width:1000px}
+.camera-immersive .camera-frame video,.camera-immersive .camera-frame #capturePreview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.camera-immersive .cam-guide{position:absolute;inset:3%;z-index:4;border:1px solid #ffffff28;border-radius:4px;pointer-events:none}
+.camera-immersive .cam-guide:before,.camera-immersive .cam-guide:after{width:22px;height:22px;border-color:#e5d4baaa;border-width:1px}
+.camera-immersive .flash-overlay{z-index:12}
+.camera-immersive .camera-message{position:absolute;z-index:5;left:50%;top:46%;transform:translate(-50%,-50%);width:88%;font-size:14px;color:#f8f4ec;line-height:1.65;text-shadow:0 2px 4px #0006}
+.camera-immersive .camera-message .btn{margin-top:12px;background:#faf5eb;color:#29231e}
+.camera-immersive .camera-message .ico{height:38px;width:38px}
+.camera-immersive .live-grain,.camera-immersive .live-vignette{position:absolute;inset:0;pointer-events:none;z-index:2}
+.camera-immersive .live-grain{background-size:160px 160px;mix-blend-mode:overlay}
+.camera-immersive .live-vignette{z-index:3}
+.camera-immersive .cam-overlay-header{position:absolute;z-index:10;top:0;left:0;right:0;display:grid;grid-template-columns:50px 1fr 50px;align-items:start;gap:10px;padding:calc(21px + env(safe-area-inset-top,0px)) 24px 0;background:linear-gradient(to bottom,#0009,transparent);color:#fff;text-align:center}
+.camera-immersive .cam-wedding-title{display:flex;flex-direction:column;gap:7px;align-items:center;min-width:0;text-shadow:0 2px 8px #0009}
+.camera-immersive .cam-wedding-title strong{font-size:clamp(24px,4vw,35px);font-weight:600;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.camera-immersive .cam-wedding-title small{font-size:11px;font-weight:600;letter-spacing:3px;color:#e5d2b8}
+.camera-immersive .cam-glass{border:1px solid #fffc;background:#171613a8;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;border-radius:35px;min-height:46px;display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:10px 13px}
+.camera-immersive .cam-glass.circle{width:48px;height:48px;border-radius:50%;padding:0}
+.camera-immersive .cam-glass:hover{background:#332e29d9}
+.camera-immersive .cam-film-stamp{position:absolute;left:24px;top:44%;font-size:12px;font-weight:700;letter-spacing:3px;color:#e98f65;z-index:9;writing-mode:vertical-rl;transform:none;text-transform:uppercase;text-shadow:0 2px 6px #0009;pointer-events:none}
+.camera-immersive .camera-controls{position:absolute;left:0;right:0;bottom:0;z-index:9;padding:55px 26px 31px;background:linear-gradient(transparent,#00000094 24%,#0009);color:#fff}
+.camera-immersive .camera-actions-row{display:grid;grid-template-columns:52px 1fr 52px;align-items:center;gap:18px;margin:0 auto 28px;max-width:550px}
+.camera-immersive .camera-ratio{justify-self:center;display:flex;background:#211d1abf;padding:5px;border:1px solid #ffffff76;border-radius:32px;gap:3px;white-space:nowrap}
+.camera-immersive .camera-ratio button{border:0;border-radius:25px;background:transparent;color:#eee2d5;letter-spacing:2px;font-size:11px;font-weight:700;padding:11px 20px}
+.camera-immersive .camera-ratio button.selected{background:#f8f4eb;color:#332c26}
+.camera-immersive .camera-snap-row{max-width:430px;display:grid;grid-template-columns:1fr 100px 1fr;align-items:center;justify-items:center;gap:16px;margin:0 auto 22px}
+.camera-immersive .camera-shutter{border:5px solid #f4f1e9;box-shadow:inset 0 0 0 7px #403933,0 5px 20px #0009;background:#fffdf4;width:88px;height:88px;transition:transform .16s}
+.camera-immersive .camera-shutter:active{transform:scale(.91)}
+.camera-immersive .cam-remaining{width:70px;height:70px;background:#161612c9;border-radius:19px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.camera-immersive .cam-remaining b{font-size:27px;line-height:1;font-weight:600}
+.camera-immersive .cam-remaining span{font-size:9px;letter-spacing:2px;color:#ded0bd}
+.camera-immersive .cam-remaining.side{background:#ffffff19}
+.camera-immersive .cam-upload{display:flex;align-items:center;justify-content:center;gap:11px;border:1px solid #f7e9d89a;border-radius:38px;max-width:390px;margin:0 auto;padding:15px 18px;color:#f6ebdd;letter-spacing:2.3px;font-size:11px;cursor:pointer;background:#13110fb0;min-height:49px}
+.camera-immersive .cam-upload:hover{background:#2c2923}
+.camera-immersive .camera-review-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.camera-immersive .cam-review-save{display:inline-flex;align-items:center;gap:9px;background:#f6f0e6;border:0;border-radius:34px;padding:13px 22px;color:#29221e;font-weight:700}
+.camera-immersive .filter-studio{background:#f7f1e9;color:#2f2a24;padding:29px clamp(16px,4vw,38px) 50px;max-width:1000px;margin:auto;border-radius:0 0 22px 22px}
+.camera-immersive .filter-studio-header{display:flex;align-items:center;justify-content:space-between;gap:13px;margin-bottom:22px}
+.camera-immersive .filter-studio-header .micro{font-size:10px;color:#a3805c}
+.camera-immersive .filter-studio-header h2{font-size:clamp(23px,4vw,30px);margin:7px 0;font-weight:500}
+.camera-immersive .filter-studio-header p{margin:0;color:#837c72;line-height:1.6;font-size:12px;max-width:530px}
+.camera-immersive .filter-category-row{display:flex;overflow-x:auto;gap:7px;padding:0 0 16px;scrollbar-width:none}
+.camera-immersive .filter-category-row::-webkit-scrollbar{display:none}
+.camera-immersive .filter-category{font-size:11px;font-weight:700;padding:9px 17px;border:1px solid #ddd4c8;border-radius:24px;color:#736c63;background:#fffcf7;white-space:nowrap}
+.camera-immersive .filter-category.active{background:#28231f;color:#f9f3eb;border-color:#28231f}
+.camera-immersive .filter-preview-grid{display:flex;overflow-x:auto;gap:12px;scrollbar-width:thin;padding:5px 1px 17px;scroll-snap-type:x proximity}
+.camera-immersive .filter-preview-card{position:relative;flex:0 0 108px;scroll-snap-align:start;border:2px solid transparent;background:#fff;border-radius:13px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .2s,border .2s}
+.camera-immersive .filter-preview-card.active{border-color:#957958;background:#f7eee3}
+.camera-immersive .filter-preview-card:hover{transform:translateY(-3px)}
+.camera-immersive .filter-thumbnail{width:100%;aspect-ratio:3/4;border-radius:7px;display:block;overflow:hidden;background:#d8c1a2}
+.camera-immersive .filter-landscape{display:block;width:100%;height:100%;background:linear-gradient(175deg,#bbd1c4 0%,#dfe6cb 42%,#f6e4bb 72%,#c1a78e 100%);position:relative;overflow:hidden}
+.camera-immersive .filter-sun{position:absolute;left:20%;top:21%;width:30px;height:30px;border-radius:50%;background:#f6dfb3;box-shadow:0 0 18px 6px #f8e5bf}
+.camera-immersive .filter-hill{position:absolute;width:150%;height:50%;left:-12%;bottom:-20%;background:#567d6c;border-radius:60% 55% 0 0;transform:rotate(13deg)}
+.camera-immersive .filter-hill.back{left:20%;bottom:-35%;background:#9a937a;transform:rotate(-17deg)}
+.camera-immersive .filter-name{font-size:11px;font-weight:700;white-space:nowrap;color:#504c46}
+.camera-immersive .filter-selected{position:absolute;top:11px;right:11px;background:#f8f3ea;color:#423529;border-radius:50%;width:22px;height:22px;display:grid;place-items:center}
+.camera-immersive .effects-heading{display:flex;align-items:center;gap:13px;padding:25px 0 12px;border-top:1px solid #ded5c8}
+.camera-immersive .effects-heading>.ico{color:#927960}
+.camera-immersive .effects-heading strong{font-size:17px}
+.camera-immersive .effects-heading p{font-size:12px;color:#8f8274;margin:4px 0}
+.camera-immersive .effects-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:10px 0 20px}
+.camera-immersive .effect-card{background:white;border:1px solid #e3d9cc;border-radius:13px;padding:18px;min-width:0}
+.camera-immersive .effect-card-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.camera-immersive .effect-label{font-weight:700;font-size:15px}
+.camera-immersive .effect-status{font-size:9px;letter-spacing:1.2px;color:#a89e90;margin-left:4px}
+.camera-immersive .effect-caption{font-size:11px;color:#8a8177;margin:6px 0 0;line-height:1.5}
+.camera-immersive .effect-toggle{width:54px;height:31px;min-width:54px;border:0;background:#d9d1c6;border-radius:40px;padding:4px;display:flex;align-items:center;justify-content:flex-start;transition:background .2s}
+.camera-immersive .effect-toggle span{background:#fff;border-radius:50%;width:23px;height:23px;box-shadow:0 1px 5px #0003;transition:transform .2s}
+.camera-immersive .effect-toggle.active{background:#36564a}
+.camera-immersive .effect-toggle.active span{transform:translateX(23px)}
+.camera-immersive .effect-range{display:grid;grid-template-columns:65px 1fr 38px;align-items:center;gap:11px;margin-top:20px;font-size:11px;color:#6e6b63}
+.camera-immersive .effect-range input{width:100%;accent-color:#3b5e4c;cursor:pointer}
+.camera-immersive .effect-range.is-disabled{opacity:.4}
+.camera-immersive .effect-range output{text-align:right;font-variant-numeric:tabular-nums}
+.camera-immersive .cam-tip{display:flex;gap:9px;align-items:flex-start;background:#ebe4d9;border-radius:12px;padding:14px;color:#7f746a;line-height:1.6;font-size:11px;margin-bottom:17px}
+.camera-immersive .cam-tip .ico{flex-shrink:0;margin-top:2px}
+.camera-immersive .filter-studio>.btn{background:#28231f}
+.camera-immersive .filter-studio>.btn:hover{background:#514338}
+@media(max-width:720px){
+ .camera-immersive .camera-frame,.camera-immersive .camera-frame.landscape{height:76dvh;min-height:530px;max-width:none}
+ .camera-immersive .cam-overlay-header{padding:calc(17px + env(safe-area-inset-top,0px)) 19px 0;grid-template-columns:46px 1fr 46px;gap:4px}
+ .camera-immersive .cam-glass.circle{width:43px;height:43px}
+ .camera-immersive .cam-wedding-title strong{font-size:27px}
+ .camera-immersive .cam-film-stamp{left:14px;font-size:10px;letter-spacing:2px}
+ .camera-immersive .camera-controls{padding:45px 18px 23px}
+ .camera-immersive .camera-actions-row{gap:7px;margin-bottom:19px}
+ .camera-immersive .camera-ratio button{padding:9px 16px;font-size:10px}
+ .camera-immersive .camera-snap-row{grid-template-columns:1fr 80px 1fr;gap:8px;margin-bottom:19px}
+ .camera-immersive .camera-shutter{width:78px;height:78px}
+ .camera-immersive .cam-remaining{width:62px;height:64px}
+ .camera-immersive .cam-upload{padding:12px 12px;font-size:10px;letter-spacing:1.8px;min-height:42px;max-width:330px}
+ .camera-immersive .filter-studio{border-radius:0;padding:27px 16px 30px}
+ .camera-immersive .effects-grid{grid-template-columns:1fr}
+ .camera-immersive .filter-studio-header .pill{display:none}
+}
+@media(max-width:350px){.camera-immersive .cam-wedding-title strong{font-size:22px}.camera-immersive .camera-ratio button{padding:8px 11px}.camera-immersive .cam-film-stamp{left:8px}.camera-immersive .camera-controls{padding-left:10px;padding-right:10px}}
+@media(prefers-reduced-motion:reduce){.camera-immersive .filter-preview-card,.camera-immersive .effect-toggle,.camera-immersive .effect-toggle span{transition:none}}
+
+.camera-immersive.is-review .filter-studio{display:none}

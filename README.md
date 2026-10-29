@@ -4,7 +4,7 @@ Pakej website statik yang boleh terus dipasang di GitHub Pages. Direka berasaska
 
 ## Apa yang disediakan
 
-- **Laman tetamu**: maklumat majlis, kamera (depan/belakang), filter Asli/Hangat/Filem Lama/Hitam Putih/Dreamy/Sejuk, potret/landskap, flash *skrin*, had gambar per tetamu, album, pesanan suara boleh dimainkan dan ucapan bertulis.
+- **Laman tetamu**: maklumat majlis, kamera (depan/belakang), 26 filter mengikut kategori (Asas, Filem, Sinematik, Warna dan Monokrom), suis Grain dan Vignette bebas, pelaras keamatan masing-masing, dan pratonton langsung, potret/landskap, flash lampu peranti jika disokong (atau kilatan skrin), ambil gambar atau naik dari galeri, efek juga disimpan pada JPG, had gambar per tetamu, album, pesanan suara boleh dimainkan dan ucapan bertulis.
 - **Dashboard pengurus sahaja**: daftar/log masuk e-mel, cipta banyak majlis, sunting maklumat majlis, muat naik foto pengantin dan laraskan zum/X/Y, terbit/draf, had gambar (1–20), durasi suara (5–90s), buka/tutup galeri/voice/ucapan, semak dan padam item dalam galeri, statistik, salin URL.
 - **Jana QR A5 PDF**: PDF saiz 148 x 210 mm, poster bercorak botani, nama pengantin, tarikh, lokasi dan QR yang boleh diimbas. Tiada perkhidmatan luar diperlukan untuk menjana PDF.
 - **Mod demo tanpa Firebase**: `?e=demo` (tetamu) dan `?view=dashboard&demo=1` (dashboard). Data disimpan dalam localStorage + IndexedDB pada peranti itu sahaja. **Mod demo tidak berkongsi data antara peranti**.
@@ -12,7 +12,7 @@ Pakej website statik yang boleh terus dipasang di GitHub Pages. Direka berasaska
 
 ## 1 — Terbitkan di GitHub Pages
 
-1. Nyahzip pakej, dan muat naik **kandungan folder** ke akar repositori GitHub (pastikan `index.html` berada di root).
+1. Nyahzip pakej. Semua fail sudah berada **terus di root ZIP**, tanpa sebarang subfolder. Upload semuanya ke root repositori GitHub (pastikan `index.html` berada di root).
 2. Pergi ke **Settings > Pages > Build and deployment**, pilih **Deploy from a branch**, cawangan **main** dan folder **/(root)**. Simpan.
 3. Tunggu GitHub Pages terbitkan URL anda seperti `https://username.github.io/sekeping/`.
 4. Uji `https://username.github.io/sekeping/?e=demo` untuk demo (akan gunakan local storage peranti tersebut).
@@ -43,7 +43,7 @@ Konfigurasi Firebase daripada projek **sekeping-my** telah dimasukkan ke `data.j
 - Firebase Storage **masih menyimpan fail asal** apabila pengurus memadam metadata dari galeri. Sediakan proses penghapusan fail Storage melalui Cloud Functions atau pemadaman berkala oleh pengurus apabila digunakan dalam produksi.
 - QR demo dan data demo tidak boleh dikongsi antara peranti. Data sebenar akan disimpan pada Firebase jika rules, Storage, Authentication dan internet berfungsi.
 - Untuk acara umum, tambah **App Check**, kawalan muat naik, moderasi kandungan, dan mekanisme persetujuan gambar/voice/privacy sebelum meluas.
-- Kamera belakang/depan bergantung sokongan browser. Flash dalam versi ini ialah **kilatan skrin**; ia bukan jaminan lampu LED fizikal pada semua telefon.
+- Kamera belakang/depan bergantung sokongan browser. Flash akan cuba menggunakan **lampu LED fizikal** apabila browser/peranti menyokongnya; jika tidak, efek kilatan skrin digunakan.
 - Rakaman audio menggunakan MediaRecorder; fail audio mungkin berbeza format bergantung browser (contohnya `.m4a` / `.webm`). Browser pengguna perlu menyokong format untuk memainkannya.
 - Jangan masukkan sebarang kunci akaun servis atau credential Firebase Admin dalam fail frontend. Konfigurasi Web Firebase bukan rahsia; **rules** menentukan keselamatan data.
 
@@ -52,6 +52,7 @@ Konfigurasi Firebase daripada projek **sekeping-my** telah dimasukkan ke `data.j
 ```
 index.html
 styles.css
+camera-effects.js
 app.js
 pdf.js
 data.js
@@ -71,3 +72,13 @@ README.md
 - Pautan QR salah → ubah URL Asas Website selepas terbit di GitHub Pages.
 
 © Sekeping — contoh prototaip dan asas sistem acara. Kod QR menggunakan adaptasi algoritma QR Code for JavaScript oleh Kazuhiko Arase (MIT); lihat `qrcode.js`.
+
+## Kamera Studio — kemas kini V2
+
+- 26 filter berbeza: Asli, Lembut, Cerah, Bersih, Dreamy; Klasik 94, Kodak Gold, Fuji 400, Polaroid, Pudar 70s, Disposable; Cinema, Teal & Orange, Moody, Matte Film, Midnight; Sunset, Golden Hour, Rosy, Olive, Biru Sejuk, Pop Colour; B&W Klasik, Silver, Noir, Sepia.
+- Pilih tab kategori atau skrol senarai gambar mini untuk memilih filter.
+- Grain dan Vignette ialah **dua suis bebas**, setiap satunya ada slider keamatan (5–100%).
+- Efek kelihatan dalam preview dan dibakar terus ke fail JPEG apabila ditangkap **atau** dimuat naik dari galeri. Mereka tidak sekadar lapisan CSS yang hilang selepas simpan.
+- Filter dan tetapan Grain/Vignette diingati pada peranti yang sama melalui penyimpanan browser.
+- Selepas gambar ditangkap, pilih Simpan Gambar atau Ambil Semula; untuk mengubah efek, ambil semula foto sebelum simpan.
+- Mod demo mengekalkan foto hanya dalam storan setempat browser (IndexedDB). Untuk berkongsi antara peranti, aktifkan Firebase seperti panduan di atas.
