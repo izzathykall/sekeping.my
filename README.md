@@ -69,3 +69,44 @@ Rujuk `FAIL-TIDAK-DIGUNAKAN.txt` untuk senarai tepat 16 fail yang dibuang daripa
 
 ## Ujian lokal V7
 Browser automatik pada 390px, 820px dan 1280px: tiada ralat JavaScript; muat turun gambar sendiri dan ZIP Album Saya berjaya; tiada butang muat turun pada album tetamu lain; majlis aktif kekal selepas dashboard dibuka semula; pengesahan delete dan pemadaman majlis demo berjaya; input tarikh/masa iPad tidak bertindih. Keenam-enam kod QR berjaya dinyahkod dan PDF bersaiz A5 sebenar. Ujian ini bukan pengganti ujian Firebase live.
+
+---
+
+## Sekeping.my V8 — Galeri Kenangan & Suara
+
+Versi ini **dibina daripada Sekeping V7 yang telah diaudit**, bukan laman baru. Semua perubahan adalah kemas kini frontend dan penyimpanan demo; `database.rules.json` dan `storage.rules` V7 kekal digunakan.
+
+### 1. Satu galeri untuk semuanya
+
+Dua kad **Album Saya** dan **Galeri Tetamu** pada laman utama kini digantikan dengan satu kad **Galeri Kenangan**. Halaman itu mempunyai **empat tab**:
+
+- **Semua Foto** — foto seluruh majlis, termasuk foto anda.
+- **Foto Saya** — hanya foto yang berkaitan dengan identiti sesi tetamu ini; boleh muat turun setiap foto atau ZIP sendiri.
+- **Suara** — dengar rakaman yang dihantar, dan gunakan butang Rakam suara untuk menghantar rakaman baharu.
+- **Ucapan** — baca pesanan, dan gunakan butang Tulis ucapan untuk menghantar pesanan baharu.
+
+Kawalan kegemaran dan penapis Dengan Ucapan masih tersedia pada tab foto. Gambar tetamu lain tidak mempunyai butang muat turun. Foto sendiri yang terlihat dalam tab Semua Foto masih boleh disimpan kerana milik identiti sesi yang sama. *Nota keselamatan:* gambar paparan dalam browser masih boleh disalin secara teknikal; sekatan UI bukan perlindungan sempurna.
+
+### 2. Gambar pengantin pada banner galeri
+
+Banner galeri kini menggunakan **foto pasangan sama yang dimuat naik melalui Dashboard → Reka bentuk**, dengan kedudukan dan zoom tersimpan. Dalam V7 imej asal telah dipanggil, tetapi `background:... !important` pada CSS menutupnya. V8 menggunakan elemen imej khusus, dilapisi gradien supaya tulisan kekal jelas. Jika tiada foto pengantin dimuat naik, akan ditunjukkan warna sage sebagai fallback.
+
+### 3. Pemain suara yang lebih stabil
+
+- Kawalan native Safari yang boleh menunjukkan kotak ralat besar telah digantikan dengan pemain tersuai Sekeping: Play/Jeda, bar kedudukan dan masa.
+- Skrin dashboard dan tab Suara dalam Galeri menggunakan pemain yang sama.
+- Rakaman baharu mengutamakan `audio/mp4;codecs=mp4a.40.2` / `audio/mp4` jika browser menyokongnya, kemudian WebM/Opus pada browser lain.
+- URL Blob demo dicache supaya tidak sentiasa berubah semasa render UI.
+- Rakaman kosong ditolak sebelum dihantar. Jika rakaman lama rosak atau codec lama tidak disokong browser, pemain menunjukkan mesej kecil bukannya ikon rosak besar. **Fail lama yang benar-benar tidak serasi masih perlu ditukar kepada M4A/AAC menggunakan alat pengurus/backend; app ini tidak boleh membaiki data audio rosak secara automatik.**
+
+### 4. Arkib & Eksport
+
+Penerangan `Kandungan satu ZIP: Gambar/ ... Suara/ ... Ucapan/ ... MAKLUMAT-MAJLIS.json` dibuang daripada dashboard. Butang muat turun ZIP pengurus dan kandungan sebenar fail ZIP tidak diubah.
+
+### Pemasangan dan ujian
+
+- Gunakan `Sekeping-my-V8-Lengkap-Tanpa-Subfolder.zip` bagi menggantikan seluruh root repo GitHub, atau ZIP kemas kini sahaja bagi menggantikan `app.js`, `data.js`, `styles.css`, `guest-v4.css` dan `README.md`.
+- **Tiada subfolder** dalam ZIP pemasangan. Jangan padam fail lain yang disenaraikan sebagai wajib dalam README V7.
+- Foto pengantin yang sudah tersimpan dalam Firebase akan terus digunakan, tidak perlu upload semula.
+- Dalam browser automatik, saya uji upload foto pengantin, paparan banner galeri, empat tab, suara M4A yang berjaya dimainkan, ucapan, muat turun gambar sendiri/ZIP dan skrin pengurus pada telefon (390px), iPad (820px) dan desktop (1280px). Tiada ralat JavaScript atau horizontal overflow dalam ujian itu.
+- **Ujian Safari iPhone dengan rakaman produksi lama dan Firebase live belum dilakukan.** Jika rakaman lama masih gagal, semak format fail/audio Storage dan migrasikan fail bermasalah ke M4A/AAC; audio baru diuji menggunakan M4A sebenar dalam browser Chromium.

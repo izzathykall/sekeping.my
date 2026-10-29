@@ -41,7 +41,9 @@ let idbPromise;
 function idb(){if(idbPromise)return idbPromise;idbPromise=new Promise((resolve,reject)=>{if(!('indexedDB' in window))return reject(new Error('Browser tidak menyokong storan media demo.'));const r=indexedDB.open('SekepingDemoMedia',1);r.onupgradeneeded=()=>r.result.createObjectStore('blobs');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});return idbPromise;}
 async function putBlob(id,blob){const d=await idb();return new Promise((resolve,reject)=>{const t=d.transaction('blobs','readwrite');t.objectStore('blobs').put(blob,id);t.oncomplete=()=>resolve(id);t.onerror=()=>reject(t.error)})}
 async function readBlob(id){const d=await idb();return new Promise((resolve,reject)=>{const t=d.transaction('blobs','readonly');const r=t.objectStore('blobs').get(id);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
-async function getUrl(data){if(data.url)return data.url;if(data.mediaKey){try{const blob=await readBlob(data.mediaKey);return blob?URL.createObjectURL(blob):''}catch{return ''}}return ''}
+// Keep demo Blob URLs stable between renders, especially for Safari audio playback.
+const demoMediaUrls=new Map();
+async function getUrl(data){if(data.url)return data.url;if(data.mediaKey){try{if(demoMediaUrls.has(data.mediaKey))return demoMediaUrls.get(data.mediaKey);const blob=await readBlob(data.mediaKey);if(!blob)return '';const url=URL.createObjectURL(blob);demoMediaUrls.set(data.mediaKey,url);return url}catch{return ''}}return ''}
 async function makePublicPhoto(file){
  const canvas=document.createElement('canvas'),max=860;
  let img,src='';

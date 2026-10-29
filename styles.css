@@ -172,3 +172,16 @@
 .photo-owner-save:hover{background:#fff}
 @media(max-width:1140px){.dash-card form .two-fields{grid-template-columns:minmax(0,1fr);gap:0}}
 @media(max-width:720px){.dashboard-active-strip{margin-bottom:16px;padding:12px;align-items:start}.dashboard-active-info{gap:5px 10px}.dashboard-active-strip>.btn{padding:8px 10px;font-size:11px}.dash-card form .two-fields{grid-template-columns:1fr}}
+/* Audio player for organisers: contained cards rather than oversized native media UI. */
+.dash-main .sek-voice-player{max-width:100%;min-width:210px}
+.dash-main .simple-table td .sek-voice-player{width:min(350px,100%)}
+.dash-main .simple-table td audio{display:none!important}
+.dash-main .archive-contents{display:none}
+.dash-voice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.dash-voice-card{border:1px solid #e4ebe0;background:#fff;border-radius:13px;padding:16px;min-width:0}
+.dash-voice-header{display:flex;align-items:center;gap:11px;margin-bottom:15px;min-width:0}
+.dash-voice-avatar{width:36px;height:36px;min-width:36px;display:grid;place-items:center;border-radius:11px;background:#ecf3eb;color:#406751}
+.dash-voice-header>div{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
+.dash-voice-header b{color:#294d3b;font-size:12px;overflow-wrap:anywhere}
+.dash-voice-header small{color:#8a978d;font-size:10px}
+@media(max-width:1050px){.dash-voice-grid{grid-template-columns:1fr}}

@@ -37,3 +37,45 @@
 @media(max-width:850px){.sek-guest-layout{gap:26px}.sek-guest-portrait{min-height:450px}.sek-hero-content h1{font-size:48px}.sek-action-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.qr-layout{grid-template-columns:1fr}.qr-poster{max-width:355px}}
 @media(max-width:620px){.wedding-landing .sek-guest-top{padding:15px 18px}.sek-guest-top .brand{font-size:23px}.sek-event-pill{font-size:9px;padding:7px 10px}.sek-guest-layout{grid-template-columns:1fr;padding:0 16px 20px;gap:0}.sek-guest-portrait{min-height:0;aspect-ratio:1.28;border-radius:17px 17px 9px 9px}.sek-portrait-caption{bottom:17px;left:20px;right:20px}.sek-portrait-caption b{font-size:20px}.sek-photo-seal{width:48px;height:48px;font-size:21px}.sek-hero-content{padding:28px 3px 0}.sek-hero-content h1{font-size:clamp(43px,11vw,59px);margin:15px 0;letter-spacing:-1.8px}.sek-welcome{margin:13px 0 19px;font-size:13px}.sek-guest-form{padding:17px}.sek-explore{padding:20px 16px 35px}.sek-section-head h2{font-size:27px}.sek-section-head p{max-width:145px;text-align:right;line-height:1.5}.sek-action-grid{gap:10px}.sek-action{padding:17px 12px;min-height:126px;flex-direction:column;align-items:flex-start;gap:9px}.sek-action-icon{height:40px;width:40px;min-width:40px}.sek-action-arrow{position:absolute;right:14px;top:17px}.sek-action{position:relative}.sek-action-text b{font-size:12px}.sek-action-text small{font-size:10px}.sek-footer{margin:0 16px;padding:22px 3px 34px}.guest-sub-header{height:67px;padding:0 16px}.guest-subcontent{padding:16px 16px 55px}.guest-subpage .album-cover{min-height:250px;margin:0 -16px 18px;border-radius:0}.guest-subpage .album-cover h1{font-size:34px}.qr-poster{max-width:355px}.qr-poster h2{font-size:24px}.qr-poster .qr-scan{max-height:44%}}
 @media(max-width:355px){.sek-event-pill{font-size:8px;letter-spacing:0}.sek-guest-top .brand{font-size:21px}.sek-action-grid{gap:8px}.sek-hero-content h1{font-size:41px}}
+/* Sekeping V8: one cohesive gallery. Show the organiser-selected wedding photo on top. */
+.guest-subpage .album-cover{background:#45695b!important;isolation:isolate;overflow:hidden;position:relative;min-height:290px}
+.guest-subpage .album-cover.has-wedding-photo{background:#263d34!important}
+.album-cover-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:-2;transform-origin:center;filter:saturate(.92)}
+.guest-subpage .album-cover::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,33,26,.35),rgba(14,32,26,.66));pointer-events:none}
+.guest-subpage .album-cover::after{display:none}
+.guest-subpage .album-cover-details{z-index:2;position:relative;width:100%;display:flex;flex-direction:column;align-items:center;gap:2px}
+.guest-subpage .album-cover-details h1{color:#fff;text-shadow:0 2px 10px #14312383;font-size:clamp(30px,4.2vw,46px)}
+.guest-subpage .album-stats{grid-template-columns:repeat(4,minmax(0,1fr));max-width:650px;gap:10px}
+.guest-subpage .album-stats strong{font-size:clamp(25px,4vw,35px)}
+.guest-subpage .album-stats span{font-size:9px;letter-spacing:1.1px;color:#eef5ed}
+.guest-subpage .album-primary{gap:9px}
+.guest-subpage .album-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;min-width:0}
+.guest-subpage .album-tabs button{font-size:clamp(10px,1.5vw,13px);padding:13px 5px;white-space:nowrap}
+.gallery-section-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:9px 0 20px;flex-wrap:wrap}
+.gallery-section-heading h2{font-size:clamp(22px,4vw,30px);color:#294b3c;margin:0 0 6px}
+.gallery-section-heading p{color:#829084;font-size:12px;margin:0;line-height:1.6}
+.gallery-count{border-radius:50px;background:#e9f1e7;color:#426d52;font-size:11px;font-weight:700;padding:9px 12px}
+.gallery-voice-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.gallery-voice-card{display:flex;gap:13px;align-items:flex-start;padding:18px;border:1px solid #e5e9df;background:white;border-radius:13px;min-width:0}
+.gallery-voice-avatar{width:40px;height:40px;min-width:40px;border-radius:13px;background:#edf3e9;color:#446a50;display:grid;place-items:center}
+.gallery-voice-body{flex:1;min-width:0}
+.gallery-voice-by{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12px;margin:0 0 9px}
+.gallery-voice-by strong{color:#355a47}
+.gallery-voice-by small{color:#9ca59d;font-size:10px}
+.sek-voice-player{width:100%;max-width:100%;display:flex;align-items:center;gap:11px;border:1px solid #e1e9dd;background:#f8faf5;border-radius:12px;padding:10px 12px;min-width:0;box-sizing:border-box;color:#294d3d}
+.sek-voice-player.compact{padding:8px 9px;gap:9px}
+.sek-voice-play{border:0;border-radius:50%;background:#2a5240;color:white;width:40px;height:40px;min-width:40px;display:grid;place-items:center;cursor:pointer}
+.sek-voice-play:hover{background:#406e55}
+.sek-voice-player.compact .sek-voice-play{width:36px;height:36px;min-width:36px}
+.sek-voice-track{flex:1;min-width:0}
+.sek-voice-track-title{font-size:11px;font-weight:700;color:#4c6855;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px}
+.sek-voice-seek-row{display:flex;align-items:center;gap:9px;min-width:0}
+.sek-voice-seek-row input{flex:1;min-width:24px;width:100%;accent-color:#2c5b43;height:17px;margin:0;cursor:pointer}
+.sek-voice-seek-row span{font-size:10px;font-variant-numeric:tabular-nums;color:#788f7a;white-space:nowrap}
+.sek-voice-error{font-size:11px;line-height:1.55;color:#ac5f4d;padding:8px 0 2px}
+.sek-voice-error[hidden]{display:none}
+.sek-voice-player audio{display:none!important}
+.sek-voice-player.voice-unavailable{border-color:#e6bdb3;background:#fff9f5}
+@media(max-width:780px){.gallery-voice-list{grid-template-columns:1fr}}
+@media(max-width:620px){.guest-subpage .album-cover{min-height:255px}.guest-subpage .album-stats{gap:5px}.guest-subpage .album-stats strong{font-size:26px}.guest-subpage .album-stats span{font-size:8px}.guest-subpage .album-primary{gap:6px}.guest-subpage .album-tabs button{padding:11px 3px;font-size:10px}.guest-subpage .album-home-button{width:36px;height:36px;min-width:36px}.gallery-voice-card{padding:13px}.gallery-section-heading{align-items:flex-start}.sek-voice-player.compact{padding:8px}}
+@media(max-width:350px){.guest-subpage .album-tabs button{font-size:9px}.guest-subpage .album-cover-details h1{font-size:28px}}
