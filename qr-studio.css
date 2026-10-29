@@ -1,0 +1,31 @@
+/* QR Studio V5: scoped to organiser dashboard, same Sekeping design language. */
+.qr-studio-top{display:grid;grid-template-columns:minmax(300px,.86fr) minmax(0,1.14fr);gap:22px;align-items:start}
+.qr-studio-preview{position:sticky;top:25px;display:flex;flex-direction:column;align-items:center;gap:13px;min-width:0}
+.qr-preview-head{display:flex;gap:10px;align-items:center;justify-content:space-between;width:100%;max-width:385px;color:#527464;font-size:11px;font-weight:700}
+.qr-preview-head>span:first-child{display:inline-flex;align-items:center;gap:7px}
+.qr-preview-frame{width:min(100%,385px);aspect-ratio:1240 / 1754;overflow:hidden;background:#faf8f3;border:1px solid #d9dacf;box-shadow:0 14px 33px #253f3017;border-radius:2px;display:grid;place-items:center}
+.qr-preview-frame canvas{display:block;width:100%;height:100%;object-fit:contain}
+.qr-studio-preview .small{text-align:center;max-width:395px;line-height:1.5}
+.qr-studio-config{min-width:0}
+.qr-studio-config .dash-card{padding:22px;margin-bottom:17px}
+.qr-studio-config .dash-card h3{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.qr-theme-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:19px}
+.qr-theme-card{border:1px solid #e1e7dc;border-radius:11px;padding:9px 7px 11px;background:#fffefb;color:#526e5e;display:flex;flex-direction:column;align-items:center;gap:5px;transition:border-color .18s,box-shadow .18s,transform .18s;min-width:0}
+.qr-theme-card:hover{transform:translateY(-2px);border-color:#99b49b}
+.qr-theme-card.selected{border:2px solid #3f7658;padding:8px 6px 10px;box-shadow:0 0 0 2px #dcebdd}
+.qr-theme-swatch{display:block;width:min(95%,92px);height:115px;position:relative;overflow:hidden;border:1px solid #e2e3d6;background:var(--theme-bg);color:var(--theme-ink);border-radius:3px}
+.qr-theme-swatch:before{content:'sekeping.';position:absolute;top:14px;left:0;right:0;text-align:center;font:500 12px Georgia,serif}
+.qr-theme-shape{position:absolute;top:39px;left:31%;width:38%;height:34%;border:4px solid white;box-shadow:inset 0 0 0 6px #294c41;background:repeating-linear-gradient(45deg,#223d34 0 3px,white 3px 7px)}
+.qr-theme-lines{position:absolute;bottom:16px;left:19%;width:62%;height:2px;background:var(--theme-accent);box-shadow:0 -7px 0 color-mix(in srgb,var(--theme-accent) 30%,transparent),0 8px 0 color-mix(in srgb,var(--theme-accent) 30%,transparent)}
+.qr-theme-card[data-qr-theme="arch"] .qr-theme-swatch{border-radius:38px 38px 2px 2px}
+.qr-theme-card[data-qr-theme="editorial"] .qr-theme-swatch:before{font-size:15px;letter-spacing:-1px}
+.qr-theme-card[data-qr-theme="night"] .qr-theme-shape{border-color:#f6f0e6}
+.qr-theme-name{font-size:11px;line-height:1.25;font-weight:700;text-align:center;margin-top:3px}
+.qr-theme-card small{font-size:9px;line-height:1.25;color:#88968a;text-align:center}
+.qr-options{display:grid;gap:11px;margin:16px 0 19px}
+.qr-options label{display:flex;align-items:center;gap:11px;font-size:12px;color:#506859;cursor:pointer}
+.qr-options input{width:17px;height:17px;accent-color:#295342;cursor:pointer}
+#qrSaveStatus{margin-top:10px;line-height:1.5}
+@media(max-width:1120px){.qr-studio-top{grid-template-columns:minmax(265px,.8fr) minmax(0,1.2fr);gap:16px}.qr-theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.qr-studio-top{grid-template-columns:minmax(0,1fr)}.qr-studio-preview{position:static}.qr-theme-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:420px){.qr-theme-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.qr-studio-config .dash-card{padding:17px}}

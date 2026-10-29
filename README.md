@@ -108,3 +108,39 @@ Versi ini menambah **fungsi lain yang telah diminta**, bukan kamera sahaja.
 - Subhalaman galeri, suara dan Salam Kaut mengikuti warna Sekeping yang sama. Kamera masih menggunakan pemidang tilik gelap yang sesuai untuk mengambil foto, dengan butang beraksen hijau.
 - Pratonton QR di dashboard telah disusun semula dengan komposisi A5 sebenar, QR di tengah, tajuk dan nama di atas, arahan serta tempat di bawah dan *safe margins* supaya teks terakhir tidak dipotong. Kandungan PDF A5 dijana dengan susun atur selamat yang sepadan.
 - Semua fail berada di akar ZIP, termasuk `guest-v4.css`. Upload kesemua fail ke root GitHub Pages — tiada subfolder.
+
+## Sekeping V5 — sistem lebih kemas dan 6 corak QR A5
+
+**Reka bentuk:** tema asas krim, putih, hijau hutan dan sage pada laman tetamu serta dashboard pengurus **dikekalkan**. Papan pemuka kini menyusun menu kepada kategori *Majlis*, *Kandungan Tetamu* dan *Penerbitan* (nav telefon kekal ringkas).
+
+**QR Studio:** dari dashboard buka **QR & cetakan** dan pilih satu daripada enam template:
+
+1. Minimal Cream — ringkas dan elegan.
+2. Sage Floral — daun sage minimal (default).
+3. Classic Arch — bingkai gerbang klasik.
+4. Premium Editorial — komposisi editorial.
+5. Soft Botanical — tekstur daun halus.
+6. Dark Elegant — hijau gelap beraksen keemasan.
+
+Setiap template menyokong **warna aksen tersuai**, **tagline**, serta tiga pilihan papar/sembunyi: tarikh, lokasi dan tagline. Tekan **Simpan corak** untuk menyimpan pilihan **bagi setiap majlis** ke Firebase atau ke mod demo setempat. **Set semula** membatalkan perubahan yang belum disimpan. Pratonton ialah hasil render daripada enjin kanvas yang **sama** digunakan untuk fail PDF — tidak ada dua reka bentuk bercanggah. Semasa menekan **Muat turun PDF**, tetapan yang sedang dipaparkan digunakan, termasuk tetapan belum disimpan; tekan Simpan corak jika mahu pilihan itu kekal bagi majlis seterusnya.
+
+**Saiz A5 sebenar:** 148 × 210 mm (419.528 × 595.276 points) dengan margin selamat dan QR berzon putih yang tidak ditindih corak. Nama panjang akan dikecilkan atau dipendekkan dengan elipsis supaya tidak keluar dari kad. Lokasi panjang dibalut kepada maksimum dua baris. Pastikan anda membuat ujian imbas pada cetakan akhir sebelum majlis.
+
+**Susun atur kod (semua di ROOT, tanpa subfolder):**
+
+- `app.js`: aliran halaman tetamu/pengurus, event UI dan tindakan pengguna.
+- `data.js`: mod demo IndexedDB/localStorage dan Firebase Authentication, Realtime Database, Storage.
+- `camera-effects.js`: 26 penapis, Grain, Vignette, rendering kamera/gambar.
+- `qr-templates.js`: palet, 6 corak, penggayaan dan rendering poster QR bersama.
+- `pdf.js`: pembungkus PDF A5 dan fungsi eksport (menggunakan `qr-templates.js`).
+- `zip-export.js`: arkib ZIP untuk album tetamu.
+- `styles.css`: komponen UI umum dan dashboard.
+- `guest-v4.css`: identiti dan layout tetamu sepadan dashboard.
+- `qr-studio.css`: komponen editor corak khusus dashboard.
+- `index.html`, `favicon.svg`, `database.rules.json`, `storage.rules`.
+
+**Pembaikan termasuk:** perubahan maklumat majlis menyegarkan nama dalam pilihan majlis, navigasi tetamu kembali ke atas apabila bertukar halaman, menu dashboard berkumpulan, keutamaan QR disimpan per majlis, susun atur telefon/iPad/desktop, serta kawalan bacaan data suara/ucapan dalam *Realtime Database Rules* apabila ciri dimatikan. Perubahan rules hanya berkuat kuasa pada Firebase sebenar selepas anda menerbitkan semula `database.rules.json`.
+
+**Had penting untuk produksi:** QR demo tidak berkongsi data antara peranti; kamera dan rakaman perlu kebenaran browser serta HTTPS. Had gambar berasaskan Firebase anonymous UID, **bukan identiti tetamu yang boleh disahkan**. Tanpa backend yang dipercayai, tetamu berkemahiran teknikal masih boleh mengelak kuota, menyalahgunakan upload atau mengirim spam. Gunakan Cloud Functions, App Check dan moderasi untuk acara sebenar yang ramai. Pemadaman gambar/voice melalui dashboard pada Firebase sebenar hanya memadam metadata Database; fail asal di Storage perlu dipadam menggunakan proses selamat oleh pengurus atau backend. Jangan anggap kandungan tersorok daripada UI sebagai data sulit jika fail Storage boleh dibaca dengan pautan yang diketahui. Jangan bergantung kepada security rules lama: terbitkan rules versi ini, kemudian audit semuanya sebelum pelancaran awam.
+
+**Ujian V5:** enam template berjaya dieksport kepada PDF A5, kod QR keenam-enam template berjaya dibaca menggunakan decoder, pilihan template/warnanya kekal selepas navigasi, tiada horizontal overflow pada paparan 390px, 820px dan 1280px dalam ujian browser, dan aliran demo gambar, album, suara, ucapan dan Salam Kaut diuji. Sambungan Firebase production dan hardware kamera fizikal belum diuji dengan akaun/peranti sebenar dalam sesi ini.

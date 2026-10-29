@@ -38,14 +38,14 @@
             ".write": "auth != null && (root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid || (!data.exists() && newData.child('uid').val() === auth.uid && root.child('events').child($eventId).child('meta').child('status').val() === 'published' && root.child('events').child($eventId).child('meta').child('allowVoices').val() === true))",
             ".validate": "!newData.exists() || (newData.hasChildren(['uid','guestName','url','createdAt']) && newData.child('guestName').isString() && newData.child('guestName').val().length <= 55 && newData.child('url').isString())"
           },
-          ".read": "root.child('events').child($eventId).child('meta').child('status').val() === 'published' || (auth != null && root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid)"
+          ".read": "(root.child('events').child($eventId).child('meta').child('status').val() === 'published' && root.child('events').child($eventId).child('meta').child('allowVoices').val() === true) || (auth != null && root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid)"
         },
         "wishes": {
           "$wishId": {
             ".write": "auth != null && (root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid || (!data.exists() && newData.child('uid').val() === auth.uid && root.child('events').child($eventId).child('meta').child('status').val() === 'published' && root.child('events').child($eventId).child('meta').child('allowWishes').val() === true))",
             ".validate": "!newData.exists() || (newData.hasChildren(['uid','guestName','message','createdAt']) && newData.child('guestName').isString() && newData.child('guestName').val().length <= 55 && newData.child('message').isString() && newData.child('message').val().length > 0 && newData.child('message').val().length <= 600)"
           },
-          ".read": "root.child('events').child($eventId).child('meta').child('status').val() === 'published' || (auth != null && root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid)"
+          ".read": "(root.child('events').child($eventId).child('meta').child('status').val() === 'published' && root.child('events').child($eventId).child('meta').child('allowWishes').val() === true) || (auth != null && root.child('events').child($eventId).child('meta').child('ownerUid').val() === auth.uid)"
         }
       }
     }
