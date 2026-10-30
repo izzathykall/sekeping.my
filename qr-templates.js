@@ -4,14 +4,14 @@
 (function(){'use strict';
 const WIDTH=1240, HEIGHT=1754;
 const templates=[
- {id:'minimal',name:'Classic Cream',description:'Garis warisan elegan',accent:'#8f7457',paper:'#fbf8f0',ink:'#284c41'},
- {id:'sage',name:'Sage Floral',description:'Botani lembut romantik',accent:'#54765d',paper:'#f3f5ed',ink:'#284c41'},
- {id:'arch',name:'Royal Arch',description:'Gerbang emas berlapis',accent:'#a5855a',paper:'#faf4e9',ink:'#473b32'},
- {id:'editorial',name:'Editorial Classic',description:'Gaya majalah klasik',accent:'#426153',paper:'#fffdf8',ink:'#243e34'},
- {id:'botanical',name:'Botanical Elegance',description:'Floral artisanal',accent:'#7f946f',paper:'#f8f6ee',ink:'#365b49'},
- {id:'night',name:'Dark Heritage',description:'Hijau gelap & emas',accent:'#c6ac86',paper:'#1e302a',ink:'#f8f2e6'}
+ {id:'minimal',name:'Classic Cream',description:'Garis warisan elegan',accent:'#B39A76',paper:'#F7F2E9',ink:'#352D27'},
+ {id:'sage',name:'Sage Floral',description:'Botani lembut romantik',accent:'#858B79',paper:'#F6F4EB',ink:'#352D27'},
+ {id:'arch',name:'Royal Arch',description:'Gerbang emas berlapis',accent:'#A88A62',paper:'#FBF7EF',ink:'#352D27'},
+ {id:'editorial',name:'Editorial Classic',description:'Gaya majalah klasik',accent:'#B39A76',paper:'#FFFCF6',ink:'#352D27'},
+ {id:'botanical',name:'Botanical Elegance',description:'Floral artisanal',accent:'#858B79',paper:'#F8F5ED',ink:'#352D27'},
+ {id:'night',name:'Dark Heritage',description:'Hijau gelap & emas',accent:'#C6A97F',paper:'#352D27',ink:'#FAF5EB'}
 ];
-const defaults={template:'sage',accent:'#446e59',showDate:true,showVenue:true,showTagline:true,tagline:'Imbas & rakam kenangan'};
+const defaults={template:'minimal',accent:'#B39A76',showDate:true,showVenue:true,showTagline:true,tagline:'Imbas & rakam kenangan'};
 function getTemplate(id){return templates.find(t=>t.id===id)||templates[1]}
 function normalize(value){const o={...defaults,...(value&&typeof value==='object'?value:{})};const t=getTemplate(o.template);o.template=t.id;o.accent=/^#[0-9a-f]{6}$/i.test(String(o.accent))?o.accent:t.accent;o.showDate=o.showDate!==false;o.showVenue=o.showVenue!==false;o.showTagline=o.showTagline!==false;o.tagline=String(o.tagline||defaults.tagline).trim().slice(0,95)||defaults.tagline;return o}
 function rgba(hex,alpha){let x=hex.replace('#','');return`rgba(${parseInt(x.slice(0,2),16)},${parseInt(x.slice(2,4),16)},${parseInt(x.slice(4,6),16)},${alpha})`}
@@ -79,7 +79,7 @@ function drawNames(ctx,event,ink){const bride=String(event.bride||'Pengantin'),g
  drawFitted(ctx,bride,620,359,970,65,32);ctx.font='italic 44px Georgia,serif';ctx.fillText('&',620,426);drawFitted(ctx,groom,620,493,970,65,32)}
 function wrap(ctx,string,maxWidth,maxLines=2){const words=String(string||'').trim().split(/\s+/).filter(Boolean),lines=[],measure=s=>ctx.measureText(s).width;let line='';for(const word of words){const combined=line?line+' '+word:word;if(measure(combined)>maxWidth&&line){lines.push(line);line=word}else line=combined}if(line)lines.push(line);if(lines.length>maxLines){const rest=lines.slice(maxLines-1).join(' ');lines.length=maxLines;let final=rest;while(final.length>0&&measure(final+'…')>maxWidth)final=final.slice(0,-1);lines[maxLines-1]=final+'…'}return lines.map(s=>{if(measure(s)<=maxWidth)return s;let reduced=s;while(reduced.length>0&&measure(reduced+'…')>maxWidth)reduced=reduced.slice(0,-1);return reduced+'…'})}
 function render(event,url,config){const opt=normalize(config||event.qrDesign),theme=getTemplate(opt.template),accent=opt.accent;const c=document.createElement('canvas');c.width=WIDTH;c.height=HEIGHT;const ctx=c.getContext('2d');design(ctx,theme,accent);ctx.textAlign='center';ctx.textBaseline='alphabetic';const ink=theme.ink;
- const light=theme.id==='night'?'#d4c7ac':'#687d70';
+ const light=theme.id==='night'?'#d4c7ac':'#786A5C';
  ctx.fillStyle=ink;ctx.font='normal 58px Georgia,serif';ctx.fillText('sekeping.',620,173);
  ctx.fillStyle=accent;ctx.font='bold 23px Arial,sans-serif';ctx.fillText('KENANGAN HARI ISTIMEWA',620,272);
  drawNames(ctx,event,ink);

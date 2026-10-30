@@ -11,7 +11,7 @@ const firebaseConfig={
   appId:'1:158820023594:web:5e933b4bb4a6c9b1bb3253',
   measurementId:'G-EBTX2F8BT5'
 };
-const demoEvent={id:'demo',ownerUid:'demo-organizer',name:'Majlis Perkahwinan',bride:'Aina',groom:'Haziq',date:'2026-12-12',time:'11:00',venue:'Dewan Seri Indah',description:'Sebuah hari yang indah, dikongsi bersama insan tersayang.',photoLimit:3,voiceLimit:45,status:'published',allowGallery:true,allowVoices:true,allowWishes:true,giftEnabled:true,giftBank:'',giftRecipient:'',giftAccount:'',giftQrUrl:'',theme:'#254b42',coverUrl:'',coverX:50,coverY:50,coverZoom:100,createdAt:Date.now()};
+const demoEvent={id:'demo',ownerUid:'demo-organizer',name:'Majlis Perkahwinan',bride:'Aina',groom:'Haziq',date:'2026-12-12',time:'11:00',venue:'Dewan Seri Indah',description:'Sebuah hari yang indah, dikongsi bersama insan tersayang.',photoLimit:3,voiceLimit:45,status:'published',allowGallery:true,allowVoices:true,allowWishes:true,giftEnabled:true,giftBank:'',giftRecipient:'',giftAccount:'',giftQrUrl:'',theme:'#B39A76',coverUrl:'',coverX:50,coverY:50,coverZoom:100,createdAt:Date.now()};
 function isDemo(){const p=new URLSearchParams(location.search);return p.get('demo')==='1'||p.get('e')==='demo';}
 const prefix='sekeping_v4_';
 const key=(kind,id)=>prefix+kind+'_'+id;

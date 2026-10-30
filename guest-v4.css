@@ -157,3 +157,344 @@
 .voice-collection-header>span{font-size:12px;color:#849184}
 @media(max-width:620px){.voice-studio{padding:22px 17px 25px}.voice-studio-label{font-size:9px;letter-spacing:1.4px}.voice-wave{gap:2px}.voice-wave i{width:3px}.voice-card{grid-template-columns:minmax(0,1fr);gap:7px}.voice-record-actions .btn{flex:1;min-width:125px}.voice-progress-head{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.voice-wave.is-live i,.voice-record-icon.is-recording .voice-record-halo{animation:none!important}}
+/* ──────────────────────────────────────────────────────────────────────────
+   SEKEPING.MY V12 · MODERN HERITAGE MINIMALISM
+   Shared colour, type, spacing and components for guests & organisers.
+   This progressive theme does not alter camera, audio, QR or Firebase logic.
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  --ink:#352D27;
+  --muted:#81776C;
+  --cream:#F7F2E9;
+  --paper:#FFFCF7;
+  --linen:#EAE1D3;
+  --sage:#858B79;
+  --gold:#B39A76;
+  --accent:#352D27;
+  --danger:#A75D50;
+  --radius:13px;
+  --shadow:0 12px 32px #352d270c;
+  --sek-canvas:#F7F2E9;
+  --sek-paper:#FFFCF7;
+  --sek-forest:#352D27;
+  --sek-line:#E5DCCF;
+  --sek-sage:#EAE9DF;
+  --sek-brass:#B39A76;
+}
+html {scroll-behavior:smooth}
+body {background:var(--cream);color:var(--ink)}
+::selection {background:#DECBB2;color:#352D27}
+.brand {color:var(--ink);font-size:25px;letter-spacing:-.8px;gap:10px;font-weight:500}
+.brand-logo {background:transparent;width:35px;height:35px;border:0;border-radius:0;transform:none;color:#A78B60;display:grid;place-items:center}
+.brand-logo .brand-ornament,.brand-logo svg {width:35px;height:35px;display:block}
+.brand-word {display:flex;align-items:baseline;white-space:nowrap}
+.brand-dot {color:#B39A76}
+.brand-suffix {font:600 9px 'DM Sans',sans-serif;letter-spacing:2.2px;color:#928069;margin-left:7px}
+.topbar {background:#FFFCF7ed;border-bottom:1px solid #E8DFD2;height:76px}
+.nav-links>a:not(.btn) {color:#706659;font-weight:500;letter-spacing:.03em}
+.nav-links>a:hover:not(.btn) {color:#A18561}
+.btn {background:var(--ink);color:#FFF9EF;border-radius:7px;font-weight:600;letter-spacing:.015em;box-shadow:none}
+.btn:hover:not(:disabled) {background:#514236;box-shadow:0 8px 21px #352D271b}
+.btn.secondary {background:transparent;border:1px solid #D9CBBA;color:#57483B}
+.btn.secondary:hover:not(:disabled) {background:#F3EBDF;box-shadow:none}
+.btn.ghost {background:transparent;color:#57483B}
+.btn.gold {background:#9F805C}
+.btn.danger {color:#9C5047;background:#FAF3EE;border:1px solid #EBD5CF}
+.input,.select,.textarea {border-color:#DED3C5;background:#FFFCF8;color:#352D27;border-radius:8px;min-height:43px}
+.input:focus,.select:focus,.textarea:focus {border-color:#B39A76;box-shadow:0 0 0 3px #B39A7622}
+.field>span,.field>label {color:#776B5C;font-weight:600}
+.pill {background:#F0E9DE;color:#725D46;border:1px solid #E3D6C4}
+.pill.warn {background:#FDF1DF;color:#8E7148}
+.micro {letter-spacing:2.5px;font-weight:600;color:#9E8566}
+.muted,.small.muted {color:#81776C}
+.line {background:#EAE1D5}
+.empty {border:1px dashed #D7C9B7;background:#FFFCF7;color:#84786B}
+.empty .ico {color:#A58E72}
+.banner {background:#FAF4E8;color:#79674E;border-color:#EADDC8}
+.toast {background:#352D27;color:#FFF9F0;border:1px solid #80674950;border-radius:8px}
+.modal-cover {background:#241D19a6}
+.modal {background:#FFFCF7;border:1px solid #D5C7B3;border-radius:14px}
+/* Quiet editorial brand homepage */
+.heritage-home {overflow:hidden;background:#F7F2E9}
+.heritage-home .home-hero {max-width:1180px;min-height:660px;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);padding:82px 34px 86px;gap:48px}
+.heritage-home .hero-text h1 {font-size:clamp(53px,5.3vw,79px);letter-spacing:-2.2px;font-weight:400;line-height:1.13;margin:24px 0 12px}
+.heritage-home .hero-text h1 i {font-style:italic;color:#A58B64;font-weight:400}
+.heritage-home .hero-text p {color:#817568;font-size:15px;line-height:1.9;max-width:480px;margin:0}
+.heritage-eyebrow {color:#9B8567!important;letter-spacing:3.1px}
+.heritage-divider {display:flex;gap:14px;align-items:center;justify-content:center;color:#B0956E;margin:19px auto 18px;width:210px}
+.heritage-divider span {height:1px;background:#B59A76;flex:1;opacity:.7}
+.heritage-divider i {font-style:normal;font:normal 12px Georgia,serif}
+.heritage-home .hero-text .heritage-divider {margin:20px 0 21px;justify-content:flex-start;width:166px}
+.heritage-home .hero-buttons {margin:28px 0 18px;gap:12px}
+.heritage-home .hero-buttons .btn {min-height:50px;padding:13px 20px}
+.heritage-home .home-note {font-size:11px!important;letter-spacing:.04em;color:#9A8B7C!important}
+.heritage-home .hero-stage {height:490px;position:relative;isolation:isolate}
+.heritage-home .hero-stage:before {content:'';position:absolute;inset:21px 18px 23px 32px;border:1px solid #D9C8B2;background:linear-gradient(135deg,#F3EDE2,#E9E0D2);border-radius:160px 160px 9px 9px;height:auto;width:auto;left:32px;top:21px}
+.heritage-home .hero-stage:after {content:'';position:absolute;inset:39px 37px 44px 50px;width:auto;height:auto;left:50px;top:39px;border:1px solid #FFFFFFAF;border-radius:148px 148px 4px 4px;box-shadow:none}
+.heritage-photo-deck {position:relative;z-index:2;width:min(78%,340px);height:380px;display:grid;place-items:center}
+.heritage-photo-back {position:absolute;width:85%;height:83%;background:#D7C2A8;transform:rotate(8deg) translate(29px,-8px);border:12px solid #FFF9EF;box-shadow:0 17px 37px #4A35251F}
+.heritage-photo-front {position:relative;z-index:2;width:90%;height:90%;transform:rotate(-7deg);background:#FFFCF7;padding:12px 12px 35px;box-shadow:0 21px 46px #3B2A1E30}
+.heritage-photo-art {position:relative;overflow:hidden;width:100%;height:100%;background:linear-gradient(165deg,#B9C3B1 0%,#F0DCC4 52%,#AEA38E)}
+.heritage-sun {position:absolute;top:15%;right:19%;width:62px;height:62px;border-radius:50%;background:#FDEAC9;box-shadow:0 0 34px #FCF1D5}
+.heritage-mountain {position:absolute;left:-32%;bottom:-23%;border-radius:50%;width:125%;height:60%;background:#7D8B75}
+.heritage-mountain.two {left:30%;bottom:-30%;background:#A8AB91}
+.heritage-sprig {position:absolute;left:18%;bottom:17%;height:87px;width:2px;background:#5D755D;transform:rotate(-20deg)}
+.heritage-sprig:before,.heritage-sprig:after {content:'';position:absolute;width:42px;height:17px;border-radius:100% 0 100% 0;background:#69806B;left:-39px;top:22px;transform:rotate(-19deg)}
+.heritage-sprig:after {left:0;top:49px;transform:rotate(151deg)}
+.heritage-photo-inscription {position:absolute;bottom:11px;left:0;right:0;text-align:center;font:italic 9px Georgia,serif;letter-spacing:.08em;color:#877464}
+.heritage-deck-seal {position:absolute;right:-8%;bottom:-5%;z-index:3;display:grid;place-items:center;width:74px;height:74px;background:#E8D5B8;border:4px double #947B56;border-radius:50%;font:italic 30px Georgia,serif;color:#6D5741;box-shadow:0 4px 14px #3D2A1B16}
+.heritage-deck-seal span {color:#9F8465}
+.heritage-home .feature-band {background:#F1EADF;border-block:1px solid #E5DACB;padding:35px 24px}
+.heritage-home .feature-grid {max-width:1100px;gap:20px}
+.heritage-home .feature-icon {background:#FFFCF7;border:1px solid #E1D5C6;border-radius:50%;color:#A78A64;width:53px;height:53px}
+.heritage-home .feature h4 {color:#473B32;font:500 17px 'Playfair Display',Georgia,serif;margin-bottom:7px}
+.heritage-home .feature p {color:#8D8174;font-size:12px}
+.heritage-home .home-end {padding:78px 22px 85px}
+.heritage-home .home-end h2 {font-size:clamp(30px,4vw,48px);font-weight:400;color:#352D27}
+.heritage-home .home-end>p {color:#817568;margin:0 auto 27px;line-height:1.8}
+.footer {background:#F7F2E9;border-top:1px solid #E3D7C9;color:#998777}
+/* Wedding invitation: centered typography → actual wedding photo → guest actions. */
+.heritage-wedding {background:#F7F2E9;color:#352D27;overflow-x:hidden}
+.heritage-wedding .sek-guest-top {max-width:1140px;padding:17px clamp(17px,3vw,40px);border-bottom:1px solid #E9E0D4}
+.heritage-wedding .sek-guest-top .brand {font-size:23px}
+.heritage-wedding .sek-event-pill {background:transparent;color:#9C8364;border-color:#DDCEBB;border-radius:3px;font-size:9px;letter-spacing:2px;font-weight:600;padding:10px 11px}
+.heritage-wedding .sek-language {background:#FFFBF5;color:#5E4C3C;border:1px solid #D9C8B7;border-radius:5px;font-size:11px}
+.heritage-wedding .sek-guest-layout {display:flex;flex-direction:column;align-items:center;gap:0;max-width:1010px;padding:55px 24px 40px;position:relative}
+.heritage-wedding .sek-guest-layout:before,.heritage-wedding .sek-guest-layout:after {content:'';pointer-events:none;position:absolute;width:143px;height:146px;border-top:1px solid #CCBBA2;border-left:1px solid #CCBBA2;opacity:.57;top:27px;left:26px;border-radius:65px 0 0 0}
+.heritage-wedding .sek-guest-layout:after {left:auto;right:26px;transform:scaleX(-1)}
+.heritage-wedding .sek-hero-content {width:100%;position:relative;z-index:1;text-align:center;padding:22px 0 24px}
+.heritage-wedding .sek-eyebrow {color:#9B8060;letter-spacing:3px;font-size:10px;font-weight:600;display:flex;justify-content:center;gap:0}
+.heritage-wedding .sek-eyebrow:before {display:none}
+.heritage-wedding .sek-hero-content h1 {font-size:clamp(45px,7vw,83px);letter-spacing:-1.8px;line-height:1.15;font-weight:400;color:#3D3025;margin:23px 0 8px;overflow-wrap:anywhere}
+.heritage-wedding .sek-hero-content h1 em {color:#A78C65;font-weight:400;font-style:italic;display:inline-block;margin:0 .18em}
+.heritage-wedding .sek-hero-date {display:block;text-transform:uppercase;font-size:11px;letter-spacing:2.6px;font-weight:600;color:#756555;line-height:1.6}
+.heritage-wedding .sek-hero-date.venue {font-size:10px;letter-spacing:2px;margin-top:7px;max-width:96%;overflow-wrap:anywhere}
+.heritage-wedding-frame {width:100%;max-width:840px;padding:7px;border:1px solid #CCB497;position:relative;background:#F9F5EC;margin:18px auto 20px}
+.heritage-wedding-frame:before,.heritage-wedding-frame:after {content:'';position:absolute;width:17px;height:17px;border:1px solid #B79B70;background:#F7F2E9;z-index:4;pointer-events:none}
+.heritage-wedding-frame:before {top:-3px;left:-3px;border-right:0;border-bottom:0;border-radius:0 0 12px 0}
+.heritage-wedding-frame:after {right:-3px;bottom:-3px;border-top:0;border-left:0;border-radius:12px 0 0 0}
+.heritage-wedding .sek-guest-portrait {aspect-ratio:16/9;width:100%;min-height:unset;border-radius:2px;box-shadow:none;background:linear-gradient(145deg,#C2C0A5,#E9DCC8 59%,#A5A991);overflow:hidden}
+.heritage-wedding .sek-guest-portrait:after {background:linear-gradient(0deg,#2D292740,transparent 32%);z-index:1}
+.heritage-wedding .sek-guest-portrait .cover-foreground {z-index:0}
+.heritage-wedding .sek-guest-portrait .cover-blurred-backdrop {z-index:0}
+.heritage-wedding .sek-portrait-caption {bottom:17px;left:20px;right:20px;align-items:end}
+.heritage-wedding .sek-portrait-caption b {font:400 clamp(16px,2.5vw,24px) 'Playfair Display',Georgia,serif}
+.heritage-wedding .sek-portrait-caption small {font-size:8px;letter-spacing:2.5px;color:#FFF7E9}
+.heritage-wedding .sek-photo-seal {width:42px;height:42px;font-size:20px;border:1px solid #fff9}
+.heritage-wedding .sek-art-line {opacity:.35}
+.heritage-wedding .sek-guest-bottom {max-width:620px;width:100%;text-align:center;margin:0 auto}
+.heritage-wedding .sek-welcome {max-width:600px;margin:17px auto 29px;color:#817365;font-size:14px;line-height:1.85}
+.heritage-wedding .sek-guest-form {max-width:490px;margin:auto;padding:23px 28px 25px;text-align:left;border:1px solid #DED0BE;background:#FFFCF7;border-radius:8px;box-shadow:0 7px 26px #392D2410}
+.heritage-wedding .sek-guest-form-top {gap:11px;margin-bottom:16px}
+.heritage-wedding .sek-guest-form h2 {font:400 23px 'Playfair Display',Georgia,serif;color:#352D27}
+.heritage-wedding .sek-quota {background:#F3EBDF;color:#806D55;border-radius:4px;font-size:10px;border:1px solid #E2D5C5;padding:7px 9px}
+.heritage-wedding .sek-guest-form label {font-size:10px;color:#887764;letter-spacing:2px}
+.heritage-wedding .sek-guest-form .wedding-name {height:51px;background:#FFFEFB;color:#3A3027;border-radius:5px;border:1px solid #DDD0C1;text-align:left}
+.heritage-wedding .sek-guest-form .wedding-name:focus {outline:2px solid #B9A38380;border-color:#B39A76}
+.heritage-wedding .sek-guest-form .wedding-main-button {margin:14px 0 8px;width:100%;min-height:52px;border-radius:6px;background:#352D27;letter-spacing:.04em;color:#FFFCF7;font-weight:600;gap:10px}
+.heritage-wedding .sek-guest-form .wedding-main-button:hover {background:#514236}
+.heritage-wedding .sek-form-tip {justify-content:center;margin-top:10px;color:#9C8C7D;letter-spacing:.02em}
+.heritage-wedding .sek-explore {max-width:1040px;padding:25px 30px 58px}
+.heritage-wedding .sek-section-head {border-top:1px solid #DCCAB3;padding-top:30px;margin-bottom:20px}
+.heritage-wedding .sek-section-head .sek-eyebrow {justify-content:flex-start;font-size:9px}
+.heritage-wedding .sek-section-head h2 {font:400 clamp(26px,3.6vw,37px) 'Playfair Display',Georgia,serif;color:#3F3228}
+.heritage-wedding .sek-section-head p {color:#94867A}
+.heritage-wedding .sek-action-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.heritage-wedding .sek-action {min-height:110px;padding:21px 19px;border:1px solid #E1D5C5;background:#FFFCF7;border-radius:8px;color:#504132;box-shadow:none}
+.heritage-wedding .sek-action:hover {border-color:#B9A182;box-shadow:0 7px 25px #382D2210;transform:translateY(-2px)}
+.heritage-wedding .sek-action-icon {background:#F2EADF;border:1px solid #E5D8C6;color:#9E815D;width:44px;height:44px;min-width:44px;border-radius:50%}
+.heritage-wedding .sek-action-text b {font-size:13px;color:#47372C}
+.heritage-wedding .sek-action-text small {color:#968677}
+.heritage-wedding .sek-action-arrow {color:#B29B7D}
+.heritage-wedding .sek-footer {border-color:#E2D8CB;color:#97887B}
+/* Guest subpages share the same paper, gold stroke and warm headings */
+.guest-subpage {background:#F7F2E9;color:#352D27}
+.guest-sub-header {height:73px;max-width:1110px;border-color:#E3D7C6}
+.guest-sub-header .guest-mini-brand {color:#4B3C2E;font-size:25px}
+.guest-sub-header .guest-back {color:#7B6A59}
+.guest-subpage .section-eyebrow {color:#B0926C}
+.guest-subpage .section-title {font:400 clamp(31px,5vw,45px) 'Playfair Display',Georgia,serif;color:#3E3127}
+.guest-subpage .section-lead {color:#81766B}
+.guest-subpage .card {background:#FFFCF7;border:1px solid #E4D8C8;border-radius:10px;box-shadow:none}
+.guest-subpage .album-cover {background:linear-gradient(135deg,#675545,#9B876B)!important;border-radius:8px;box-shadow:none}
+.guest-subpage .album-cover.has-wedding-photo {background:#514235!important}
+.guest-subpage .album-cover h1 {color:#FFFCF6;font-weight:400}
+.guest-subpage .album-cover p {color:#EEDFCC}
+.guest-subpage .album-cover .micro {color:#E5D0AE}
+.guest-subpage .album-tabs {background:#EEE6DA;border:1px solid #E4D7C6;border-radius:9px}
+.guest-subpage .album-tabs button {color:#7E7061}
+.guest-subpage .album-tabs button.active {background:#FFFCF7;color:#46372A;border-radius:7px}
+.guest-subpage .album-home-button:last-child,.guest-subpage .album-filters button.active {background:#352D27;border-color:#352D27;color:#FFFCF6}
+.guest-subpage .album-photo {border-radius:6px;box-shadow:0 5px 15px #382D2510}
+.guest-subpage .album-photo-name {font-family:'Playfair Display',Georgia,serif;font-weight:400}
+.guest-subpage .gallery-section-heading h2 {color:#45362B}
+.guest-subpage .gallery-section-heading p,.guest-subpage .gallery-count {color:#948577}
+.guest-subpage .gallery-voice-card {border:1px solid #E4D7C7;border-radius:8px;background:#FFFCF7}
+.guest-subpage .gallery-voice-avatar {color:#A58760;background:#F2E9DB}
+.guest-subpage .album-wishes .wish-card {border-radius:8px;background:#FFFCF7;border-color:#E3D4C2}
+.guest-subpage .wish-card p {color:#655748}
+.guest-subpage .wish-card .by {color:#A28765}
+/* Analog voice studio */
+.voice-studio {background:linear-gradient(140deg,#FFFCF7 0%,#F4EBDC 100%);border:1px solid #D9C7AE;box-shadow:0 12px 31px #33251A0A;border-radius:11px}
+.voice-studio::after {border:1px solid #C5AB8955;border-radius:8px}
+.voice-studio-top {border-color:#DBCEBB;color:#91795C}
+.voice-studio-mark {color:#A58863}
+.voice-guest-field .input {background:#FFFCF7}
+.voice-record-icon {color:#8F7452;background:radial-gradient(circle,#FFFCF7,#EEE1CD);border-color:#D3BD9D;box-shadow:0 0 0 8px #BFA7891C}
+.voice-record-halo {border-color:#C6AA85}
+.voice-record-icon.is-recording {color:#B2544D;background:#F9E7E0;border-color:#DFAE9C}
+.voice-record-icon.is-ready {color:#696E58;background:#F0F0E7}
+.voice-record-state {color:#94816C}
+.voice-studio .voice-time {font-family:'DM Sans',sans-serif;letter-spacing:3px;font-weight:400;color:#3C3027}
+.voice-wave i {background:#C6B299}
+.voice-wave.is-live i {background:#B8816B}
+.voice-progress-head {color:#8E7B67}
+.voice-progress {background:#E9DCC8}
+.voice-progress>span {background:#B39A76}
+.voice-studio-footnote {color:#948573}
+.voice-preview-title {color:#8A7158}
+.voice-collection-header h3 {color:#403126}
+.sek-voice-player {border-color:#E2D4C2!important;background:#FFFAF3!important}
+.sek-voice-play {background:#3E342B!important;color:#FFFCF7!important}
+.sek-voice-track-title {color:#57483B!important}
+/* Camera stays dark for contrast. Its film controls match the heritage palette. */
+.camera-immersive {background:#F7F2E9}
+.camera-immersive .camera-frame {background:#211D1A}
+.camera-immersive .camera-preview-stage {background:#2B2621}
+.camera-immersive .cam-glass {background:#2E271Fce;border-color:#FFF8E24D}
+.camera-immersive .camera-ratio {background:#30281FDF}
+.camera-immersive .camera-ratio button.selected {background:#FFF8EB;color:#3F3025}
+.camera-immersive .cam-film-stamp {color:#EAC69B}
+.camera-immersive .camera-remaining {background:#372E27D9}
+.camera-immersive .filter-studio {background:#FBF6EE;color:#382E26;border:1px solid #E3D7C5;border-top:0}
+.camera-immersive .filter-studio-header .micro {color:#A18761}
+.camera-immersive .filter-category.active {background:#352D27;border-color:#352D27;color:#FFFCF7}
+.camera-immersive .filter-preview-card.active {border-color:#B39A76;background:#F4EADB}
+.camera-immersive .filter-studio>.btn {background:#352D27}
+.camera-immersive .effect-toggle.active {background:#352D27}
+.camera-immersive .effect-card {border-color:#DED0BE}
+.camera-immersive .filter-preview-card {border-radius:8px}
+/* Digital gifts & printable QR card */
+.guest-subpage .gift-card {background:#F4ECDE;border:1px solid #E1D0B9;border-radius:10px}
+.guest-subpage .gift-page h1 {color:#3D3025}
+.guest-subpage .gift-save-qr {background:#352D27}
+.guest-subpage .gift-account {border-color:#D7C5AA}
+.guest-subpage .gift-qr-missing {border-color:#C5AB89;color:#887059}
+.guest-subpage .gift-disclaimer {color:#847665}
+/* Organiser dashboard / cards / navigation */
+.dash-shell {background:#F7F2E9}
+.sidebar {background:#FFFCF7;border-color:#E4D8C8}
+.sidebar .side-brand {border-bottom:1px solid #E9DFD2;margin-bottom:12px}
+.sidebar .side-brand .small {color:#9C8C7B!important}
+.side-group-label {color:#A18D78}
+.side-button {color:#786B5E;font-weight:600;border-radius:7px}
+.side-button.active {background:#EEE4D6;color:#453629;border-left:2px solid #AA8B64;padding-left:13px}
+.side-button:hover {background:#F3EBDF}
+.sidebar-bottom {border-color:#E9DFD2}
+.dash-head {margin-bottom:25px}
+.dash-head h1 {font-size:clamp(29px,3vw,36px);color:#3B2D23;font-weight:400}
+.dash-head p {color:#897E71;line-height:1.6}
+.dash-card {background:#FFFCF7;border:1px solid #E5D7C6;border-radius:10px;box-shadow:0 4px 17px #382D2707}
+.dash-card h3 {color:#4B3A2B;font-weight:600}
+.dash-card>p {color:#84776A}
+.stat {background:#FFFCF7;border:1px solid #E4D8C8;border-radius:9px}
+.stat .ico {color:#B39A76}
+.stat strong {color:#352D27;font-weight:500}
+.stat small {color:#8E8071}
+.event-item {background:#FFFCF7;border:1px solid #E3D6C5;border-radius:9px}
+.event-item h3 {color:#3D3025}
+.preview-cover {background:linear-gradient(115deg,#C6BEAB,#E7D8C2);color:#6E5842;border-radius:7px}
+.upload-area {border-color:#C8B59B;border-radius:7px;background:#FCF7EF}
+.qr-studio-top .qr-preview-frame {border-color:#D4C4AD;box-shadow:0 13px 28px #372B1D13}
+.qr-preview-head {color:#85725C}
+.range-row input,.qr-options input {accent-color:#A78A66}
+.auth-shell {background:#FFFCF7;border:1px solid #E0D0BC;border-radius:10px;box-shadow:0 18px 37px #3F2D1911}
+.auth-shell h1 {color:#3B3026}
+.auth-shell p {color:#807366}
+.dashboard-active-strip {background:#F0E7DA!important;border-color:#E1D2BC!important;border-radius:9px!important}
+.dashboard-active-info {color:#695541}
+.dashboard-mobile-header,.mobile-nav {background:#FFFCF7!important;border-color:#E6D8C8!important}
+.mobile-nav .side-button.active {border-left:0;border-bottom:2px solid #A88C67;padding-left:11px}
+/* Larger touch targets, predictable focus and low motion */
+button,a,input,select,textarea {-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible {outline:2px solid #B39A76;outline-offset:3px}
+@media (hover:none) { .heritage-wedding .sek-action:hover {transform:none} }
+@media (max-width:960px) {
+  .heritage-home .home-hero {gap:22px}
+  .heritage-home .hero-text h1 {font-size:clamp(50px,6vw,70px)}
+  .heritage-wedding .sek-guest-layout {max-width:850px}
+}
+@media (max-width:720px) {
+  .topbar {height:66px}
+  .brand {font-size:22px}
+  .brand-logo,.brand-logo svg {width:30px;height:30px}
+  .brand-suffix {font-size:8px;letter-spacing:1.5px;margin-left:4px}
+  .heritage-home .home-hero {grid-template-columns:minmax(0,1fr);padding:55px 22px 52px;min-height:auto;gap:8px}
+  .heritage-home .hero-text {text-align:center}
+  .heritage-home .hero-text h1 {font-size:clamp(46px,10vw,66px);letter-spacing:-1.8px}
+  .heritage-home .hero-text .heritage-divider {margin:19px auto}
+  .heritage-home .hero-text p {margin:auto}
+  .heritage-home .hero-buttons {justify-content:center}
+  .heritage-home .hero-stage {height:338px;max-width:370px;width:100%;margin:10px auto 0}
+  .heritage-photo-deck {height:270px}
+  .heritage-photo-front {padding:9px 9px 30px}
+  .heritage-deck-seal {width:61px;height:61px;font-size:24px}
+  .heritage-home .feature-grid {max-width:400px}
+  .heritage-wedding .sek-guest-top {padding:13px 16px}
+  .heritage-wedding .sek-guest-layout {padding:32px 16px 29px}
+  .heritage-wedding .sek-guest-layout:before,.heritage-wedding .sek-guest-layout:after {width:38px;height:60px;top:17px;opacity:.47;border-radius:27px 0 0 0}
+  .heritage-wedding .sek-guest-layout:before {left:17px}
+  .heritage-wedding .sek-guest-layout:after {right:17px}
+  .heritage-wedding .sek-hero-content {padding:27px 0 19px}
+  .heritage-wedding .sek-hero-content h1 {font-size:clamp(37px,9.2vw,58px);line-height:1.18;letter-spacing:-1.2px;margin:20px 0 8px}
+  .heritage-wedding .sek-hero-date {font-size:10px;letter-spacing:1.9px}
+  .heritage-wedding .sek-hero-date.venue {font-size:9px;letter-spacing:1.3px}
+  .heritage-wedding-frame {margin:14px auto 13px;padding:5px}
+  .heritage-wedding .sek-guest-portrait {min-height:unset;aspect-ratio:16/9;border-radius:1px}
+  .heritage-wedding .sek-portrait-caption {bottom:9px;left:11px;right:11px}
+  .heritage-wedding .sek-portrait-caption b {font-size:15px}
+  .heritage-wedding .sek-portrait-caption small {font-size:7px;letter-spacing:1.3px;margin-top:3px}
+  .heritage-wedding .sek-photo-seal {width:34px;height:34px;font-size:17px}
+  .heritage-wedding .sek-welcome {font-size:12px;line-height:1.7;margin:14px auto 21px}
+  .heritage-wedding .sek-guest-form {padding:20px 17px 21px}
+  .heritage-wedding .sek-guest-form h2 {font-size:21px}
+  .heritage-wedding .sek-explore {padding:19px 16px 43px}
+  .heritage-wedding .sek-section-head {display:block;text-align:center;padding-top:26px;margin-bottom:16px}
+  .heritage-wedding .sek-section-head .sek-eyebrow {justify-content:center}
+  .heritage-wedding .sek-section-head h2 {margin-top:8px;font-size:28px}
+  .heritage-wedding .sek-section-head p {margin-top:8px}
+  .heritage-wedding .sek-action-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .heritage-wedding .sek-action {padding:16px 13px;min-height:124px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;position:relative;border-radius:7px}
+  .heritage-wedding .sek-action-icon {height:39px;width:39px;min-width:39px}
+  .heritage-wedding .sek-action-text b {font-size:12px;line-height:1.3}
+  .heritage-wedding .sek-action-text small {font-size:10px}
+  .heritage-wedding .sek-action-arrow {position:absolute;right:10px;top:22px}
+  .heritage-wedding .sek-footer {padding:20px 16px 29px;margin:0 16px;align-items:flex-start;font-size:10px}
+  .guest-sub-header {height:65px}
+  .guest-subcontent {padding:21px 16px 65px}
+  .guest-subpage .album-cover {border-radius:0}
+  .dash-main {padding-top:24px}
+  .dash-card {padding:20px}
+  .dash-head {gap:12px}
+}
+@media (max-width:390px) {
+  .heritage-wedding .sek-event-pill {font-size:8px;padding:8px}
+  .heritage-wedding .sek-guest-top .brand {font-size:20px}
+  .heritage-wedding .sek-hero-content h1 {font-size:clamp(34px,9.1vw,42px)}
+  .heritage-wedding .sek-guest-form-top {align-items:flex-start}
+  .heritage-wedding .sek-quota {font-size:9px}
+  .heritage-wedding .sek-action {padding:15px 11px}
+  .heritage-wedding .sek-action-text b {font-size:11.5px}
+}
+@media (prefers-reduced-motion:reduce) {
+  .heritage-home *,.heritage-wedding * {animation:none!important;transition-duration:.01ms!important}
+}
+
+/* Per-event accent remains functional without changing the shared brand. */
+.heritage-wedding .sek-hero-content h1 em {color:var(--event-accent,#B39A76)}
+.heritage-wedding .heritage-divider {color:var(--event-accent,#B39A76)}
+.heritage-wedding-frame {border-color:var(--event-accent,#B39A76)}
+.heritage-wedding .sek-guest-form .wedding-name:focus {border-color:var(--event-accent,#B39A76)}
+/* Invitation placeholder when no couple portrait was provided yet. */
+.heritage-wedding .sek-guest-portrait .cover-art-fallback {background:linear-gradient(140deg,#D8CBB6 0%,#C7B496 46%,#99856D 100%)}
+.heritage-wedding .sek-guest-portrait .sek-art-line::after {background:#9D907BA0}

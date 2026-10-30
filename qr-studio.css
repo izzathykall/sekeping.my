@@ -34,3 +34,14 @@
 .qr-theme-card .qr-theme-thumb{width:95%;height:auto;aspect-ratio:1240 / 1754;border:1px solid #d8ddd5;background:#fbf8f1;display:block;margin:auto;box-shadow:0 4px 12px #163a2a13;border-radius:2px}
 .qr-theme-card.selected .qr-theme-thumb{box-shadow:0 0 0 2px #4e7a5a33,0 6px 15px #183a2b12}
 .qr-theme-card .qr-theme-name{font-size:11px;letter-spacing:.1px}
+/* V12 QR studio · Heritage palette matches printable A5 cards */
+.qr-preview-head{color:#806C55}
+.qr-preview-frame{background:#F8F2E9;border-color:#D5C3AA;box-shadow:0 13px 30px #352D2715}
+.qr-theme-card{border:1px solid #E1D3C0;background:#FFFCF7;border-radius:7px;color:#685542}
+.qr-theme-card:hover{border-color:#A88E6B}
+.qr-theme-card.selected{border:2px solid #B39A76;box-shadow:0 0 0 2px #B39A7624}
+.qr-theme-card .qr-theme-thumb{border-color:#D3C2AD;box-shadow:0 3px 10px #352D2712}
+.qr-theme-card.selected .qr-theme-thumb{box-shadow:0 0 0 2px #B39A7640}
+.qr-theme-card small{color:#948676}
+.qr-options label{color:#625344}
+.qr-options input{accent-color:#B39A76}
