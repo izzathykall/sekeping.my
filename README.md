@@ -1,44 +1,44 @@
-# Sekeping.my V12 — Modern Heritage Minimalism
+# Sekeping.my V15 — Single-Screen Guest Dashboard
 
-Versi ini menaik taraf **website Sekeping.my V11 sedia ada** kepada reka bentuk klasik minimalis tanpa membina semula sistem data, kamera, audio atau halaman dashboard. Semua fail deployment berada **di root** ZIP, tanpa subfolder.
+Versi V15 berdasarkan **Sekeping.my V14** yang disemak sebelum ini, khusus untuk menyusun semula *dashboard tetamu* pada telefon supaya fungsi utama muat pada satu skrin dengan gaya klasik Sekeping: **ivory, sage green, antique gold, tipografi editorial**.
 
-## Apa yang baharu
+## Reka bentuk baharu
 
-- **Identiti satu jenama:** Ivory `#F7F2E9`, espresso `#352D27`, antique gold `#B39A76`, olive `#858B79`; serif Playfair Display dan sans DM Sans. Logo ornamen, favicon dan gaya butang dipadankan.
-- **Halaman utama:** susun atur editorial tipografi, foto filem abstrak daripada CSS (bukan gambar pengantin palsu), CTA untuk cipta majlis atau masuk demo.
-- **Laman tetamu:** nama pengantin di tengah, tarikh & lokasi, foto pengantin pada **bingkai landskap 16:9**, ruang alu-aluan, borang nama, butang kamera dan pilihan galeri/suara/ucapan/salam kaut.
-- **Foto pengantin sebenar:** guna foto yang pengurus muat naik. Tetapan crop, pan, zoom dan `Papar keseluruhan` (latar kabur) V11 kekal. Foto pengantin tidak diletakkan sebagai fail contoh yang palsu.
-- **Perakam suara:** reka bentuk analog yang lebih hangat, pemasa digital, gelombang audio, butang dan bar kemajuan sedia ada dikekalkan.
-- **Galeri, kamera, Salam Kaut, ucapan:** komponen, ikon dan kad menggunakan palet klasik yang sama; kamera kekal berlatarkan gelap supaya preview foto jelas. Tiada fungsi sengaja dibuang.
-- **Dashboard pengurus:** navigation, kad statistik, borang, pengurusan majlis aktif, serta pratonton dan cetakan QR seragam.
-- **Kad QR A5:** enam corak asal masih boleh dipilih; ton warna tema diselaraskan kepada gaya baharu, tema Classic Cream menjadi default **untuk majlis baharu yang belum mempunyai tetapan QR**. Majlis sedia ada mengekalkan pemilihan QR masing-masing.
-- **Warna utama majlis:** pilihan warna tersuai kekal digunakan pada aksen tertentu (contohnya ampersand dan bingkai foto), tanpa mengubah identiti setiap komponen kepada warna bercampur. Warna hijau default versi lama dipaparkan sebagai gold warisan, tetapi pilihan tersuai selain default dikekalkan.
-- **Responsif:** diuji dalam simulasi viewport 390px, 820px dan 1280px. Animasi dihormati mengikut `prefers-reduced-motion`.
+- **Satu skrin:** identiti Sekeping + tukar bahasa, gambar pengantin, nama pasangan, tarikh dan lokasi, ruangan nama, baki foto, kamera, Galeri, Suara, Ucapan dan Salam Kaut.
+- **Gambar pengantin sebenar:** menggunakan tetapan gambar, zoom dan posisi foto yang pengurus simpan; tiada gambar contoh dimasukkan ke dalam website produksi.
+- **Butang ringkas dan seragam:** tiga pilihan kenangan sebaris serta Salam Kaut berasingan. Kamera jelas sebagai tindakan utama.
+- **Reka bentuk responsif:** ruang foto menggunakan baki ketinggian skrin; butang penting tetap kelihatan dalam viewport yang telah diuji.
+- **Penyesuaian kandungan:** fungsi dimatikan oleh pengurus (pesanan suara, ucapan, hadiah) tidak muncul, sementara kamera mengikut had foto tetamu.
+- **Fungsi sedia ada dikekalkan:** perakam kaset retro, kamera dengan filter, galeri, ucapan, Salam Kaut, muat turun foto sendiri, dashboard pengurus dan PDF QR A5, Firebase.
+- **Tidak mengubah Firebase Rules atau data majlis.**
 
-## Cara guna pada GitHub Pages
+## Cara pasang di GitHub Pages
 
-1. Extract fail `Sekeping-my-V12-Klasik-Minimalis-Lengkap.zip`.
-2. Muat naik **semua 17 fail ke root repositori GitHub Pages**. *Jangan* letak dalam subfolder dan jangan ubah nama `index.html`.
-3. Alternatif: jika repo sudah menggunakan V11 lengkap, ZIP `Sekeping-my-V12-Kemaskini-Sahaja.zip` cukup untuk menggantikan fail yang diubah.
-4. Selepas commit/deploy, buka semula website dan refresh penuh. Pastikan `index.html`, CSS dan JS dipaparkan versi terkini.
-5. Dalam dashboard → Reka bentuk, muat naik gambar pasangan sebenar, pilih `Penuhi bingkai` atau `Papar keseluruhan`, laras zum dan posisi, kemudian simpan.
-6. Uji pautan tetamu dan QR sebenar, rakaman suara dan foto terus pada iPhone, serta akses sebenar ke Firebase sebelum majlis.
+### Jika website masih pada V14
 
-`database.rules.json` dan `storage.rules` **tidak berubah** daripada V11. Penerbitan Rules yang sebelumnya telah disiapkan tidak perlu diulangi semata-mata untuk reka bentuk V12.
+1. Buka ZIP **`Sekeping-my-V15-Kemaskini-Sahaja.zip`**.
+2. Gantikan `index.html`, `app.js` dan `README.md` di root GitHub Pages, dan tambah `v15-guest.css` di root.
+3. Pastikan `v14-guest.css`, `guest-v4.css`, `retro-recorder.js`, `retro-recorder.css` dan semua fail V14 yang lain masih ada.
+4. Commit dan tunggu GitHub Pages selesai menerbitkan fail, kemudian refresh laman pada iPhone.
 
-## Ujian setakat ini
+### Jika pasang baru
 
-- Lint sintaks semua JS (Node), percubaan paparan halaman utama, tetamu, dashboard, perakam suara, galeri dan QR dalam Chromium simulasi.
-- Ujian aliran: foto → Foto Saya → lightbox → muat turun sendiri; ucapan; dashboard → QR A5/PDF; tetapan had foto; foto pengantin landskap; rakaman 2 saat → playback → hantar → tab Suara, pada 390px dan 820px.
-- Tiada ralat JavaScript atau horizontal overflow dikesan pada viewport yang diuji.
-- **Belum diuji secara langsung:** Safari iPhone sebenar, Firebase produksi, mikrofon/izin kamera fizikal, dan pautan QR GitHub Pages. Tidak boleh menjamin audio lama yang telah rosak akan dibaiki.
+Extract **`Sekeping-my-V15-Single-Screen-Lengkap.zip`** dan letak semua fail di root repositori GitHub Pages, **tanpa subfolder**.
 
-## Fail website dan konfigurasi
+## Had reka bentuk & hasil ujian
 
-Fail web aktif: `index.html`, `app.js`, `data.js`, `styles.css`, `guest-v4.css`, `qr-studio.css`, `qr-templates.js`, `qrcode.js`, `pdf.js`, `camera-effects.js`, `archive-export.js`, `zip-export.js`, `favicon.svg`.
+- Ujian Chromium simulasi pada viewport 320×568, 360×640, 375×667, 390×650, 390×750, 390×844, 430×740, 430×932, 820×1180 dan 1280×850: tiada horizontal overflow, tiada vertical scroll pada viewport utama untuk kandungan contoh biasa.
+- Ujian butang BM/EN, kamera, galeri, Pesanan Suara, Ucapan & Doa dan Salam Kaut lulus tanpa ralat JavaScript.
+- Paparan foto pengantin dalam gambar pratonton menggunakan **foto contoh yang diekstrak daripada tangkap layar pengguna semata-mata untuk ujian**; foto itu **tidak dimasukkan dalam ZIP website**.
+- Halaman fungsi seperti Galeri dan Pesanan Suara mungkin mempunyai scroll apabila terdapat banyak kandungan; permintaan satu skrin digunakan pada **dashboard tetamu utama**.
+- Jika tetamu menaip dan papan kekunci dibuka, halaman boleh berubah saiz mengikut Safari. Pada viewport terlalu rendah (contohnya landscape atau zoom), scroll dibenarkan sebagai fallback supaya kawalan tidak terpotong.
+- Teks nama atau lokasi yang sangat panjang dan tetapan pembesaran browser yang luar biasa boleh memerlukan ruang tambahan; keadaan demikian tidak boleh dijamin satu skrin pada semua peranti.
+- Belum menguji langsung Firebase produksi dan Safari iPhone fizikal; buat ujian di URL GitHub Pages selepas publish.
 
-Fail tetapan Firebase (untuk diterbitkan di Firebase Console jika diperlukan): `database.rules.json`, `storage.rules`.
+## Fail
 
-Fail rujukan (tidak diperlukan untuk runtime): `README.md`, `FAIL-TIDAK-DIGUNAKAN.txt`.
+**Website**: `index.html`, `app.js`, `data.js`, `styles.css`, `guest-v4.css`, `qr-studio.css`, `v14-guest.css`, `v15-guest.css`, `qr-templates.js`, `qrcode.js`, `pdf.js`, `camera-effects.js`, `archive-export.js`, `zip-export.js`, `retro-recorder.css`, `retro-recorder.js`, `favicon.svg`.
 
-Kod dan fail zip tidak secara automatik mengemas kini laman GitHub awam; deploy perlu dibuat melalui repositori berkenaan.
+**Tetapan Firebase**: `database.rules.json`, `storage.rules`.
+
+**Dokumentasi**: `README.md`, `NOTA-PASANG-V13.txt`, `FAIL-TIDAK-DIGUNAKAN.txt`.

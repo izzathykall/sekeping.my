@@ -1,0 +1,137 @@
+/* Sekeping V15 · Simple keepsake — compact, single-screen guest landing.
+   Main guest view only; recorder, camera, organiser and gallery are unchanged. */
+.sek-v15{--v15-bg:#F7F4EC;--v15-paper:#FFFCF7;--v15-ink:#304D3D;--v15-gold:#B39A76;--v15-line:#E5DED1;--v15-sage:#EEF1E9;background:var(--v15-bg);color:var(--v15-ink);min-height:100dvh;max-width:none;box-sizing:border-box;font-family:'DM Sans',system-ui,sans-serif}
+.sek-v15 *{box-sizing:border-box}
+.sek-v15 .v15-header{height:53px;border-bottom:1px solid #E7DFD3;background:#F9F6F0}
+.sek-v15 .v15-header-inner{max-width:1090px;height:100%;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:9px}
+.sek-v15 .brand{font-size:22px;color:#36523f;gap:6px;min-width:0;flex-shrink:1}
+.sek-v15 .brand-logo,.sek-v15 .brand-logo svg{width:27px;height:27px;color:#B39873}
+.sek-v15 .brand-suffix{font-size:7px;letter-spacing:1.1px;margin-left:3px}
+.sek-v15 .v15-header-actions{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.sek-v15 .v15-event-word{color:#897B67;font-size:8px;letter-spacing:1.3px;font-weight:700;white-space:nowrap}
+.sek-v15 .v15-lang{background:#FFFCF8;color:#56705A;border:1px solid #DFD6CA;border-radius:50%;height:32px;width:32px;font-weight:700;font-size:10px;cursor:pointer}
+.sek-v15 .v15-page{max-width:1040px;margin:auto;width:100%;display:flex;flex-direction:column;padding:16px 20px 10px;gap:14px;min-height:calc(100dvh - 53px)}
+.sek-v15 .v15-feature{min-width:0}
+.sek-v15 .v15-hero-photo{position:relative;height:clamp(225px,34dvh,375px);border-radius:12px;overflow:hidden;background:linear-gradient(125deg,#CCD3C1,#E0D1BA 62%,#A2AC9A);border:2px solid #FFFDF9;box-shadow:0 9px 22px #383B2E10;isolation:isolate}
+.sek-v15 .v15-hero-photo .cover-foreground{z-index:0;object-fit:cover}
+.sek-v15 .v15-hero-photo .cover-foreground.fit-contain{object-fit:contain}
+.sek-v15 .v15-hero-photo .cover-blurred-backdrop{z-index:-1}
+.sek-v15 .v15-hero-photo .cover-art-fallback{background:linear-gradient(130deg,#D4D3B9,#C6B19B 67%,#869D86)}
+.sek-v15 .v15-photo-overlay{pointer-events:none;position:absolute;z-index:1;inset:0;background:linear-gradient(180deg,#1B251B04 25%,#17211922 48%,#13211AE8 100%)}
+.sek-v15 .v15-photo-top{z-index:2;position:absolute;left:18px;top:17px;letter-spacing:1.8px;color:#FFFAEB;font-weight:700;text-shadow:0 1px 5px #18271b96;font-size:9px}
+.sek-v15 .v15-photo-title{z-index:2;position:absolute;bottom:20px;left:20px;right:20px;color:#FFF9EB;text-shadow:0 2px 9px #131d1ba3}
+.sek-v15 .v15-hero-kicker{display:block;font-size:9px;letter-spacing:2.3px;margin-bottom:8px;font-weight:600;color:#EADBC4}
+.sek-v15 .v15-photo-title h1{margin:0;font:400 clamp(36px,6vw,67px)/1.12 'Playfair Display',Georgia,serif;letter-spacing:-1px;overflow-wrap:anywhere;color:#FFF9ED}
+.sek-v15 .v15-photo-title h1 em{font:italic 400 .91em 'Playfair Display',Georgia,serif;color:#DCC4A0}
+.sek-v15 .v15-event-strip{margin-top:9px;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px 17px;font-size:11px;color:#7F776B;font-weight:600;letter-spacing:.08px;min-width:0}
+.sek-v15 .v15-event-strip span{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:0}
+.sek-v15 .v15-event-strip .ico{height:13px;width:13px;color:#A78E6C;flex-shrink:0}
+.sek-v15 .v15-venue{max-width:100%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.sek-v15 .v15-venue .ico{flex-shrink:0}
+.sek-v15 .v15-capture{min-width:0;background:var(--v15-paper);border:1px solid #E5DBCC;border-radius:12px;padding:16px 19px 17px;box-shadow:0 8px 22px #4D43310B}
+.sek-v15 .v15-capture-header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:11px}
+.sek-v15 .v15-capture-header h2{font:400 25px/1.25 'Playfair Display',Georgia,serif;color:#34503E;margin:0;letter-spacing:-.5px}
+.sek-v15 .v15-quota{display:flex;align-items:center;gap:4px;flex-shrink:0;white-space:nowrap;border-radius:99px;background:#EEF0E8;padding:7px 9px;color:#5E755D;font-size:10px}
+.sek-v15 .v15-quota .ico{width:13px;height:13px}
+.sek-v15 .v15-capture-input{width:100%}
+.sek-v15 .v15-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sek-v15 .v15-capture-input .wedding-name{display:block;width:100%;border:1px solid #E1D5C4;border-radius:8px;background:#FFFDF9;height:46px;font-size:16px;color:#443A30;padding:10px 13px;text-align:left;outline:none;box-shadow:none}
+.sek-v15 .v15-capture-input .wedding-name:focus{border-color:#AD9571;box-shadow:0 0 0 2px #AD957133}
+.sek-v15 .v15-camera{width:100%;height:48px;display:flex;align-items:center;justify-content:center;gap:12px;background:#304F3E;border:1px solid #304F3E;color:#FFFCF4;font-weight:600;font-size:14px;border-radius:8px;margin-top:9px;cursor:pointer}
+.sek-v15 .v15-camera .ico{width:18px;height:18px}
+.sek-v15 .v15-camera .ico:last-child{width:16px;height:16px}
+.sek-v15 .v15-camera:hover:not(:disabled){background:#40634E}
+.sek-v15 .v15-camera:disabled{opacity:.53;cursor:not-allowed}
+.sek-v15 .v15-activities{min-width:0}
+.sek-v15 .v15-activity-header{display:flex;align-items:center;gap:10px;margin:0 0 10px;justify-content:center;font-size:9px;letter-spacing:1.5px;color:#968068;font-weight:700}
+.sek-v15 .v15-tiny-rule{flex:1;max-width:45px;height:1px;background:#BAA784}
+.sek-v15 .v15-activity-header span:last-child{font-size:9px;letter-spacing:.15px;color:#999185;font-weight:500}
+.sek-v15 .v15-quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.sek-v15 .v15-shortcut{min-width:0;min-height:87px;padding:12px 5px 9px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;border:1px solid #E4DACB;background:var(--v15-paper);border-radius:10px;color:#46604D;box-shadow:none;cursor:pointer}
+.sek-v15 .v15-shortcut:active{transform:scale(.98)}
+.sek-v15 .v15-shortcut-icon{width:29px;height:29px;display:grid;place-items:center;border:1px solid #E7E9DF;background:#F0F2EA;border-radius:50%;color:#54705B}
+.sek-v15 .v15-shortcut-icon .ico{width:16px;height:16px}
+.sek-v15 .v15-shortcut-title{font-size:12px;font-weight:700;line-height:1.15;white-space:normal}
+.sek-v15 .v15-shortcut-small{font-size:9px;color:#9A9287;line-height:1.3;white-space:normal}
+.sek-v15 .v15-gift{margin-top:9px;width:100%;height:44px;display:flex;align-items:center;justify-content:center;gap:10px;border:1px solid #CDB89C;color:#65553E;background:#F3ECDF;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}
+.sek-v15 .v15-gift .ico{height:15px;width:15px}
+.sek-v15 .v15-gift .ico:last-child{margin-left:0;opacity:.65}
+.sek-v15 .v15-gift:hover,.sek-v15 .v15-shortcut:hover{border-color:#B69E7C;background:#FFF9EC}
+.sek-v15 .v15-footer{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:15px;text-align:center;min-height:20px;color:#9D988B;font-size:10px;letter-spacing:0}
+.sek-v15 .v15-footer>span:first-child{color:#71806C;font-size:13px;font-family:'Playfair Display',Georgia,serif;font-weight:700}
+.sek-v15 .v15-footer small{font-family:'DM Sans',system-ui,sans-serif;font-weight:400;font-size:10px;color:#999084}
+.sek-v15 .v15-dot{color:#B39A76}
+.sek-v15 button:focus-visible{outline:2px solid #AA8E6C;outline-offset:2px}
+/* Mobile: screen as a compact set of controls with natural photo framing. */
+@media(max-width:650px){
+ .sek-v15 .v15-header{height:46px}
+ .sek-v15 .v15-header-inner{padding:0 13px}
+ .sek-v15 .brand{font-size:21px}
+ .sek-v15 .brand-logo,.sek-v15 .brand-logo svg{width:25px;height:25px}
+ .sek-v15 .v15-event-word{font-size:8px;letter-spacing:.7px}
+ .sek-v15 .v15-lang{width:30px;height:30px}
+ .sek-v15 .v15-page{min-height:calc(100dvh - 46px);height:calc(100dvh - 46px);padding:10px 13px max(8px,env(safe-area-inset-bottom,0px));gap:10px}
+ .sek-v15 .v15-feature{min-height:0;flex:1 1 35%;display:flex;flex-direction:column}
+ .sek-v15 .v15-hero-photo{height:auto;min-height:98px;flex:1 1 auto;border-radius:11px}
+ .sek-v15 .v15-photo-top{top:11px;left:13px;font-size:8px;letter-spacing:1.4px}
+ .sek-v15 .v15-photo-title{left:15px;right:11px;bottom:13px}
+ .sek-v15 .v15-hero-kicker{font-size:8px;margin-bottom:5px;letter-spacing:1.6px}
+ .sek-v15 .v15-photo-title h1{font-size:clamp(29px,8.8vw,42px);letter-spacing:-.7px;line-height:1.07}
+ .sek-v15 .v15-event-strip{font-size:10px;gap:3px 11px;margin-top:7px;line-height:1.2;min-height:16px}
+ .sek-v15 .v15-event-strip .ico{height:12px;width:12px}
+ .sek-v15 .v15-capture{flex-shrink:0;padding:11px 12px 12px;border-radius:10px}
+ .sek-v15 .v15-capture-header{margin-bottom:8px}
+ .sek-v15 .v15-capture-header h2{font-size:20px}
+ .sek-v15 .v15-quota{font-size:10px;padding:5px 8px}
+ .sek-v15 .v15-capture-input .wedding-name{height:42px;min-height:42px;font-size:16px;padding:7px 11px}
+ .sek-v15 .v15-camera{height:43px;min-height:43px;margin-top:7px;font-size:13px}
+ .sek-v15 .v15-activities{flex-shrink:0}
+ .sek-v15 .v15-activity-header{margin-bottom:7px;font-size:8px}
+ .sek-v15 .v15-activity-header span:last-child{font-size:8px}
+ .sek-v15 .v15-quick-grid{gap:7px}
+ .sek-v15 .v15-shortcut{min-height:66px;padding:7px 4px 6px;gap:3px}
+ .sek-v15 .v15-shortcut-icon{height:24px;width:24px}
+ .sek-v15 .v15-shortcut-icon .ico{height:14px;width:14px}
+ .sek-v15 .v15-shortcut-title{font-size:11px}
+ .sek-v15 .v15-shortcut-small{display:none}
+ .sek-v15 .v15-gift{height:38px;margin-top:7px}
+ .sek-v15 .v15-footer{margin-top:auto;min-height:17px;gap:6px}
+ .sek-v15 .v15-footer>span:first-child{font-size:12px}
+ .sek-v15 .v15-footer small{font-size:9px}
+}
+@media(max-width:350px){
+ .sek-v15 .v15-event-word{display:none}
+ .sek-v15 .v15-header-inner{padding:0 12px}
+ .sek-v15 .v15-photo-title h1{font-size:clamp(28px,9vw,34px)}
+ .sek-v15 .v15-event-strip{font-size:9px;gap:2px 8px}
+ .sek-v15 .v15-capture-header h2{font-size:18px}
+ .sek-v15 .v15-shortcut-title{font-size:10.5px}
+}
+@media(max-width:650px) and (max-height:690px){
+ .sek-v15 .v15-page{gap:7px;padding-top:7px;padding-bottom:max(5px,env(safe-area-inset-bottom,0px))}
+ .sek-v15 .v15-hero-photo{min-height:88px}
+ .sek-v15 .v15-photo-title{bottom:10px}
+ .sek-v15 .v15-photo-title h1{font-size:clamp(27px,8vw,35px)}
+ .sek-v15 .v15-capture{padding:8px 11px 9px}
+ .sek-v15 .v15-capture-header{margin-bottom:6px}
+ .sek-v15 .v15-capture-header h2{font-size:19px}
+ .sek-v15 .v15-capture-input .wedding-name{height:39px;min-height:39px}
+ .sek-v15 .v15-camera{height:39px;min-height:39px;margin-top:6px}
+ .sek-v15 .v15-shortcut{min-height:59px}
+ .sek-v15 .v15-gift{height:36px;margin-top:5px}
+ .sek-v15 .v15-activity-header{margin-bottom:5px}
+ .sek-v15 .v15-footer small{display:none}
+}
+/* If Safari viewport becomes tiny (keyboard, zoom, landscape), retain scrollability rather than clipping controls. */
+@media(max-width:650px) and (max-height:530px){
+ .sek-v15 .v15-page{height:auto;min-height:calc(100dvh - 46px)}
+ .sek-v15 .v15-hero-photo{height:130px;flex:none}
+}
+@media(min-width:651px){
+ .sek-v15 .v15-page{max-width:900px}
+ .sek-v15 .v15-feature{max-width:900px;width:100%}
+ .sek-v15 .v15-capture{width:100%}
+ .sek-v15 .v15-activities{width:100%}
+ .sek-v15 .v15-shortcut{min-height:90px}
+}
+@media(prefers-reduced-motion:reduce){.sek-v15 *{transition:none!important;animation:none!important}}

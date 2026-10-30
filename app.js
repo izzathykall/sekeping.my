@@ -60,18 +60,27 @@ function guest(){const v=state.event;if(!v)return '<p>Majlis tidak dijumpai.</p>
 }
 function tr(ms,en){return state.lang==='en'?en:ms}
 function guestHome(v){
- const remaining=Math.max(0,Number(v.photoLimit||3)-state.used),isEn=state.lang==='en';
- const action=(tab,ico,title,sub)=>`<button class="sek-action" data-guest-tab="${tab}"><span class="sek-action-icon">${icon(ico)}</span><span class="sek-action-text"><b>${title}</b><small>${sub}</small></span><span class="sek-action-arrow">${icon('arrow','sm')}</span></button>`;
- return `<main class="wedding-landing heritage-wedding"><header class="sek-guest-top">${brand()}<div class="sek-guest-top-right"><span class="sek-event-pill">${tr('HARI ISTIMEWA','OUR SPECIAL DAY')}</span><button class="sek-language" data-action="toggle-language" aria-label="Tukar bahasa">${isEn?'BM':'EN'}</button></div></header>
- <section class="sek-guest-layout"><div class="sek-hero-content"><div class="sek-eyebrow">${tr('Sebuah hari untuk dikenang','A day to remember')}</div><h1>${e(v.bride)} <em>&</em> ${e(v.groom)}</h1><div class="heritage-divider" aria-hidden="true"><span></span><i>✦</i><span></span></div><div class="sek-hero-date">${e(dateText(v.date))}${v.time?' &nbsp;·&nbsp; '+e(v.time):''}</div>${v.venue?`<div class="sek-hero-date venue">${e(v.venue)}</div>`:''}</div>
- <div class="heritage-wedding-frame">${guestHero(v)}</div><div class="sek-guest-bottom"><p class="sek-welcome">${e(v.description||tr('Terima kasih kerana meraikan hari istimewa ini bersama kami. Setiap gambar dan ucapan anda akan menjadi sebahagian daripada kisah kami.','Thank you for celebrating with us. Every photo and message becomes part of our story.'))}</p><div class="sek-guest-form"><div class="sek-guest-form-top"><h2>${tr('Abadikan kenangan','Capture a memory')}</h2><span class="sek-quota">${remaining}/${Number(v.photoLimit||3)} ${tr('foto berbaki','photos left')}</span></div><label for="guestName">${tr('NAMA ANDA','YOUR NAME')}</label><input id="guestName" class="wedding-name" type="text" maxlength="55" autocomplete="name" placeholder="${tr('Contoh: Nur Aina','e.g. Sarah')}" value="${e(state.guestName)}"><button class="wedding-main-button" data-action="begin-camera">${icon('camera','sm')} ${tr('Buka Kamera','Open Camera')} ${icon('arrow','sm')}</button><p class="sek-form-tip">${icon('info','sm')} ${tr('26 filter · Grain · Vignette','26 filters · Grain · Vignette')}</p></div></div></section>
- <section class="sek-explore"><div class="sek-section-head"><div><span class="sek-eyebrow">${tr('RUANG KENANGAN','OUR MEMORIES')}</span><h2>${tr('Setiap detik, ada ceritanya.','Every moment tells a story.')}</h2></div><p>${tr('Pilih cara anda mengabadikannya.','Choose how to remember it.')}</p></div><div class="sek-action-grid">
- ${action('photos','gallery',tr('Galeri Kenangan','Memory Gallery'),tr('Foto, suara & ucapan','Photos, voices & wishes'))}
- ${v.allowVoices!==false?action('voice','mic',tr('Pesanan Suara','Voice Messages'),tr('Rakam ucapan istimewa','Record a heartfelt message')):''}
- ${v.allowWishes!==false?action('wishes','heart',tr('Ucapan & Doa','Wishes & Prayers'),tr('Titip kata-kata bermakna','Leave your best wishes')):''}
- ${v.giftEnabled!==false?action('gift','gift',tr('Salam Kaut','Digital Gift'),tr('Sampaikan tanda ingatan','Send a thoughtful gift')):''}
- ${action('camera','camera',tr('Kamera Majlis','Event Camera'),tr('Foto dengan filter klasik','Classic photo filters'))}
- </div></section><footer class="sek-footer"><span>© Sekeping · ${tr('Detik kecil, kenangan selamanya.','Little moments, lasting memories.')}</span><span>${S.isDemo?tr('Mod demo · Data peranti sahaja','Demo · Local device data'):'Sekeping.my'}</span></footer></main>`}
+ const isEn=state.lang==='en',total=Math.max(1,Number(v.photoLimit)||3),remaining=Math.max(0,total-state.used);
+ const hasCover=!!(v.coverDisplay||v.coverUrl);
+ const item=(tab,ic,title,secondary='')=>`<button type="button" class="v15-shortcut" data-guest-tab="${tab}" aria-label="${title}"><span class="v15-shortcut-icon">${icon(ic)}</span><span class="v15-shortcut-title">${title}</span>${secondary?`<span class="v15-shortcut-small">${secondary}</span>`:''}</button>`;
+ return `<main class="sek-v15 wedding-landing heritage-wedding">
+  <header class="v15-header"><div class="v15-header-inner">${brand()}<div class="v15-header-actions"><span class="v15-event-word">${tr('KENANGAN MAJLIS','WEDDING MEMORIES')}</span><button type="button" class="v15-lang" data-action="toggle-language" aria-label="${tr('Tukar bahasa','Change language')}">${isEn?'BM':'EN'}</button></div></div></header>
+  <div class="v15-page">
+   <section class="v15-feature" aria-labelledby="v15-couple-title">
+    <div class="v15-hero-photo ${hasCover?'has-cover':''}">${coverVisual(v)}<div class="v15-photo-overlay" aria-hidden="true"></div><div class="v15-photo-top">${tr('SEKEPING · HARI ISTIMEWA','SEKEPING · SPECIAL DAY')}</div><div class="v15-photo-title"><span class="v15-hero-kicker">${tr('SEBUAH HARI UNTUK DIKENANG','A DAY TO REMEMBER')}</span><h1 id="v15-couple-title">${e(v.bride)} <em>&</em> ${e(v.groom)}</h1></div></div>
+    <div class="v15-event-strip"><span>${icon('calendar','sm')} ${e(dateText(v.date))}${v.time?` · ${e(v.time)}`:''}</span>${v.venue?`<span class="v15-venue" title="${e(v.venue)}">${icon('home','sm')} ${e(v.venue)}</span>`:''}</div>
+   </section>
+   <section class="v15-capture" aria-labelledby="v15-capture-title"><div class="v15-capture-header"><h2 id="v15-capture-title">${tr('Abadikan kenangan','Capture the moment')}</h2><span class="v15-quota">${icon('camera','sm')} <strong>${remaining}/${total}</strong> ${tr('foto','photos')}</span></div><div class="v15-capture-input"><label class="v15-sr" for="guestName">${tr('Nama anda','Your name')}</label><input type="text" id="guestName" class="wedding-name" maxlength="55" autocomplete="name" placeholder="${tr('Nama anda','Your name')}" value="${e(state.guestName)}"></div><button type="button" class="v15-camera" data-action="begin-camera" ${remaining===0?'disabled':''}>${icon('camera')} <span>${remaining===0?tr('Had foto telah dicapai','Photo limit reached'):tr('Buka Kamera','Open Camera')}</span>${icon('arrow','sm')}</button></section>
+   <section class="v15-activities" aria-label="${tr('Ruang kenangan','Memory collection')}"><div class="v15-activity-header"><span>${tr('RUANG KENANGAN','MEMORY COLLECTION')}</span><span class="v15-tiny-rule"></span><span>${tr('Simpan setiap detik','Keep every moment')}</span></div><div class="v15-quick-grid">
+     ${item('photos','gallery',tr('Galeri','Gallery'),tr('Foto & kenangan','Photos & memories'))}
+     ${v.allowVoices!==false?item('voice','mic',tr('Suara','Voice'),tr('Rakam ucapan','Record a message')):''}
+     ${v.allowWishes!==false?item('wishes','heart',tr('Ucapan','Wishes'),tr('Titip doa','Leave a wish')):''}
+   </div>${v.giftEnabled!==false?`<button type="button" class="v15-gift" data-guest-tab="gift">${icon('gift','sm')} <span>${tr('Salam Kaut','Digital Gift')}</span>${icon('arrow','sm')}</button>`:''}
+   </section>
+   <footer class="v15-footer"><span>sekeping<span class="v15-dot">.</span> <small>${tr('Detik kecil, kenangan selamanya.','Little moments, lasting memories.')}</small></span>${S.isDemo?`<span>${tr('Mod demo','Demo mode')}</span>`:''}</footer>
+  </div>
+ </main>`;
+}
 function guestSection(){switch(state.guestTab){case 'mine':case 'photos':return albumSection();case 'voice':return voiceSection();case 'wishes':return wishesSection();case 'gift':return giftSection();default:return ''}}
 function heading(eyebrow,title,lead){return `<div class="section-eyebrow">${eyebrow}</div><h2 class="section-title">${title}</h2><p class="section-lead">${lead}</p>`}
 function empty(ic,title,text){return `<div class="empty">${icon(ic)}<strong style="display:block;margin:8px 0">${e(title)}</strong><span>${e(text)}</span></div>`}
