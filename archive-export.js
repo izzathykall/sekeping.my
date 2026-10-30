@@ -6,7 +6,7 @@ const enc=new TextEncoder();
 const clean=x=>String(x||'Tetamu').replace(/[\u0000-\u001f<>:"/\\|?*]/g,'').replace(/\s+/g,' ').trim().slice(0,50)||'Tetamu';
 const csv=x=>'"'+String(x??'').replace(/"/g,'""').replace(/^[=+@\-\t\r]/,v=>"'"+v)+'"';
 const fmt=x=>new Date(x||Date.now()).toLocaleString('ms-MY',{timeZone:'Asia/Kuala_Lumpur'});
-const extension=(m,kind)=>kind==='photos'?'.jpg':m.mimeType?.includes('mp4')?'.m4a':m.mimeType?.includes('ogg')?'.ogg':m.mimeType?.includes('wav')?'.wav':'.webm';
+const extension=(m,kind)=>kind==='photos'?'.jpg':/mp4|m4a/i.test(m.mimeType||'')?'.m4a':/mpeg|mp3/i.test(m.mimeType||'')?'.mp3':/ogg/i.test(m.mimeType||'')?'.ogg':/wav/i.test(m.mimeType||'')?'.wav':'.webm';
 async function exportEvent(eventId,report){
  const S=window.SekepingStore,Z=window.SekepingZip;
  // Do not use any caller-supplied list or URL: owner verification happens at data layer.

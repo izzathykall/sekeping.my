@@ -1,3 +1,45 @@
+# Sekeping.my V11 — Pembaikan Fungsi & Perakam Suara Klasik
+
+**Versi terkini: V11** · GitHub Pages di root sahaja, tanpa subfolder. Berdasarkan fail `Sekeping-my-V10-Baiki-Masa-Rakaman-Lengkap(1).zip` yang diberikan. Ini kemas kini kepada projek sedia ada, bukan reka semula daripada kosong. Tema klasik krim/hijau sage, dashboard pengurus dan semua fungsi utama dikekalkan.
+
+## Apa yang dibaiki dalam V11
+
+1. **Perakam suara klasik dan lebih jelas** — paparan mikrofon, animasi gelombang, pemasa `00:00` yang meningkat secara langsung, baki masa, bar kemajuan, status rakaman, berhenti/rakam semula/hantar, dan pratonton audio sebelum dihantar.
+2. **Rakaman tidak tersangkut di belakang halaman** — apabila tetamu meninggalkan halaman semasa rakaman aktif atau menutup tab, proses rakaman dan mikrofon dihentikan serta sumber dilepaskan. Rakaman belum dihantar dibuang apabila keluar semasa masih merekod.
+3. **Dua laluan rakaman audio** — Web Audio WAV (utama) dengan semakan jumlah sampel, atau MediaRecorder apabila Web Audio tidak boleh digunakan. Pemasa pemain menggunakan tempoh yang disimpan jika browser belum menerima metadata yang boleh dipercayai.
+4. **Muat naik gambar pengantin** — gambar landskap, potret dan fail besar diproses pada peranti menjadi JPEG maksimum 2400px pada sisi terpanjang sebelum dihantar, supaya lebih serasi dengan had Firebase Storage. Fail HEIC/HEIF boleh dicuba jika browser boleh menyahkodnya; jika tidak, tukar kepada JPG terlebih dahulu. Kekal ada tetapan `Penuhkan bingkai` dan `Papar keseluruhan` (latar kabur).
+5. **Galeri kenangan** — kekalkan satu galeri dengan tab Semua Foto, Foto Saya, Suara dan Ucapan. Apabila galeri umum dimatikan oleh pengurus, app tidak membuka tab Semua Foto secara lalai. Foto milik sendiri sahaja mempunyai kawalan simpan/ZIP album sendiri.
+6. **Media demo** — fail media yang dipadam atau rakaman demo yang digantikan juga dibersihkan dari IndexedDB apabila boleh, untuk mengelakkan storan semakin penuh. Majlis demo standard boleh dibuka semula.
+7. **Penggantian audio** — pengurus kini boleh pilih WAV/M4A/MP3 walaupun browser menghantar `file.type` kosong, dengan mengesan sambungan fail. Arkib pengurus memberi sambungan `.mp3` yang betul untuk fail MP3 (sebelum ini tersalah `.webm`).
+8. **Fungsi sedia ada kekal** — QR A5 bertema klasik, foto dengan filter/grain/vignette, nisbah 3:4/9:16 atau 4:3/16:9, flash skrin atau torch jika disokong, galeri dengan lightbox, ucapan, Salam Kaut, pilihan majlis aktif, penghapusan majlis dan ZIP arkib pengurus.
+
+## Cara kemas kini
+
+- **ZIP PENUH:** Extract kemudian muat naik semua 17 fail ke root repositori GitHub Pages. Jangan letak fail dalam subfolder. Gantikan fail lama yang mempunyai nama sama.
+- **ZIP PERUBAHAN SAHAJA:** Gantikan hanya `app.js`, `data.js`, `guest-v4.css`, `archive-export.js` dan `README.md` jika versi di repo sememangnya V10 yang dilampirkan.
+- Firebase Realtime Database → Rules: pastikan `database.rules.json` telah diterbitkan. Firebase Storage → Rules: pastikan `storage.rules` diterbitkan. **V11 tidak mengubah dua rules ini berbanding V10**, jadi jika rules V10 sudah diterbitkan dengan betul tidak perlu menerbitkan semula semata-mata untuk V11.
+- Pastikan kaedah Email/Password dan Anonymous diaktifkan dalam Firebase Authentication. GitHub Pages menggunakan HTTPS, yang diperlukan untuk mikrofon dan kamera.
+- Sebelum majlis sebenar, ujian pada iPhone: buka QR → beri kebenaran mikrofon → rakam 5 hingga 10 saat → berhenti → main semula → hantar → buka tab Suara → main semula; uji juga satu gambar dan muat turun gambar milik sendiri.
+
+## Semakan yang dijalankan
+
+- `node --check` pada fail JavaScript yang berkaitan dan semakan sintaks JSON untuk peraturan Firebase.
+- Ujian simulasi browser untuk rakaman WAV dan laluan sandaran MediaRecorder pada lebar 390px dan 820px: pemasa, pratonton, simpan ke galeri, pemain tanpa ralat JavaScript/horizontal overflow.
+- Ujian aliran foto daripada galeri → simpan → lightbox → muat turun foto sendiri; ucapan; dashboard QR A5 → eksport PDF; had gambar; dan muat naik foto pengantin landskap.
+- **Had pengesahan:** Pengujian dibuat menggunakan browser simulasi dengan storan/audio/kamera tiruan (kerana akses alamat web dalam persekitaran ujian dihadkan), bukan iPhone sebenar atau Firebase projek produksi. Penyimpanan Firebase, izin akaun, CORS, Safari dan audio lama yang benar-benar rosak masih perlu diuji pada laman diterbitkan. Rakaman yang rosak tidak dapat dijana semula secara automatik.
+
+## Fail sistem yang diperlukan
+
+`index.html`, `app.js`, `data.js`, `styles.css`, `guest-v4.css`, `qr-studio.css`, `qr-templates.js`, `qrcode.js`, `pdf.js`, `camera-effects.js`, `archive-export.js`, `zip-export.js`, `favicon.svg`.
+
+`database.rules.json` dan `storage.rules` diperlukan untuk konfigurasi keselamatan Firebase tetapi **bukan** fail yang dibaca terus oleh halaman GitHub Pages. `README.md` dan `FAIL-TIDAK-DIGUNAKAN.txt` ialah dokumentasi dan senarai audit. Semua 17 fail berada di root tanpa subfolder.
+
+**Perhatian keselamatan:** Larangan butang download foto tetamu lain bukan perlindungan terhadap pengguna teknikal yang menyimpan imej yang boleh dipaparkan oleh browser. Kawalan sebenar media asli bergantung pada Firebase Storage Rules. Penghapusan majlis daripada database tidak semestinya memadam objek asal dalam Firebase Storage. Untuk acara produksi, simpan arkib sebelum menghapuskan data.
+
+---
+
+## Nota versi terdahulu (rujukan)
+
 # Sekeping.my V7 — Wedding Studio (GitHub Pages, root sahaja)
 
 Versi ini dijana berdasarkan ZIP `sekeping.my-main.zip` yang pengguna upload, **bukan membina semula daripada kod demo yang berbeza**. Tema dashboard krim, putih, hijau gelap dan sage dikekalkan. Semua fail deployment terletak pada root; tiada subfolder dalam ZIP website.

@@ -21,7 +21,7 @@ const write=(kind,id,value)=>localStorage.setItem(key(kind,id),JSON.stringify(va
 const uuid=()=> crypto.randomUUID?.()||'id-'+Date.now()+'-'+Math.random().toString(36).slice(2);
 let f=null, db=null, storage=null, auth=null, authReady=false;
 const $getPath=(id,what)=>`events/${id}/${what}`;
-function demoInit(){if(!localStorage.getItem('sekeping_demo_seeded')){if(!localStorage.getItem(key('event','demo')))write('event','demo',demoEvent);if(!localStorage.getItem(key('all','events')))write('all','events',['demo']);localStorage.setItem('sekeping_demo_seeded','1')}if(!localStorage.getItem(key('guest','id')))localStorage.setItem(key('guest','id'),uuid());}
+function demoInit(){if(!localStorage.getItem(key('event','demo'))){write('event','demo',demoEvent);const ids=read('all','events',[]);if(!ids.includes('demo'))write('all','events',['demo',...ids])}if(!localStorage.getItem(key('all','events')))write('all','events',['demo']);localStorage.setItem('sekeping_demo_seeded','1');if(!localStorage.getItem(key('guest','id')))localStorage.setItem(key('guest','id'),uuid());}
 async function setup(){if(isDemo()){demoInit();return true;}if(authReady)return true;
  try{
   const [appMod,authMod,dbMod,storageMod]=await Promise.all([
@@ -43,6 +43,7 @@ async function putBlob(id,blob){const d=await idb();return new Promise((resolve,
 async function readBlob(id){const d=await idb();return new Promise((resolve,reject)=>{const t=d.transaction('blobs','readonly');const r=t.objectStore('blobs').get(id);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
 // Keep demo Blob URLs stable between renders, especially for Safari audio playback.
 const demoMediaUrls=new Map();
+function revokeDemoMedia(key){const url=demoMediaUrls.get(key);if(url){URL.revokeObjectURL(url);demoMediaUrls.delete(key)}}
 async function getUrl(data){if(data.url)return data.url;if(data.mediaKey){try{if(demoMediaUrls.has(data.mediaKey))return demoMediaUrls.get(data.mediaKey);const blob=await readBlob(data.mediaKey);if(!blob)return '';const url=URL.createObjectURL(blob);demoMediaUrls.set(data.mediaKey,url);return url}catch{return ''}}return ''}
 async function makePublicPhoto(file){
  const canvas=document.createElement('canvas'),max=860;
@@ -83,7 +84,7 @@ const store={
    const kinds=['photos','voices','wishes'];const old=await Promise.all(kinds.map(k=>store.listContent(id,k)));
    const images=[read('cover',id,null),read('giftqr',id,null)].filter(Boolean);
    try{const d=await idb(),keys=[...old.flat().map(x=>x.mediaKey),...images.map(x=>x.mediaKey)].filter(Boolean);
-    if(keys.length)await new Promise((resolve,reject)=>{const tx=d.transaction('blobs','readwrite');for(const key of keys)tx.objectStore('blobs').delete(key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})
+    if(keys.length)await new Promise((resolve,reject)=>{const tx=d.transaction('blobs','readwrite');for(const mediaKey of keys){tx.objectStore('blobs').delete(mediaKey);revokeDemoMedia(mediaKey)}tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})
    }catch(err){console.warn('Demo media cleanup:',err)}
    for(const k of [...kinds,'event','cover','giftqr'])localStorage.removeItem(key(k,id));
    write('all','events',read('all','events',[]).filter(x=>x!==id));return;
@@ -144,20 +145,20 @@ const store={
  },
  async replaceVoice(id,recordId,file){
   await setup();const ev=await store.getEvent(id);ownerCheck(ev);
-  if(!file || !['audio/wav','audio/x-wav','audio/mp4','audio/m4a','audio/mpeg'].includes(file.type))throw Error('Pilih fail WAV, M4A atau MP3 yang sah.');
+  if(!file)throw Error('Pilih fail WAV, M4A atau MP3 yang sah.');const type=['audio/wav','audio/x-wav','audio/mp4','audio/m4a','audio/mpeg'].includes(file.type)?file.type:/\.wav$/i.test(file.name)?'audio/wav':/\.m4a$/i.test(file.name)?'audio/mp4':/\.mp3$/i.test(file.name)?'audio/mpeg':'';if(!type)throw Error('Pilih fail WAV, M4A atau MP3 yang sah.');
   if(file.size<256 || file.size>12*1024*1024)throw Error('Fail rakaman mesti antara 256 bait hingga 12 MB.');
   const originals=await store.listContent(id,'voices'),record=originals.find(x=>x.id===recordId);
   if(!record)throw Error('Rekod suara tidak dijumpai.');
   if(isDemo()){
    const mediaKey=`${id}_voices_repair_${uuid()}`;await putBlob(mediaKey,file);
    const list=read('voices',id,[]),idx=list.findIndex(x=>x.id===recordId);if(idx<0)throw Error('Rekod suara tidak ditemui.');
-   list[idx]={...list[idx],mediaKey,url:'',mimeType:file.type,updatedAt:Date.now(),audioReplaced:true};write('voices',id,list);return;
+   const oldKey=list[idx].mediaKey;list[idx]={...list[idx],mediaKey,url:'',mimeType:type,updatedAt:Date.now(),audioReplaced:true};write('voices',id,list);if(oldKey&&oldKey!==mediaKey){try{const d=await idb();await new Promise((resolve,reject)=>{const tx=d.transaction('blobs','readwrite');tx.objectStore('blobs').delete(oldKey);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});revokeDemoMedia(oldKey)}catch(err){console.warn('Demo old voice cleanup:',err)}}return;
   }
-  const owner=auth.currentUser.uid,extension=file.type==='audio/wav'||file.type==='audio/x-wav'?'wav':file.type==='audio/mpeg'?'mp3':'m4a',uid=owner,token=uuid();
+  const owner=auth.currentUser.uid,extension=type==='audio/wav'||type==='audio/x-wav'?'wav':type==='audio/mpeg'?'mp3':'m4a',uid=owner,token=uuid();
   const privatePath=`events/${id}/vault/${owner}/voices/${uid}/${token}.${extension}`;
   const publicPath=`events/${id}/public/voices/${uid}/${token}.${extension}`;
   const privateRef=f.storageMod.ref(storage,privatePath),publicRef=f.storageMod.ref(storage,publicPath);
-  const contentType=file.type==='audio/x-wav'?'audio/wav':file.type;
+  const contentType=type==='audio/x-wav'?'audio/wav':type;
   await f.storageMod.uploadBytes(privateRef,file,{contentType});await f.storageMod.uploadBytes(publicRef,file,{contentType});
   const url=await f.storageMod.getDownloadURL(publicRef);
   await dbUpdate($getPath(id,`voices/${recordId}`),{url,privatePath,publicPath,mimeType:contentType,updatedAt:Date.now(),audioReplaced:true});
@@ -184,11 +185,11 @@ const store={
   }
   throw Error('Fail asal media tidak dijumpai.');
  },
- async deleteRecord(id,kind,recordId){await setup();if(isDemo()){write(kind,id,read(kind,id,[]).filter(v=>v.id!==recordId));return}
+ async deleteRecord(id,kind,recordId){await setup();if(isDemo()){const list=read(kind,id,[]),target=list.find(v=>v.id===recordId);write(kind,id,list.filter(v=>v.id!==recordId));if(target?.mediaKey){try{const d=await idb();await new Promise((resolve,reject)=>{const tx=d.transaction('blobs','readwrite');tx.objectStore('blobs').delete(target.mediaKey);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});revokeDemoMedia(target.mediaKey)}catch(err){console.warn('Demo record cleanup:',err)}}return}
   const ev=await store.getEvent(id);if(!auth.currentUser||auth.currentUser.uid!==ev.ownerUid)throw Error('Akses tidak dibenarkan.');await f.dbMod.remove(f.dbMod.ref(db,$getPath(id,`${kind}/${recordId}`)));
  },
  async uploadCover(id,file){await setup();const ev=await store.getEvent(id);const u=await store.user();if(!isDemo()&&(!u||ev.ownerUid!==u.uid))throw Error('Akses tidak dibenarkan.');
-  if(file.size>8*1024*1024)throw Error('Gambar mesti kurang daripada 8 MB.');
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type))throw Error('Gambar pengantin mestilah JPG, PNG atau WebP.');if(file.size>8*1024*1024)throw Error('Gambar mesti kurang daripada 8 MB.');
   if(isDemo()){const mediaKey=`${id}_cover_${uuid()}`;await putBlob(mediaKey,file);const url=await getUrl({mediaKey});write('cover',id,{mediaKey});await store.updateEvent(id,{coverUrl:''});return url}
   const path=`events/${id}/covers/${u.uid}/${uuid()}.jpg`;const uploaded=await f.storageMod.uploadBytes(f.storageMod.ref(storage,path),file,{contentType:file.type});const url=await f.storageMod.getDownloadURL(uploaded.ref);await store.updateEvent(id,{coverUrl:url});return url;
  },

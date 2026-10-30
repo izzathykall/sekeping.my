@@ -87,7 +87,7 @@ function galleryVoiceList(){return state.voices.length?`<div class="gallery-voic
 function albumSection(){
  const v=state.event,favs=favourites(),mine=state.photos.filter(p=>p.uid===state.guestUid),all=state.photos;
  const tab=state.albumTab==='guests'?'all':state.albumTab;
- const active=['mine','all','voices','wishes'].includes(tab)?tab:'all';
+ const active=(v.allowGallery===false&&tab==='all')?'mine':(['mine','all','voices','wishes'].includes(tab)?tab:'all');
  const photoTab=active==='mine'||active==='all',own=active==='mine';
  const photos=own?mine:all;
  const people=new Map();all.forEach(p=>{const uid=p.uid||p.guestName;if(!people.has(uid))people.set(uid,{uid,name:p.guestName,count:0});people.get(uid).count++});
@@ -152,7 +152,27 @@ function updateEffectPreview(){const video=document.querySelector('#cameraVideo'
  document.querySelectorAll('[data-filter]').forEach(node=>{node.classList.toggle('active',node.dataset.filter===state.filter);node.setAttribute('aria-pressed',String(node.dataset.filter===state.filter));});
 }
 
-function voiceSection(){const secs=state.recSeconds;return `${heading('BICARAKAN KENANGAN','Pesanan Suara','Ada ucapan yang lebih indah apabila didengar dengan suara sendiri.')}<div class="voice-panel"><div class="card center"><label class="field center"><span>NAMA ANDA</span><input class="input" id="guestNameVoice" maxlength="55" style="max-width:380px;margin:auto" value="${e(state.guestName)}" placeholder="Nama anda"></label><div class="mic-circle ${state.recorder?.state==='recording'?'recording':''}">${icon('mic')}</div><div class="voice-time" id="voiceClock">${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')}</div><p class="muted small">Maksimum ${state.event.voiceLimit||45} saat setiap rakaman</p><div class="actions" style="justify-content:center;margin-top:20px">${state.voiceBlob?`<button class="btn secondary" data-action="discard-voice">${icon('trash')} Rakam semula</button><button class="btn" data-action="save-voice">${icon('send')} Hantar suara</button>`:state.recorder?.state==='recording'?`<button class="btn danger" data-action="stop-record">${icon('stop')} Hentikan rakaman</button>`:`<button class="btn" data-action="start-record">${icon('mic')} Mula merakam</button>`}</div>${state.voiceUrl?`${voicePlayer({id:"preview",guestName:state.guestName,url:state.voiceUrl,duration:state.recSeconds},true)}`:''}</div><h3 class="serif" style="font-size:25px;font-weight:400;margin:35px 0 14px">Koleksi suara</h3>${state.voices.length?state.voices.map(item=>`<div class="voice-card"><div><strong>${e(item.guestName)}</strong><div class="small muted">${e(since(item.createdAt))}</div></div>${voicePlayer(item,true)}</div>`).join(''):empty('mic','Belum ada pesanan suara','Ucapan pertama anda pasti bermakna.')}</div>`}
+function voiceSection(){
+ const secs=state.recSeconds,limit=Math.max(5,Math.min(90,Number(state.event.voiceLimit)||45));
+ const recording=state.recorder?.state==='recording',ready=!!state.voiceBlob;
+ const clock=n=>`${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`;
+ const bars=Array.from({length:25},(_,i)=>`<i style="--bar:${18+Math.round(Math.abs(Math.sin(i*1.74))*60)}%"></i>`).join('');
+ return `${heading('BICARAKAN KENANGAN','Pesanan Suara','Satu suara, seribu kenangan. Tinggalkan ucapan untuk pasangan pengantin.')}
+ <div class="voice-panel"><div class="voice-studio card center">
+ <div class="voice-studio-top"><span class="voice-studio-label">SEKEPING · VOICE MEMORIES</span><span class="voice-studio-mark">S.</span></div>
+ <label class="field center voice-guest-field"><span>NAMA ANDA</span><input class="input" id="guestNameVoice" maxlength="55" value="${e(state.guestName)}" placeholder="Nama anda" ${recording?'readonly':''}></label>
+ <div class="voice-record-icon ${recording?'is-recording':''} ${ready?'is-ready':''}"><span class="voice-record-halo"></span>${icon('mic')}</div>
+ <div class="voice-record-state" id="voiceState" aria-live="polite">${recording?'SEDANG MERAKAM':ready?'RAKAMAN TELAH SIAP':'SEDIA UNTUK MERAKAM'}</div>
+ <div class="voice-time" id="voiceClock" role="timer" aria-label="Masa rakaman">${clock(secs)}</div>
+ <div class="voice-wave ${recording?'is-live':''}" aria-hidden="true">${bars}</div>
+ <div class="voice-progress-head"><span>${recording?'RAKAMAN BERLANGSUNG':ready?'TEMPOH RAKAMAN':'HAD MASA'}</span><span id="voiceRemaining">${clock(recording?Math.max(0,limit-secs):limit)} ${recording?'berbaki':'maksimum'}</span></div>
+ <div class="voice-progress"><span id="voiceProgress" style="width:${Math.min(100,secs/limit*100)}%"></span></div>
+ <div class="voice-record-actions">${ready?`<button class="btn secondary" data-action="discard-voice">${icon('refresh')} Rakam semula</button><button class="btn" data-action="save-voice">${icon('send')} Hantar suara</button>`:recording?`<button class="btn danger" data-action="stop-record">${icon('stop')} Tamatkan rakaman</button>`:`<button class="btn" data-action="start-record">${icon('mic')} Mula merakam</button>`}</div>
+ ${state.voiceUrl?`<div class="voice-preview"><div class="voice-preview-title">${icon('volume','sm')} Dengar rakaman sebelum menghantar</div>${voicePlayer({id:'preview',guestName:state.guestName,url:state.voiceUrl,duration:state.recSeconds},true)}</div>`:''}
+ <p class="voice-studio-footnote">${recording?'Bercakap dengan jelas. Rakaman dihentikan secara automatik pada had masa.':ready?'Pastikan suara boleh dimainkan sebelum menghantar.':'Benarkan akses mikrofon apabila diminta. Rakaman boleh disemak sebelum dihantar.'}</p></div>
+ <div class="voice-collection-header"><h3 class="serif">Koleksi suara</h3><span>${state.voices.length} rakaman</span></div>
+ ${state.voices.length?state.voices.map(item=>`<div class="voice-card"><div><strong>${e(item.guestName)}</strong><div class="small muted">${e(since(item.createdAt))}</div></div>${voicePlayer(item,true)}</div>`).join(''):empty('mic','Belum ada pesanan suara','Ucapan pertama anda pasti bermakna.')}</div>`;
+}
 function wishesSection(){return `${heading('KIRIMKAN DOA','Ucapan & Doa','Tinggalkan kata-kata manis, nasihat atau doa untuk kedua mempelai.')}<div class="card" style="max-width:670px;margin:0 auto 30px"><form id="wishForm"><label class="field"><span>NAMA ANDA</span><input class="input" name="guestName" maxlength="55" required placeholder="Nama anda" value="${e(state.guestName)}"></label><label class="field"><span>UCAPAN ANDA</span><textarea class="textarea" maxlength="600" minlength="2" required name="message" placeholder="Semoga rumah tangga kalian sentiasa bahagia..."></textarea></label><div class="actions end"><button class="btn" type="submit">${icon('send')} Kirim ucapan</button></div></form></div>${state.wishes.length?`<div class="wish-grid">${state.wishes.map(item=>`<article class="wish-card"><p>${e(item.message)}</p><div class="by">— ${e(item.guestName||'Tetamu')} · ${e(since(item.createdAt))}</div></article>`).join('')}</div>`:empty('message','Tiada ucapan lagi','Jadilah yang pertama mengucapkan tahniah.')}`}
 function dashboardAuth(){return `${topbar('home')}<main><div class="auth-shell"><div class="micro" style="color:#b59b79">RUANG KHAS PENGURUS</div><h1>${state.loginMode==='login'?'Selamat kembali.':'Cipta akaun anda.'}</h1><p>Pengurusan majlis hanya untuk pemilik akaun. Tetamu tidak boleh mengubah tetapan ini.</p>${S.isDemo?`<div class="banner">Mod demo aktif. Teruskan tanpa akaun.</div><button class="btn wide" data-action="demo-dashboard">Masuk dashboard demo</button>`:`<form id="authForm"><label class="field"><span>E-MEL</span><input class="input" type="email" autocomplete="email" name="email" required placeholder="anda@email.com"></label><label class="field"><span>KATA LALUAN</span><input class="input" type="password" autocomplete="${state.loginMode==='register'?'new-password':'current-password'}" minlength="6" name="password" required placeholder="Minimum 6 aksara"></label><button class="btn wide" type="submit">${icon('lock')} ${state.loginMode==='login'?'Log masuk':'Daftar akaun'}</button></form><p class="center small" style="margin:20px 0 8px">${state.loginMode==='login'?'Belum mempunyai akaun?':'Sudah mempunyai akaun?'} <button data-action="toggle-auth" class="btn ghost sm">${state.loginMode==='login'?'Daftar sekarang':'Log masuk'}</button></p><div class="line"></div><a class="btn secondary wide" href="${dashboardUrl(true)}" data-nav="demo-dashboard">${icon('eye')} Cuba dashboard demo</a>`}</div></main>${footer()}`}
 const dashItems=[['overview','home','Gambaran keseluruhan'],['events','calendar','Senarai majlis'],['details','sliders','Maklumat majlis'],['design','image','Reka bentuk'],['gallery','gallery','Galeri'],['messages','mic','Suara & ucapan'],['archive','download','Arkib & eksport'],['gift','gift','Salam Kaut'],['qr','qr','QR & cetakan'],['settings','settings','Tetapan majlis']];
@@ -200,7 +220,7 @@ async function boot(){try{const params=q(),eventId=params.get('e');if(eventId){s
  state.route='home';render();}catch(err){console.error(err);app.innerHTML=`${topbar('home')}<main style="padding:60px 20px"><div class="auth-shell"><h1 class="serif" style="font-size:31px">Tidak dapat membuka halaman</h1><p>${e(err.message||'Ralat tidak diketahui.')}</p><div class="actions"><a class="btn secondary" href="${homeUrl()}" data-nav="home">Laman utama</a><a class="btn" href="${eventUrl('demo',true)}" data-nav="demo">Cuba mod demo</a></div></div></main>`;showError(err)}}
 function nameValue(){const input=document.querySelector('#guestName')||document.querySelector('#guestNameVoice');if(input)state.guestName=input.value.trim().slice(0,55);localStorage.setItem('sekeping_guest_name',state.guestName);return state.guestName}
 function requireName(){if(!nameValue()){toast('Isi nama tetamu dahulu.');const input=document.querySelector('#guestName')||document.querySelector('#guestNameVoice');input?.focus();return false}return true}
-function setGuestTab(tab){if(tab==='mine'){tab='photos';state.albumTab='mine'}if(tab==='camera'&&state.used>=state.event.photoLimit){toast('Had gambar telah dicapai. Anda masih boleh melihat album.');return}if(state.guestTab==='camera'&&tab!=='camera')stopCamera();if(state.guestTab==='voice'&&tab!=='voice'&&state.recorder?.state==='recording')stopRecording();if(tab==='photos' && state.guestTab!=='photos')state.albumTab='all';state.guestTab=tab;state.lightboxId=null;render();if(['photos','voice'].includes(tab)){fillContent().then(()=>{if(state.route==='guest'&&state.guestTab===tab)render()})}window.scrollTo({top:0,behavior:'smooth'})}
+function setGuestTab(tab){if(tab==='mine'){tab='photos';state.albumTab='mine'}if(tab==='camera'&&state.used>=state.event.photoLimit){toast('Had gambar telah dicapai. Anda masih boleh melihat album.');return}if(state.guestTab==='camera'&&tab!=='camera')stopCamera();if(state.guestTab==='voice'&&tab!=='voice'&&state.recorder?.state==='recording')discardVoice();if(tab==='photos' && state.guestTab!=='photos')state.albumTab=state.event.allowGallery===false?'mine':'all';state.guestTab=tab;state.lightboxId=null;render();if(['photos','voice'].includes(tab)){fillContent().then(()=>{if(state.route==='guest'&&state.guestTab===tab)render()})}window.scrollTo({top:0,behavior:'smooth'})}
 function stopCamera(){state.stream?.getTracks().forEach(t=>t.stop());state.stream=null}
 function clearPhoto(){if(state.photoUrl)URL.revokeObjectURL(state.photoUrl);state.photoUrl=null;state.photoBlob=null}
 function discardVoice(){
@@ -208,7 +228,7 @@ function discardVoice(){
  if(engine?.close){engine.cancelled=true;try{engine.close(true)}catch(e){console.warn(e)}}
  else if(state.recorder?.state==='recording'){state.recorder.onstop=null;state.recorder.stop()}
  state.recStream?.getTracks().forEach(t=>t.stop());state.recStream=null;clearInterval(state.recTimer);state.recTimer=null;
- if(state.voiceUrl)URL.revokeObjectURL(state.voiceUrl);state.voiceUrl=null;state.voiceBlob=null;state.recSeconds=0;state.recorder=null;state.recordingStart=0;
+ if(state.voiceUrl)URL.revokeObjectURL(state.voiceUrl);state.voiceUrl=null;state.voiceBlob=null;state.recSeconds=0;state.recorder=null;state.recordingStart=0;const clock=document.querySelector('#voiceClock');if(clock)clock.textContent='00:00';
 }
 async function startCamera(){if(!requireName())return;if(!navigator.mediaDevices?.getUserMedia){toast('Kamera memerlukan laman HTTPS atau localhost dalam browser yang menyokong akses kamera.');return}
  try{stopCamera();state.stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:state.facing},width:{ideal:1920},height:{ideal:1080}}});if(state.flash)await setTorch(true);render();toast('Kamera sedia digunakan.')}catch(err){stopCamera();if(err.name==='NotAllowedError')toast('Akses kamera tidak dibenarkan. Aktifkan kebenaran kamera pada browser.');else if(err.name==='NotFoundError')toast('Tiada kamera dijumpai pada peranti ini.');else showError(err);render()}}
@@ -226,6 +246,22 @@ async function useUploadedPhoto(file){if(!file)return;if(!requireName())return;
  try{await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(Error('Gambar ini tidak dapat dibuka. Cuba gambar JPG atau PNG.'));img.src=url});const c=FX.draw(img,effectOptions());previewPhoto(c);toast('Gambar dari galeri telah siap dengan filter pilihan anda.');}
  catch(err){showError(err)}finally{URL.revokeObjectURL(url)}
 }
+async function prepareCoverImage(file){
+ if(!file||!(file.type.startsWith('image/')||/\.(jpe?g|png|webp|heic|heif)$/i.test(file.name||'')))throw Error('Pilih fail gambar pasangan yang sah.');
+ if(file.size>25*1024*1024)throw Error('Gambar terlalu besar. Maksimum 25 MB sebelum dikecilkan.');
+ let image,src='';
+ try{
+  if(typeof createImageBitmap==='function'){try{image=await createImageBitmap(file)}catch{}}
+  if(!image){src=URL.createObjectURL(file);image=new Image();await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('Gambar tidak dapat dibuka. Untuk HEIC, cuba simpan sebagai JPG dahulu.'));image.src=src})}
+  const w=image.width||image.naturalWidth,h=image.height||image.naturalHeight;if(!w||!h)throw Error('Saiz gambar tidak sah.');
+  const scale=Math.min(1,2400/Math.max(w,h)),canvas=document.createElement('canvas');
+  canvas.width=Math.max(1,Math.round(w*scale));canvas.height=Math.max(1,Math.round(h*scale));
+  canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+  const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('Gambar tidak dapat diproses.')),'image/jpeg',.87));
+  if(blob.size>8*1024*1024)throw Error('Gambar masih terlalu besar selepas pemprosesan. Cuba guna resolusi lebih kecil.');
+  return new File([blob],'sekeping-pengantin.jpg',{type:'image/jpeg',lastModified:Date.now()});
+ }finally{if(image?.close)image.close();if(src)URL.revokeObjectURL(src)}
+}
 async function savePhoto(btn){if(!state.photoBlob)return;if(!requireName())return;withWait(btn);try{await S.saveMedia(state.event.id,'photos',state.photoBlob,state.guestName,{filterLabel:filters[state.filter].label,orientation:state.orientation,aspect:state.aspect,grain:state.grain,vignette:state.vignette,grainStrength:state.grain?state.grainStrength:0,vignetteStrength:state.vignette?state.vignetteStrength:0});clearPhoto();await fillContent();stopCamera();state.guestTab='photos';state.albumTab='mine';state.albumFilter='all';render();toast('Gambar berjaya dihantar ke Foto Saya!')}catch(err){showError(err)}finally{withWait(btn,false)}}
 function bestAudioType(){const types=['audio/mp4;codecs=mp4a.40.2','audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus'];return types.find(type=>window.MediaRecorder?.isTypeSupported(type))||''}
 function pcmWav(chunks,total,sampleRate){const bytes=44+total*2,buffer=new ArrayBuffer(bytes),view=new DataView(buffer);
@@ -233,22 +269,30 @@ function pcmWav(chunks,total,sampleRate){const bytes=44+total*2,buffer=new Array
  let offset=44;for(const chunk of chunks){for(let i=0;i<chunk.length;i++){const value=Math.max(-1,Math.min(1,chunk[i]));view.setInt16(offset,value<0?value*32768:value*32767,true);offset+=2}}
  return new Blob([buffer],{type:'audio/wav'});
 }
-function updateRecordTime(){const elapsed=Math.floor((Date.now()-state.recordingStart)/1000);state.recSeconds=elapsed;const el=document.querySelector('#voiceClock');if(el)el.textContent=`${String(Math.floor(elapsed/60)).padStart(2,'0')}:${String(elapsed%60).padStart(2,'0')}`;if(elapsed>=(state.event.voiceLimit||45))stopRecording()}
+function updateRecordTime(){
+ if(!state.recordingEngine||state.recordingEngine.state!=='recording')return;
+ const limit=Math.max(5,Math.min(90,Number(state.event.voiceLimit)||45));
+ const elapsed=Math.min(limit,Math.floor((Date.now()-state.recordingStart)/1000));state.recSeconds=elapsed;
+ const el=document.querySelector('#voiceClock');if(el)el.textContent=`${String(Math.floor(elapsed/60)).padStart(2,'0')}:${String(elapsed%60).padStart(2,'0')}`;
+ const remaining=document.querySelector('#voiceRemaining');if(remaining)remaining.textContent=`${String(Math.floor((limit-elapsed)/60)).padStart(2,'0')}:${String((limit-elapsed)%60).padStart(2,'0')} berbaki`;
+ const progress=document.querySelector('#voiceProgress');if(progress)progress.style.width=Math.min(100,elapsed/limit*100)+'%';
+ if(elapsed>=limit)stopRecording();
+}
 async function startRecording(){if(!requireName())return;if(!navigator.mediaDevices?.getUserMedia){toast('Mikrofon memerlukan sambungan HTTPS dan kebenaran browser.');return}
  try{discardVoice();const stream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:true,noiseSuppression:true}});state.recStream=stream;
  const Context=window.AudioContext||window.webkitAudioContext;let engine=null;
  if(Context){try{const context=new Context({latencyHint:'interactive'});await context.resume();const source=context.createMediaStreamSource(stream),processor=context.createScriptProcessor(4096,1,1),sink=context.createGain();sink.gain.value=0;
  const chunks=[];let total=0;processor.onaudioprocess=event=>{const samples=event.inputBuffer.getChannelData(0);chunks.push(new Float32Array(samples));total+=samples.length};source.connect(processor);processor.connect(sink);sink.connect(context.destination);
- engine={state:'recording',close(cancel){if(this.state==='inactive')return null;this.state='inactive';processor.disconnect();source.disconnect();sink.disconnect();processor.onaudioprocess=null;context.close().catch(()=>{});return cancel?null:pcmWav(chunks,total,context.sampleRate)},getCount(){return total},getRate(){return context.sampleRate}};
+ engine={state:'recording',close(cancel){if(this.state==='inactive')return null;this.state='inactive';processor.disconnect();source.disconnect();sink.disconnect();processor.onaudioprocess=null;context.close().catch(()=>{});return cancel||total<context.sampleRate?null:pcmWav(chunks,total,context.sampleRate)},getCount(){return total},getRate(){return context.sampleRate}};
  }catch(err){console.warn('WebAudio PCM unavailable; using MediaRecorder fallback',err)}}
  if(!engine){if(!window.MediaRecorder)throw Error('Browser ini tidak dapat mengakses sistem rakaman audio.');const type=bestAudioType(),rec=new MediaRecorder(stream,type?{mimeType:type}:undefined),chunks=[];
- rec.ondataavailable=e=>{if(e.data?.size)chunks.push(e.data)};engine={state:'recording',close(cancel){if(this.state==='inactive')return null;this.state='inactive';if(rec.state!=='inactive')rec.stop();if(cancel)rec.onstop=null;return null}};
+ rec.ondataavailable=e=>{if(e.data?.size)chunks.push(e.data)};engine={state:'recording',close(cancel){if(this.state==='inactive')return null;this.state='inactive';if(cancel){engine.cancelled=true;rec.onstop=null}if(rec.state!=='inactive')rec.stop();return null}};
  rec.onstop=()=>{if(state.recordingEngine!==engine||engine.cancelled)return;const mime=rec.mimeType||type||'audio/webm';finalizeVoice(new Blob(chunks,{type:mime}))};rec.start(250);
  }
  state.recordingEngine=engine;state.recorder=engine;state.recordingStart=Date.now();state.recSeconds=0;render();state.recTimer=setInterval(updateRecordTime,250);
  }catch(err){showError(err);discardVoice();render()}}
 function finalizeVoice(blob){clearInterval(state.recTimer);state.recTimer=null;state.recStream?.getTracks().forEach(t=>t.stop());state.recStream=null;state.recorder=null;state.recordingEngine=null;
- if(!blob||blob.size<256){state.voiceBlob=null;toast('Rakaman terlalu pendek atau tiada data mikrofon. Cuba rakam sekurang-kurangnya 2 saat.');render();return}
+ if(!blob||blob.size<256){state.voiceBlob=null;state.recSeconds=0;toast('Rakaman terlalu pendek atau tiada data mikrofon. Cuba rakam sekurang-kurangnya 2 saat.');render();return}
  state.voiceBlob=blob;
  // A WAV file has an exact sample count; use that to recover duration without browser audio metadata.
  if(blob.type==='audio/wav'&&blob.size>=44){blob.slice(0,44).arrayBuffer().then(buffer=>{if(state.voiceBlob!==blob)return;const view=new DataView(buffer);const rate=view.getUint32(28,true),dataSize=view.getUint32(40,true);if(rate>0&&dataSize>0){state.recSeconds=Math.max(1,Math.ceil(dataSize/(rate*2)));const current=document.querySelector('[data-voice-player="preview"]');if(current){const track=current.querySelector('[data-voice-duration]');if(track)track.dataset.voiceDuration=state.recSeconds;voiceStatus(current)}const timer=document.querySelector('#voiceClock');if(timer)timer.textContent=String(Math.floor(state.recSeconds/60)).padStart(2,'0')+':'+String(state.recSeconds%60).padStart(2,'0')}}).catch(()=>{})}
@@ -256,7 +300,7 @@ function finalizeVoice(blob){clearInterval(state.recTimer);state.recTimer=null;s
 }
 function stopRecording(){const engine=state.recordingEngine;if(!engine||engine.state!=='recording')return;
  if((Date.now()-state.recordingStart)<1400){toast('Rakam sekurang-kurangnya 2 saat sebelum hentikan.');return}
- const result=engine.close(false);if(result instanceof Blob)finalizeVoice(result);else{clearInterval(state.recTimer);state.recTimer=null;state.recorder=null;state.recStream?.getTracks().forEach(t=>t.stop());state.recStream=null; // onstop will assemble MediaRecorder chunks
+ const result=engine.close(false);if(result instanceof Blob)finalizeVoice(result);else if(engine.getCount){finalizeVoice(null)}else{clearInterval(state.recTimer);state.recTimer=null;state.recorder=null;state.recStream?.getTracks().forEach(t=>t.stop());state.recStream=null; // MediaRecorder onstop will assemble asynchronously
  }}
 async function saveVoice(btn){if(!requireName()||!state.voiceBlob)return;withWait(btn);try{if(state.voiceBlob.size<256)throw Error('Rakaman tidak lengkap. Rakam semula.');if(state.voiceBlob.size>12*1024*1024)throw Error('Rakaman terlalu besar. Had ialah 12 MB.');await S.saveMedia(state.event.id,'voices',state.voiceBlob,state.guestName,{duration:state.recSeconds});discardVoice();await fillContent();state.guestTab='photos';state.albumTab='voices';render();toast('Rakaman suara dihantar ke Galeri Kenangan.')}catch(err){showError(err)}finally{withWait(btn,false)}}
 async function dashboardRefresh(){if(!state.event)return;const ev=await S.getEvent(state.event.id);if(ev){ev.coverDisplay=await S.cover(ev.id,ev);ev.giftQrDisplay=await S.giftQr(ev.id,ev);state.event=ev;const idx=state.events.findIndex(x=>x.id===ev.id);if(idx>=0)state.events[idx]=ev;state.qrDraft=null;state.qrDraftEvent=null;state.qrDirty=false;await fillContent()}render()}
@@ -347,7 +391,7 @@ app.addEventListener('click',async ev=>{
  const photoBtn=ev.target.closest('[data-my-photo]');if(photoBtn){try{await downloadMyPhoto(photoBtn.dataset.myPhoto,photoBtn)}catch(err){showError(err)}return}
  const deletePrompt=ev.target.closest('[data-prompt-event-delete]');if(deletePrompt){const item=state.events.find(v=>v.id===deletePrompt.dataset.promptEventDelete);if(item&&state.route==='dashboard'&&state.dashboardUser){state.deleteTarget=item;render();requestAnimationFrame(()=>document.querySelector('#deleteEventConfirmation')?.focus())}return}
  const select=ev.target.closest('[data-select-event]');if(select){try{await loadEvent(select.dataset.selectEvent);rememberActive();state.dashTab='overview';render()}catch(err){showError(err)}return}
- const albumTab=ev.target.closest('[data-album-tab]');if(albumTab){state.albumTab=albumTab.dataset.albumTab;state.albumGuestUid='';render();return}
+ const albumTab=ev.target.closest('[data-album-tab]');if(albumTab){state.albumTab=state.event?.allowGallery===false&&albumTab.dataset.albumTab==='all'?'mine':albumTab.dataset.albumTab;state.albumGuestUid='';render();return}
  const albumFilter=ev.target.closest('[data-album-filter]');if(albumFilter){state.albumFilter=albumFilter.dataset.albumFilter;render();return}
  const person=ev.target.closest('[data-album-person]');if(person){state.albumGuestUid=person.dataset.albumPerson;render();return}
  const fav=ev.target.closest('[data-fav-id]');if(fav){const ids=favourites();ids.has(fav.dataset.favId)?ids.delete(fav.dataset.favId):ids.add(fav.dataset.favId);localStorage.setItem('sekeping_favs_'+state.event.id,JSON.stringify([...ids]));render();return}
@@ -359,7 +403,7 @@ app.addEventListener('click',async ev=>{
  const btn=ev.target.closest('[data-action]');if(btn){ev.preventDefault();try{await handleAction(btn.dataset.action,btn)}catch(err){showError(err)}}
 });
 app.addEventListener('input',ev=>{if(!ev.target.matches('[data-voice-seek]'))return;const player=ev.target.closest('[data-voice-player]');const audio=player?.querySelector('audio');if(audio&&Number.isFinite(audio.duration)&&audio.duration>0){audio.currentTime=audio.duration*(Number(ev.target.value)/100);voiceStatus(player)}});
-for(const eventName of ['loadedmetadata','durationchange','timeupdate','play','pause','ended'])app.addEventListener(eventName,ev=>{if(ev.target.matches?.('[data-voice-audio]'))voiceStatus(ev.target.closest('[data-voice-player]'))},true);
+for(const eventName of ['loadedmetadata','loadeddata','canplay','durationchange','timeupdate','play','pause','ended'])app.addEventListener(eventName,ev=>{if(ev.target.matches?.('[data-voice-audio]'))voiceStatus(ev.target.closest('[data-voice-player]'))},true);
 app.addEventListener('error',ev=>{if(!ev.target.matches?.('[data-voice-audio]'))return;const p=ev.target.closest('[data-voice-player]');setVoiceError(p,'Format rakaman tidak disokong atau fail gagal dimuatkan. Cuba refresh; rakaman lama mungkin perlu ditukar ke M4A/AAC.');voiceStatus(p)},true);
 app.addEventListener('submit',ev=>{if(!ev.target.id)return;ev.preventDefault();formSubmit(ev.target)});
 function updateQrUI(){if(state.dashTab!=='qr'||!state.event)return;drawQr();const opts=qrDraft(state.event);const label=document.querySelector('#qrTemplateName');if(label)label.textContent=QR.getTemplate(opts.template).name;const status=document.querySelector('#qrSaveStatus');if(status)status.textContent=state.qrDirty?'Perubahan belum disimpan — tekan Simpan corak.':'Corak tersimpan untuk majlis ini.'}
@@ -369,11 +413,11 @@ app.addEventListener('change',async ev=>{
  if(t.name==='coverFit'){updateCoverPreview();return}if(t.dataset.replaceVoice){const file=t.files?.[0];if(!file)return;try{toast('Mengemas kini rakaman…');await S.replaceVoice(state.event.id,t.dataset.replaceVoice,file);await dashboardRefresh();toast('Rakaman berjaya digantikan.')}catch(err){showError(err)}return}
  if(t.id==='giftQrUpload'){const f=t.files?.[0];if(!f)return;try{toast('Memuat naik QR pembayaran…');const url=await S.uploadGiftQr(state.event.id,f);state.event.giftQrDisplay=url;await dashboardRefresh();toast('QR pembayaran telah disimpan.')}catch(err){showError(err)}return}
  if(t.id==='galleryUpload'){const f=t.files?.[0];await useUploadedPhoto(f);return}
- if(t.id==='coverUpload'){const file=t.files?.[0];if(!file)return;try{if(!file.type.startsWith('image/'))throw Error('Pilih fail imej yang sah.');if(file.size>8*1024*1024)throw Error('Gambar mesti tidak melebihi 8 MB.');toast('Memuat naik gambar pasangan…');const url=await S.uploadCover(state.event.id,file);state.event.coverDisplay=url;state.event.coverUrl=S.isDemo?'':url;render();toast('Gambar pengantin telah dimuat naik. Laraskan posisi dan tekan Simpan reka bentuk.')}catch(err){showError(err)}}
+ if(t.id==='coverUpload'){const file=t.files?.[0];if(!file)return;try{toast('Memproses gambar pasangan…');const image=await prepareCoverImage(file);toast('Memuat naik gambar pasangan…');const url=await S.uploadCover(state.event.id,image);state.event.coverDisplay=url;state.event.coverUrl=S.isDemo?'':url;render();toast('Gambar pengantin telah dimuat naik. Laraskan posisi dan tekan Simpan reka bentuk.')}catch(err){showError(err)}}
 });
 app.addEventListener('input',ev=>{const t=ev.target;if(t.id==='deleteEventConfirmation'){const v=state.deleteTarget;if(v){const button=document.querySelector('#confirmDeleteEvent');if(button)button.disabled=t.value.trim()!==`${v.bride} & ${v.groom}`}return}if(t.id==='qrAccent'||t.id==='qrTagline'){const d=qrDraft(state.event);if(t.id==='qrAccent')d.accent=t.value;else d.tagline=t.value.slice(0,95);state.qrDirty=true;updateQrUI();return}if(['guestName','guestNameVoice'].includes(t.id)){state.guestName=t.value;localStorage.setItem('sekeping_guest_name',state.guestName)}if(t.dataset.effectStrength){const name=t.dataset.effectStrength;if(['grain','vignette'].includes(name)){setCameraSetting(name+'Strength',Number(t.value));updateEffectPreview()}}if(t.dataset.coverRange)updateCoverPreview()});
 window.addEventListener('keydown',event=>{if(!state.lightboxId)return;if(event.key==='Escape'){state.lightboxId=null;render()}else if(event.key==='ArrowLeft')changeLightbox(-1);else if(event.key==='ArrowRight')changeLightbox(1)});
 window.addEventListener('popstate',()=>{stopCamera();discardVoice();boot()});
-window.addEventListener('pagehide',()=>{stopCamera();state.recStream?.getTracks().forEach(t=>t.stop())});
+window.addEventListener('pagehide',()=>{stopCamera();discardVoice()});
 boot();
 })();
