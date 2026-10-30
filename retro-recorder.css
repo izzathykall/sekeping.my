@@ -1,0 +1,113 @@
+/* Sekeping · Voice Deck 01 — vintage cassette-inspired, stripped back for mobile.
+   Namespaced so the organizer and existing guest pages do not change. */
+.retro-voice-layout{max-width:780px;margin-inline:auto;--retro-wood:#7f5231;--retro-gold:#ae8b58;--retro-ink:#38352f;--retro-silver:#e5e2d9}
+.retro-intro{display:flex;flex-direction:column;align-items:center;gap:9px;margin:0 auto 19px;width:min(100%,420px)}
+.retro-intro label{font-size:10px;letter-spacing:2px;color:#8f7c64;font-weight:700}
+.retro-intro input{width:100%;min-height:46px;text-align:center;background:#fffdf9;border-color:#d9cdbf;color:#41362b;max-width:420px;border-radius:7px}
+.retro-intro input:focus{outline:2px solid #bda58199;outline-offset:2px}
+.retro-recorder{position:relative;padding:13px 23px 16px;border:1px solid #80654b;border-bottom:13px solid #845630;border-radius:17px 17px 14px 14px;background:linear-gradient(180deg,#ab7751 0%,#7d482b 37%,#955b36 100%);box-shadow:0 21px 42px #30281e24,0 4px 0 #5e3c29;isolation:isolate;max-width:760px;margin:auto}
+.retro-woodside{position:absolute;top:9px;bottom:0;width:18px;z-index:1;border-radius:8px;background:repeating-linear-gradient(90deg,#724529 0 2px,#a9754a 3px 7px,#784b2c 9px 12px);box-shadow:inset -3px 0 7px #402a1d36}
+.retro-woodside.left{left:0}.retro-woodside.right{right:0;transform:scaleX(-1)}
+.retro-face{position:relative;padding:20px clamp(13px,3.3vw,27px) 21px;background:linear-gradient(125deg,#eeeae1,#d1cfc5 44%,#e8e4da 70%,#c9c8bf);border:1px solid #fff9;border-radius:9px;box-shadow:inset 1px 2px 3px #ffffffbf,inset -1px -3px 5px #59544a31,0 1px 5px #392e223d}
+.retro-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#545146;font-size:10px;letter-spacing:2.1px;font-weight:700;margin-bottom:20px}
+.retro-topline b{color:#a88b5e;font-weight:800}.retro-edition{font-size:9px;font-weight:500;letter-spacing:1.5px;color:#7e7769}
+.retro-hardware{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:16px;align-items:stretch}
+.retro-cassette-bay{border-radius:7px;padding:10px;background:linear-gradient(145deg,#302e2b,#181919);border:1px solid #48443d;box-shadow:inset 0 2px 8px #0809098a,0 2px 1px #ffffff90;min-width:0}
+.retro-bay-label{display:flex;justify-content:space-between;gap:10px;font-size:9px;font-weight:800;color:#e9e2d4;letter-spacing:1.5px;padding:5px 6px 12px}
+.retro-bay-label span{font-size:8px;font-weight:400;color:#b5a796}
+.retro-cassette{position:relative;min-height:139px;background:linear-gradient(145deg,#49463e,#2f302c);border:2px solid #74695b;border-bottom:5px solid #1a1917;border-radius:7px;box-shadow:inset 0 0 0 3px #34312b,inset 0 -3px 8px #0809076e;display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:17px 10px 12px;overflow:hidden}
+.retro-cassette:before,.retro-cassette:after{content:'';position:absolute;left:12px;bottom:7px;width:7px;height:7px;border:2px solid #a8997d;border-radius:50%}
+.retro-cassette:after{left:auto;right:12px}
+.retro-cassette-window{position:relative;display:flex;align-items:center;justify-content:space-evenly;gap:10px;width:min(100%,225px);height:71px;background:linear-gradient(180deg,#171b1c,#303534);border:2px solid #888473;border-radius:24px 24px 12px 12px;overflow:hidden;box-shadow:inset 0 5px 12px #030606a8}
+.retro-reel{position:relative;z-index:1;width:52px;height:52px;border-radius:50%;background:conic-gradient(from 10deg,#a8997e 0 20deg,#44443c 20deg 60deg,#baae97 60deg 80deg,#474943 80deg 120deg,#b3aa9a 120deg 140deg,#44443c 140deg 180deg,#b9ac94 180deg 200deg,#44443c 200deg 240deg,#b3aa9a 240deg 260deg,#44443c 260deg 300deg,#b7a995 300deg 320deg,#44443c 320deg 360deg);box-shadow:0 0 0 5px #0f1111,0 0 0 7px #80776a;display:grid;place-items:center}
+.retro-reel span{width:18px;height:18px;background:#282a27;border:4px solid #cec5ae;border-radius:50%;box-shadow:0 0 0 3px #57554a}
+.retro-tape-line{position:absolute;left:35px;right:35px;height:2px;top:50%;transform:translateY(-50%);background:#aa8d6e}
+.retro-tape-label{display:flex;align-items:center;justify-content:space-between;width:100%;padding:6px 14px 1px;background:#e4d7bc;color:#514637;border-radius:3px;margin-top:10px}
+.retro-tape-label b{font:italic 22px Georgia,serif}.retro-tape-label span{font-size:8px;letter-spacing:1.5px;font-weight:700}
+.retro-recorder.is-recording .retro-reel,.retro-recorder.is-playing .retro-reel{animation:sekTapeSpin 3.5s linear infinite}
+.retro-recorder.is-recording .retro-reel.right,.retro-recorder.is-playing .retro-reel.right{animation-duration:3.2s}
+@keyframes sekTapeSpin{to{transform:rotate(360deg)}}
+.retro-monitor{min-width:0;display:grid;grid-template-rows:1fr auto;gap:12px}
+.retro-meters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:11px;background:#292b28;border:1px solid #474843;border-radius:7px;box-shadow:inset 0 4px 7px #1213117e}
+.retro-meter{min-width:0}
+.retro-meter-title{font-size:8px;color:#d1ccae;letter-spacing:1.4px;margin:0 0 5px}
+.retro-meter-face{position:relative;height:74px;background:linear-gradient(#e7d7a7,#f1e3b7 66%,#c7b77e);border:2px solid #8a866c;border-radius:4px;overflow:hidden;box-shadow:inset 0 1px 8px #9176416b}
+.retro-meter-face:before{content:'';position:absolute;left:0;right:0;top:57%;height:1px;background:#8e765b5e}
+.retro-meter-face:after{content:'';position:absolute;right:0;top:0;bottom:0;width:23%;background:#bf5f4221}
+.retro-vu-scale{position:absolute;top:12px;left:9px;right:8px;display:flex;justify-content:space-between;font:700 9px Arial,sans-serif;color:#625b48;letter-spacing:-.2px}
+.retro-vu-scale span:last-child{color:#aa4639}
+.retro-vu-needle{position:absolute;z-index:1;left:50%;bottom:-9px;width:1.5px;height:63px;background:#4d4032;transform-origin:50% 100%;transform:translateX(-50%) rotate(-46deg);box-shadow:1px 0 2px #4c3c2840;transition:transform .065s linear}
+.retro-vu-base{position:absolute;z-index:3;left:50%;bottom:0;width:10px;height:10px;border-radius:50% 50% 0 0;transform:translateX(-50%);background:#5a4d3c}
+.retro-recorder.is-recording:not(.meter-live) .retro-vu-needle{animation:sekVuFallback 1.03s ease-in-out infinite alternate}
+.retro-recorder.is-recording:not(.meter-live) .retro-meter:last-child .retro-vu-needle{animation-delay:-.4s}
+@keyframes sekVuFallback{0%{transform:translateX(-50%) rotate(-43deg)}45%{transform:translateX(-50%) rotate(11deg)}100%{transform:translateX(-50%) rotate(-12deg)}}
+.retro-digital{display:flex;align-items:center;gap:12px;justify-content:space-between;background:#242926;border:1px solid #70776b;border-radius:4px;min-height:52px;padding:8px 12px;color:#cfe2bb;box-shadow:inset 0 2px 7px #0a0c0aa8}
+.retro-digital-label{font-size:9px;letter-spacing:1px;color:#a3ae9e}
+.retro-digital strong{font:500 clamp(19px,2.6vw,27px) 'DM Sans',ui-monospace,monospace;letter-spacing:1px;font-variant-numeric:tabular-nums;white-space:nowrap;color:#d4e5c1}
+.retro-led{display:flex;align-items:center;justify-content:end;gap:6px;font-size:8px;letter-spacing:.6px;color:#d2cfbd;min-width:0;max-width:110px;line-height:1.35}
+.retro-led i{width:7px;height:7px;min-width:7px;border-radius:50%;background:#698b6c;box-shadow:0 0 7px #9cc19e60}
+.retro-recorder.is-recording .retro-led i{background:#eb6954;box-shadow:0 0 8px #df392c;animation:sekBlink 1.1s ease-in-out infinite}
+@keyframes sekBlink{50%{opacity:.45}}
+.retro-bottomline{display:flex;justify-content:space-between;gap:8px;font-size:8px;letter-spacing:1.4px;font-weight:700;color:#63594c;margin-top:17px;padding:0 2px 8px;border-bottom:1px solid #90887c}
+.retro-power-led{display:inline-block;background:#6a9b6d;box-shadow:0 0 6px #87b48b88;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.retro-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:11px}
+.retro-key{appearance:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:64px;padding:8px 5px;color:#4d483e;background:linear-gradient(#fffaf0,#c4c1b1);border:1px solid #aaa18e;border-bottom:5px solid #847b6c;border-radius:5px;font-size:10px;font-weight:800;letter-spacing:1.2px;box-shadow:0 3px 6px #2620161f;transition:transform .1s,border-bottom-width .1s,filter .1s;cursor:pointer}
+.retro-key-symbol{font-size:20px;line-height:1;color:#46453f}
+.retro-key-rec{background:linear-gradient(#e48d74,#ae4d42);border-color:#a85145;border-bottom-color:#84392c;color:#fff8f1}
+.retro-key-rec .retro-key-symbol{color:#fff1ea;font-size:17px}
+.retro-key:disabled{cursor:default;opacity:.53;filter:saturate(.65);box-shadow:none}
+.retro-key:not(:disabled):active{transform:translateY(3px);border-bottom-width:2px}
+.retro-key:not(:disabled):hover{filter:brightness(1.05)}
+.retro-key:focus-visible{outline:3px solid #ad8c57;outline-offset:3px}
+.retro-recorder.is-recording .retro-key-rec{filter:saturate(1.2);box-shadow:0 0 0 2px #ab413544}
+.retro-lower-status{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#72695e;font-size:9px;letter-spacing:1px;margin-top:17px;font-weight:700}
+.retro-progress{height:4px;background:#c8c3b8;margin-top:8px;overflow:hidden;border-radius:5px}
+.retro-progress>div{height:100%;border-radius:5px;background:#977251;transition:width .2s linear}
+.retro-recorder.is-recording .retro-progress>div{background:#bc6852}
+.retro-instructions{text-align:center;color:#897c6e;font-size:12px;line-height:1.75;max-width:580px;margin:20px auto 17px}
+.retro-preview{margin:15px auto;max-width:560px;border-top:1px solid #e5d7c6;padding-top:14px}
+.retro-preview-label{display:block;color:#9b866c;font-size:10px;font-weight:700;letter-spacing:1.8px;margin-bottom:8px}
+.retro-send-row{display:flex;justify-content:center;margin:16px 0 24px}
+.retro-send{min-width:min(100%,340px);background:#3a332e!important;border-radius:7px;min-height:47px}
+.retro-collection-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:37px 0 16px;padding-bottom:11px;border-bottom:1px solid #e0d3c3}
+.retro-collection-title h3{font-size:27px;font-weight:400;margin:0;color:#44382e}
+.retro-collection-title span{font-size:11px;color:#998677}
+.retro-voice-layout .retro-voice-card{background:#fffcf7;border-color:#e5d8c9}
+.retro-voice-layout .sek-voice-player{background:#fffcf7!important;border:1px solid #e8d9c8!important}
+.retro-voice-layout .sek-voice-play{background:#45372d!important;color:#fff9f1!important}
+.retro-voice-layout [data-voice-player="preview"]{background:#fffcf7!important;border-color:#e1d3c1!important}
+@media(max-width:650px){
+ .retro-voice-layout{width:100%;max-width:100%}
+ .retro-recorder{padding:9px 13px 11px;border-bottom-width:10px;border-radius:12px}
+ .retro-woodside{width:10px}
+ .retro-face{padding:14px 12px 15px;border-radius:7px}
+ .retro-topline{margin-bottom:13px;font-size:9px}
+ .retro-edition{font-size:7px;letter-spacing:1px}
+ .retro-hardware{grid-template-columns:minmax(0,1fr);gap:11px}
+ .retro-cassette-bay{padding:8px}
+ .retro-bay-label{padding:3px 6px 7px}
+ .retro-cassette{min-height:116px;max-height:135px;padding:12px 10px 9px}
+ .retro-cassette-window{height:60px;width:min(100%,225px)}
+ .retro-reel{width:44px;height:44px}
+ .retro-monitor{gap:10px}
+ .retro-meters{gap:13px;padding:9px 11px}
+ .retro-meter-face{height:66px}
+ .retro-vu-needle{height:55px}
+ .retro-digital{padding:8px 12px;min-height:49px}
+ .retro-digital strong{font-size:25px}
+ .retro-bottomline{margin-top:12px;font-size:7px}
+ .retro-key{min-height:60px;font-size:9px}
+ .retro-controls{gap:7px}
+}
+@media(max-width:370px){
+ .retro-face{padding:13px 9px}
+ .retro-recorder{padding:8px 12px 10px}
+ .retro-topline{font-size:8px;letter-spacing:1.3px}
+ .retro-edition{font-size:7px;letter-spacing:.2px}
+ .retro-key{min-height:57px;font-size:8px;letter-spacing:.7px}
+ .retro-lower-status{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){.retro-recorder .retro-reel,.retro-recorder .retro-vu-needle,.retro-recorder .retro-led i{animation:none!important}.retro-recorder *{transition:none!important}}
+/* Preserve semantic hidden on rows with flex layout. */
+.retro-voice-layout [hidden]{display:none!important}
+.retro-progress>div{width:0}
