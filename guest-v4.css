@@ -37,85 +37,69 @@
 @media(max-width:850px){.sek-guest-layout{gap:26px}.sek-guest-portrait{min-height:450px}.sek-hero-content h1{font-size:48px}.sek-action-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.qr-layout{grid-template-columns:1fr}.qr-poster{max-width:355px}}
 @media(max-width:620px){.wedding-landing .sek-guest-top{padding:15px 18px}.sek-guest-top .brand{font-size:23px}.sek-event-pill{font-size:9px;padding:7px 10px}.sek-guest-layout{grid-template-columns:1fr;padding:0 16px 20px;gap:0}.sek-guest-portrait{min-height:0;aspect-ratio:1.28;border-radius:17px 17px 9px 9px}.sek-portrait-caption{bottom:17px;left:20px;right:20px}.sek-portrait-caption b{font-size:20px}.sek-photo-seal{width:48px;height:48px;font-size:21px}.sek-hero-content{padding:28px 3px 0}.sek-hero-content h1{font-size:clamp(43px,11vw,59px);margin:15px 0;letter-spacing:-1.8px}.sek-welcome{margin:13px 0 19px;font-size:13px}.sek-guest-form{padding:17px}.sek-explore{padding:20px 16px 35px}.sek-section-head h2{font-size:27px}.sek-section-head p{max-width:145px;text-align:right;line-height:1.5}.sek-action-grid{gap:10px}.sek-action{padding:17px 12px;min-height:126px;flex-direction:column;align-items:flex-start;gap:9px}.sek-action-icon{height:40px;width:40px;min-width:40px}.sek-action-arrow{position:absolute;right:14px;top:17px}.sek-action{position:relative}.sek-action-text b{font-size:12px}.sek-action-text small{font-size:10px}.sek-footer{margin:0 16px;padding:22px 3px 34px}.guest-sub-header{height:67px;padding:0 16px}.guest-subcontent{padding:16px 16px 55px}.guest-subpage .album-cover{min-height:250px;margin:0 -16px 18px;border-radius:0}.guest-subpage .album-cover h1{font-size:34px}.qr-poster{max-width:355px}.qr-poster h2{font-size:24px}.qr-poster .qr-scan{max-height:44%}}
 @media(max-width:355px){.sek-event-pill{font-size:8px;letter-spacing:0}.sek-guest-top .brand{font-size:21px}.sek-action-grid{gap:8px}.sek-hero-content h1{font-size:41px}}
-/* Sekeping V8: one cohesive gallery. Show the organiser-selected wedding photo on top. */
-.guest-subpage .album-cover{background:#45695b!important;isolation:isolate;overflow:hidden;position:relative;min-height:290px}
-.guest-subpage .album-cover.has-wedding-photo{background:#263d34!important}
-.album-cover-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:-2;transform-origin:center;filter:saturate(.92)}
-.guest-subpage .album-cover::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,33,26,.35),rgba(14,32,26,.66));pointer-events:none}
-.guest-subpage .album-cover::after{display:none}
-.guest-subpage .album-cover-details{z-index:2;position:relative;width:100%;display:flex;flex-direction:column;align-items:center;gap:2px}
-.guest-subpage .album-cover-details h1{color:#fff;text-shadow:0 2px 10px #14312383;font-size:clamp(30px,4.2vw,46px)}
-.guest-subpage .album-stats{grid-template-columns:repeat(4,minmax(0,1fr));max-width:650px;gap:10px}
-.guest-subpage .album-stats strong{font-size:clamp(25px,4vw,35px)}
-.guest-subpage .album-stats span{font-size:9px;letter-spacing:1.1px;color:#eef5ed}
-.guest-subpage .album-primary{gap:9px}
-.guest-subpage .album-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;min-width:0}
-.guest-subpage .album-tabs button{font-size:clamp(10px,1.5vw,13px);padding:13px 5px;white-space:nowrap}
-.gallery-section-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:9px 0 20px;flex-wrap:wrap}
-.gallery-section-heading h2{font-size:clamp(22px,4vw,30px);color:#294b3c;margin:0 0 6px}
-.gallery-section-heading p{color:#829084;font-size:12px;margin:0;line-height:1.6}
-.gallery-count{border-radius:50px;background:#e9f1e7;color:#426d52;font-size:11px;font-weight:700;padding:9px 12px}
-.gallery-voice-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.gallery-voice-card{display:flex;gap:13px;align-items:flex-start;padding:18px;border:1px solid #e5e9df;background:white;border-radius:13px;min-width:0}
-.gallery-voice-avatar{width:40px;height:40px;min-width:40px;border-radius:13px;background:#edf3e9;color:#446a50;display:grid;place-items:center}
-.gallery-voice-body{flex:1;min-width:0}
-.gallery-voice-by{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:12px;margin:0 0 9px}
-.gallery-voice-by strong{color:#355a47}
-.gallery-voice-by small{color:#9ca59d;font-size:10px}
-.sek-voice-player{width:100%;max-width:100%;display:flex;align-items:center;gap:11px;border:1px solid #e1e9dd;background:#f8faf5;border-radius:12px;padding:10px 12px;min-width:0;box-sizing:border-box;color:#294d3d}
-.sek-voice-player.compact{padding:8px 9px;gap:9px}
-.sek-voice-play{border:0;border-radius:50%;background:#2a5240;color:white;width:40px;height:40px;min-width:40px;display:grid;place-items:center;cursor:pointer}
-.sek-voice-play:hover{background:#406e55}
-.sek-voice-player.compact .sek-voice-play{width:36px;height:36px;min-width:36px}
-.sek-voice-track{flex:1;min-width:0}
-.sek-voice-track-title{font-size:11px;font-weight:700;color:#4c6855;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px}
-.sek-voice-seek-row{display:flex;align-items:center;gap:9px;min-width:0}
-.sek-voice-seek-row input{flex:1;min-width:24px;width:100%;accent-color:#2c5b43;height:17px;margin:0;cursor:pointer}
-.sek-voice-seek-row span{font-size:10px;font-variant-numeric:tabular-nums;color:#788f7a;white-space:nowrap}
-.sek-voice-error{font-size:11px;line-height:1.55;color:#ac5f4d;padding:8px 0 2px}
-.sek-voice-error[hidden]{display:none}
-.sek-voice-player audio{display:none!important}
-.sek-voice-player.voice-unavailable{border-color:#e6bdb3;background:#fff9f5}
-@media(max-width:780px){.gallery-voice-list{grid-template-columns:1fr}}
-@media(max-width:620px){.guest-subpage .album-cover{min-height:255px}.guest-subpage .album-stats{gap:5px}.guest-subpage .album-stats strong{font-size:26px}.guest-subpage .album-stats span{font-size:8px}.guest-subpage .album-primary{gap:6px}.guest-subpage .album-tabs button{padding:11px 3px;font-size:10px}.guest-subpage .album-home-button{width:36px;height:36px;min-width:36px}.gallery-voice-card{padding:13px}.gallery-section-heading{align-items:flex-start}.sek-voice-player.compact{padding:8px}}
-@media(max-width:350px){.guest-subpage .album-tabs button{font-size:9px}.guest-subpage .album-cover-details h1{font-size:28px}}
-/* V9 — authentic cover framing: blur full source in the back, fit or crop original above */
-.sek-guest-portrait,.guest-subpage .album-cover,.cover-frame-preview{isolation:isolate;position:relative;overflow:hidden}
-.sek-guest-portrait.has-cover{background-image:none!important;background-color:#526c60}
-.cover-blurred-backdrop{position:absolute;inset:-24px;z-index:-3;background-position:center;background-repeat:no-repeat;background-size:cover;filter:blur(23px) brightness(.77) saturate(.9);transform:scale(1.07)}
-.cover-foreground{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;display:block;transform-origin:center;transition:object-position .2s,transform .2s}
-.cover-foreground.fit-contain{object-fit:contain}
-.cover-foreground.fit-cover{object-fit:cover}
-.sek-guest-portrait .cover-foreground{z-index:0}
-.sek-guest-portrait .cover-blurred-backdrop{z-index:-1}
-.sek-guest-portrait .sek-portrait-caption{z-index:3}
-.guest-subpage .album-cover .cover-blurred-backdrop{z-index:-3}
-.guest-subpage .album-cover .cover-foreground{z-index:-2}
-.cover-art-fallback{position:absolute;inset:0;z-index:-2;background:linear-gradient(135deg,#bfd1bc,#74927c 55%,#315c4b)}
-.guest-subpage .album-cover .cover-art-fallback{z-index:-2}
-/* V9: built-in full-screen image viewer */
-.gallery-open-photo{display:block;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
-.gallery-open-photo img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .2s}
-.gallery-open-photo:hover img{transform:scale(1.03)}
-.photo-lightbox{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#0a1311ed;backdrop-filter:blur(14px);color:#f8f6f1;padding:65px clamp(12px,3vw,45px) 25px}
-.photo-lightbox-main{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:15px;max-height:calc(100dvh - 110px)}
-.photo-lightbox-image{max-height:calc(100dvh - 185px);max-width:100%;width:auto;height:auto;object-fit:contain;border-radius:7px;box-shadow:0 9px 45px #0005}
-.photo-lightbox-close{position:absolute;right:22px;top:18px;background:#ffffff1c;border:1px solid #ffffff69;width:42px;height:42px;border-radius:50%;color:#fff;display:grid;place-items:center}
-.photo-lightbox-nav{width:43px;height:60px;border:1px solid #ffffff50;background:#ffffff15;border-radius:30px;color:#fff;font:normal 38px Georgia,serif;flex-shrink:0}
-.photo-lightbox-nav:disabled{opacity:.22}
-.photo-lightbox-footer{display:flex;align-items:center;justify-content:space-between;gap:14px;width:min(95%,680px);padding:3px 4px}
-.photo-lightbox-footer span{display:flex;flex-direction:column;gap:4px;color:#fff;font-size:13px}
-.photo-lightbox-footer small{font-size:11px;color:#c4d1c7}
-@media(max-width:620px){.photo-lightbox{padding:65px 7px 22px;gap:3px}.photo-lightbox-nav{width:29px;height:47px;font-size:28px}.photo-lightbox-close{top:13px;right:14px}.photo-lightbox-image{max-height:calc(100dvh - 205px)}.photo-lightbox-footer{flex-wrap:wrap;gap:9px}.photo-lightbox-footer .btn{font-size:11px}}
-/* V9 camera: visible actual framing. Narrow and wide use different matte areas. */
-.camera-immersive .camera-frame{background:#162a23}
-.camera-preview-stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);overflow:hidden;background:#263b32;z-index:1;width:100%;aspect-ratio:3/4;max-height:100%}
-.camera-immersive .camera-frame.aspect-wide .camera-preview-stage{width:min(100%,calc(76dvh * 9 / 16));aspect-ratio:9/16}
-.camera-immersive .camera-frame.landscape.aspect-classic .camera-preview-stage{aspect-ratio:4/3;width:min(100%,calc(76dvh * 4 / 3))}
-.camera-immersive .camera-frame.landscape.aspect-wide .camera-preview-stage{aspect-ratio:16/9;width:min(100%,calc(76dvh * 16 / 9))}
-.camera-immersive .camera-frame .camera-preview-stage video,.camera-immersive .camera-frame .camera-preview-stage #capturePreview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.camera-immersive .camera-orientation-row{display:flex;gap:13px;align-items:center;justify-content:center;margin:-13px auto 14px;color:#e5e9e1;font-size:11px;letter-spacing:.5px}
-.camera-immersive .camera-orientation-row .cam-glass{min-height:32px;font-size:11px;padding:7px 12px;border-radius:20px}
-.camera-immersive .camera-ratio button{font-family:monospace;font-size:13px;letter-spacing:.8px;min-width:70px}
-.camera-immersive .camera-scene-badge{position:absolute;left:50%;top:100px;transform:translateX(-50%);z-index:7;border-radius:25px;color:white;background:#18382db0;padding:6px 12px;font-size:11px;letter-spacing:1px}
-@media(max-width:620px){.camera-immersive .camera-frame.aspect-classic:not(.landscape) .camera-preview-stage{width:min(100%,calc(76dvh * 3 / 4))}.camera-immersive .camera-orientation-row{margin:-9px auto 13px}.camera-immersive .camera-ratio button{min-width:61px}}
+
+/* V11: hero image landscape and voice recorder with a classic stationery look */
+.sek-guest-landscape{min-height:420px;aspect-ratio:16/10;background-position:center center;background-size:cover;box-shadow:0 20px 42px #1e35280f}
+.sek-guest-landscape::after{background:linear-gradient(0deg,#132f27ca 0%,transparent 38%,transparent 72%,#223b2a16)}
+.sek-guest-landscape .sek-art-line{width:34%;height:66%;top:10%;right:5%;border-radius:48% 48% 50% 50%;opacity:.9}
+.sek-hero-top-note{position:absolute;left:24px;top:22px;z-index:2;padding:7px 12px;border-radius:999px;background:#ffffff17;border:1px solid #fff6;color:#f7f3eb;font-size:10px;letter-spacing:2px;font-weight:700;backdrop-filter:blur(8px)}
+.sek-guest-landscape .sek-portrait-caption{align-items:flex-end}
+.sek-guest-landscape .sek-portrait-caption b{font-size:31px;line-height:1.04}
+.sek-guest-landscape .sek-photo-seal{width:62px;height:62px;font-size:26px;background:#ffffff10}
+
+.voice-classic-shell{max-width:1020px;margin:0 auto}
+.voice-recorder-classic{position:relative;background:linear-gradient(180deg,#fffefb 0%,#fcfaf6 100%);border:1px solid #e7e2d9;border-radius:24px;box-shadow:0 18px 44px #24392c0b;padding:28px 26px 24px;overflow:hidden}
+.voice-recorder-classic::before{content:'';position:absolute;inset:auto -36px -46px auto;width:170px;height:170px;border-radius:50%;border:1px solid #ddd2c0;box-shadow:0 0 0 18px #eadfce2b,0 0 0 36px #eadfce17;opacity:.75}
+.voice-classic-ribbon{display:flex;justify-content:center;margin-bottom:20px}
+.voice-classic-ribbon span{display:inline-flex;align-items:center;justify-content:center;padding:8px 15px;border-radius:999px;border:1px solid #e1d8c7;background:#f7f1e6;color:#8f7858;font-size:10px;font-weight:800;letter-spacing:2.2px}
+.voice-recorder-main{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:22px;align-items:stretch}
+.voice-recorder-copy{padding:6px 8px 6px 4px;display:flex;flex-direction:column;justify-content:center}
+.voice-classic-mark{font-size:10px;letter-spacing:2.4px;font-weight:800;color:#ad9676;margin-bottom:14px}
+.voice-recorder-copy h3{font-size:34px;font-weight:500;line-height:1.08;margin:0 0 15px;color:#2b4e41}
+.voice-recorder-copy p{margin:0;color:#6f7f73;line-height:1.9;font-size:14px;max-width:420px}
+.voice-guide-list{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.voice-guide-list span{display:flex;align-items:center;gap:10px;color:#58705f;font-size:12px;font-weight:600}
+.voice-guide-list .ico{width:16px;height:16px;color:#8b7a5f}
+.voice-recorder-panel{position:relative;border:1px solid #ebe6da;border-radius:20px;background:linear-gradient(180deg,#fefcf8,#fbf8f1);padding:20px}
+.voice-field{margin-bottom:14px}.voice-field span{color:#7f8f83}
+.voice-recorder-stage{position:relative;text-align:center;padding:18px 16px 16px;border-radius:16px;background:linear-gradient(180deg,#f6f3eb 0%,#faf8f3 100%);border:1px solid #ebe3d6;min-height:100%}
+.voice-stage-ornament{position:absolute;left:50%;top:18px;transform:translateX(-50%);width:108px;height:1px;background:linear-gradient(90deg,transparent,#d7c9b4,transparent)}
+.voice-recorder-stage .mic-circle{width:112px;height:112px;margin:24px auto 16px;background:#eff3ea;border:1px solid #dbe6d8;box-shadow:inset 0 0 0 10px #f8faf4}
+.voice-recorder-stage.is-recording .mic-circle{background:#f8e6e1;border-color:#e5beb8;box-shadow:inset 0 0 0 10px #fff7f6}
+.voice-recorder-stage .voice-time{font:600 42px/1 'Playfair Display',Georgia,serif;letter-spacing:3px;color:#2e5547;margin-bottom:10px}
+.voice-classic-actions{justify-content:center;gap:12px;margin-top:22px;flex-wrap:wrap}
+.voice-preview-classic{margin-top:18px;padding-top:16px;border-top:1px solid #e4ddd0;text-align:left}
+.voice-preview-label{display:block;margin-bottom:8px;color:#877762;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+.voice-preview-classic audio,.voice-entry-player audio{width:100%;height:40px;display:block}
+.voice-library-classic{margin-top:24px}
+.voice-library-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:16px}
+.voice-library-head h3{font-size:31px;font-weight:500;margin:6px 0 0;color:#2c4d40}
+.voice-library-pill{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:#edf3eb;color:#4c6b5d;font-size:11px;font-weight:800;letter-spacing:1px}
+.voice-library-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.voice-entry-classic{border:1px solid #e7e4dc;background:#fffefc;border-radius:18px;padding:17px 16px 16px;box-shadow:0 10px 28px #243a2d08}
+.voice-entry-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.voice-entry-meta strong{font-size:15px;color:#264b3e}.voice-entry-meta span{font-size:11px;color:#97a094;white-space:nowrap}
+.voice-entry-player{padding:14px;border-radius:14px;background:linear-gradient(180deg,#f8f7f1,#f1f4ec);border:1px solid #e3e8de}
+.voice-entry-badge{display:inline-block;margin-bottom:9px;color:#8c765c;font-size:10px;font-weight:800;letter-spacing:1.7px;text-transform:uppercase}
+.guest-subpage .voice-classic-shell .empty{background:#fffefb;border-radius:18px;padding:20px;border:1px solid #e7e4dc}
+
+@media(max-width:980px){
+ .voice-recorder-main{grid-template-columns:1fr}
+ .voice-recorder-copy{padding:0}
+}
+@media(max-width:620px){
+ .sek-guest-landscape{aspect-ratio:16/11;min-height:0;border-radius:18px;box-shadow:0 12px 26px #24392c12}
+ .sek-guest-landscape .sek-art-line{width:44%;height:58%;right:7%;top:10%}
+ .sek-hero-top-note{top:16px;left:18px;padding:6px 10px;font-size:9px}
+ .sek-guest-landscape .sek-portrait-caption b{font-size:25px}
+ .voice-recorder-classic{padding:18px 14px 16px;border-radius:18px}
+ .voice-recorder-copy h3{font-size:28px}
+ .voice-guide-list{gap:8px;margin-top:18px}
+ .voice-recorder-panel{padding:14px;border-radius:16px}
+ .voice-recorder-stage{padding:14px 12px 12px}
+ .voice-recorder-stage .mic-circle{width:96px;height:96px;margin-top:18px}
+ .voice-recorder-stage .voice-time{font-size:36px}
+ .voice-library-head{align-items:flex-start;flex-direction:column}
+ .voice-library-grid{grid-template-columns:1fr}
+ .voice-entry-meta{align-items:flex-start;flex-direction:column;margin-bottom:10px}
+}
