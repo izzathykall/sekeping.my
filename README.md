@@ -154,3 +154,21 @@ Untuk kemas kini daripada V8, ganti `app.js`, `camera-effects.js`, `data.js`, `s
 - Ujian browser automatik pada lebar 390, 820, 1280 piksel: framing foto, mod contain/cover, gallery image lightbox, mod kamera biasa/lebar dan Potret/Landskap — lulus tanpa ralat JavaScript atau horizontal overflow.
 - Rakaman PCM WAV sebenar daripada aliran WebAudio sintetik sepanjang 2.7 saat, play, simpan galeri dan upload gantian audio dalam mod demo — berjaya dimainkan tanpa ralat.
 - **Had ujian:** belum diuji pada Safari iPhone fizikal atau Firebase live di repositori sebenar, dan tidak dapat menjamin pembaikan rakaman lama yang rosak. Sila uji rakaman 5–10 saat pada iPhone selepas upload ke GitHub sebelum acara sebenar.
+
+---
+
+## Sekeping V10 — Pembetulan masa pemain rakaman
+
+**Masalah:** Selepas membuat rakaman (contohnya 00:05), pemain suara pada Safari/iPhone masih memaparkan `0:00 / 0:00` sehingga metadata audio siap, atau tidak memaparkan durasi langsung. Jam rakaman utama berfungsi tetapi pemain tidak mengambil durasi yang telah direkodkan.
+
+**Pembetulan:**
+- Pemain kini menerima `duration` daripada rekod Firebase / mod demo dan menunjukkan `0:00 / 0:05` walaupun `HTMLAudioElement.duration` belum tersedia, `NaN`, `Infinity` atau `0`.
+- Pratonton selepas merakam menggunakan `state.recSeconds` yang sama dengan jam rakaman. Tempoh disimpan bersama rekod apabila suara dihantar.
+- Untuk WAV baharu, jumlah sampel dalam header WAV boleh digunakan untuk mengesahkan tempoh apabila rakaman selesai.
+- Selepas metadata audio berjaya dimuatkan, pemain bertukar kepada durasi audio sebenar dan mengemas kini bar kemajuan semasa dimainkan.
+- Progress tidak lagi dipaksa kepada nilai palsu jika tempoh belum diketahui.
+- Ujian browser automatik pada skrin 390px dan 820px: rakam → berhenti → durasi pada pratonton → mainkan → hantar → durasi di galeri, tanpa ralat JavaScript.
+
+**Pemasangan:** Daripada versi V9, hanya **`app.js`** diperlukan untuk membaiki logik masa. `README.md` ikut disertakan sebagai dokumentasi. Kekalkan semua fail lain, struktur root tanpa subfolder.
+
+**Perhatian:** Rakaman lama yang benar-benar kosong atau rosak mungkin masih gagal dimainkan dan perlu digantikan daripada dashboard. Pembetulan paparan masa tidak menghasilkan semula audio yang hilang. Safari iPhone fizikal dan Firebase live tidak diuji secara langsung dalam sesi ini.
