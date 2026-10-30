@@ -79,3 +79,43 @@
 @media(max-width:780px){.gallery-voice-list{grid-template-columns:1fr}}
 @media(max-width:620px){.guest-subpage .album-cover{min-height:255px}.guest-subpage .album-stats{gap:5px}.guest-subpage .album-stats strong{font-size:26px}.guest-subpage .album-stats span{font-size:8px}.guest-subpage .album-primary{gap:6px}.guest-subpage .album-tabs button{padding:11px 3px;font-size:10px}.guest-subpage .album-home-button{width:36px;height:36px;min-width:36px}.gallery-voice-card{padding:13px}.gallery-section-heading{align-items:flex-start}.sek-voice-player.compact{padding:8px}}
 @media(max-width:350px){.guest-subpage .album-tabs button{font-size:9px}.guest-subpage .album-cover-details h1{font-size:28px}}
+/* V9 — authentic cover framing: blur full source in the back, fit or crop original above */
+.sek-guest-portrait,.guest-subpage .album-cover,.cover-frame-preview{isolation:isolate;position:relative;overflow:hidden}
+.sek-guest-portrait.has-cover{background-image:none!important;background-color:#526c60}
+.cover-blurred-backdrop{position:absolute;inset:-24px;z-index:-3;background-position:center;background-repeat:no-repeat;background-size:cover;filter:blur(23px) brightness(.77) saturate(.9);transform:scale(1.07)}
+.cover-foreground{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;display:block;transform-origin:center;transition:object-position .2s,transform .2s}
+.cover-foreground.fit-contain{object-fit:contain}
+.cover-foreground.fit-cover{object-fit:cover}
+.sek-guest-portrait .cover-foreground{z-index:0}
+.sek-guest-portrait .cover-blurred-backdrop{z-index:-1}
+.sek-guest-portrait .sek-portrait-caption{z-index:3}
+.guest-subpage .album-cover .cover-blurred-backdrop{z-index:-3}
+.guest-subpage .album-cover .cover-foreground{z-index:-2}
+.cover-art-fallback{position:absolute;inset:0;z-index:-2;background:linear-gradient(135deg,#bfd1bc,#74927c 55%,#315c4b)}
+.guest-subpage .album-cover .cover-art-fallback{z-index:-2}
+/* V9: built-in full-screen image viewer */
+.gallery-open-photo{display:block;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:zoom-in}
+.gallery-open-photo img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .2s}
+.gallery-open-photo:hover img{transform:scale(1.03)}
+.photo-lightbox{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#0a1311ed;backdrop-filter:blur(14px);color:#f8f6f1;padding:65px clamp(12px,3vw,45px) 25px}
+.photo-lightbox-main{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:15px;max-height:calc(100dvh - 110px)}
+.photo-lightbox-image{max-height:calc(100dvh - 185px);max-width:100%;width:auto;height:auto;object-fit:contain;border-radius:7px;box-shadow:0 9px 45px #0005}
+.photo-lightbox-close{position:absolute;right:22px;top:18px;background:#ffffff1c;border:1px solid #ffffff69;width:42px;height:42px;border-radius:50%;color:#fff;display:grid;place-items:center}
+.photo-lightbox-nav{width:43px;height:60px;border:1px solid #ffffff50;background:#ffffff15;border-radius:30px;color:#fff;font:normal 38px Georgia,serif;flex-shrink:0}
+.photo-lightbox-nav:disabled{opacity:.22}
+.photo-lightbox-footer{display:flex;align-items:center;justify-content:space-between;gap:14px;width:min(95%,680px);padding:3px 4px}
+.photo-lightbox-footer span{display:flex;flex-direction:column;gap:4px;color:#fff;font-size:13px}
+.photo-lightbox-footer small{font-size:11px;color:#c4d1c7}
+@media(max-width:620px){.photo-lightbox{padding:65px 7px 22px;gap:3px}.photo-lightbox-nav{width:29px;height:47px;font-size:28px}.photo-lightbox-close{top:13px;right:14px}.photo-lightbox-image{max-height:calc(100dvh - 205px)}.photo-lightbox-footer{flex-wrap:wrap;gap:9px}.photo-lightbox-footer .btn{font-size:11px}}
+/* V9 camera: visible actual framing. Narrow and wide use different matte areas. */
+.camera-immersive .camera-frame{background:#162a23}
+.camera-preview-stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);overflow:hidden;background:#263b32;z-index:1;width:100%;aspect-ratio:3/4;max-height:100%}
+.camera-immersive .camera-frame.aspect-wide .camera-preview-stage{width:min(100%,calc(76dvh * 9 / 16));aspect-ratio:9/16}
+.camera-immersive .camera-frame.landscape.aspect-classic .camera-preview-stage{aspect-ratio:4/3;width:min(100%,calc(76dvh * 4 / 3))}
+.camera-immersive .camera-frame.landscape.aspect-wide .camera-preview-stage{aspect-ratio:16/9;width:min(100%,calc(76dvh * 16 / 9))}
+.camera-immersive .camera-frame .camera-preview-stage video,.camera-immersive .camera-frame .camera-preview-stage #capturePreview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.camera-immersive .camera-orientation-row{display:flex;gap:13px;align-items:center;justify-content:center;margin:-13px auto 14px;color:#e5e9e1;font-size:11px;letter-spacing:.5px}
+.camera-immersive .camera-orientation-row .cam-glass{min-height:32px;font-size:11px;padding:7px 12px;border-radius:20px}
+.camera-immersive .camera-ratio button{font-family:monospace;font-size:13px;letter-spacing:.8px;min-width:70px}
+.camera-immersive .camera-scene-badge{position:absolute;left:50%;top:100px;transform:translateX(-50%);z-index:7;border-radius:25px;color:white;background:#18382db0;padding:6px 12px;font-size:11px;letter-spacing:1px}
+@media(max-width:620px){.camera-immersive .camera-frame.aspect-classic:not(.landscape) .camera-preview-stage{width:min(100%,calc(76dvh * 3 / 4))}.camera-immersive .camera-orientation-row{margin:-9px auto 13px}.camera-immersive .camera-ratio button{min-width:61px}}

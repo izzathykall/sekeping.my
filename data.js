@@ -129,7 +129,7 @@ const store={
    if(!tx.committed)throw Error('Had gambar telah dicapai.');quotaReserved=true;
   }
   try{
-   const ext=kind==='photos'?'jpg':(file.type.includes('mp4')?'m4a':file.type.includes('ogg')?'ogg':'webm');
+   const ext=kind==='photos'?'jpg':(file.type.includes('wav')?'wav':file.type.includes('mp4')?'m4a':file.type.includes('mpeg')?'mp3':file.type.includes('ogg')?'ogg':'webm');
    const privatePath=`events/${id}/vault/${event.ownerUid}/${kind}/${u.uid}/${mid}.${ext}`;
    const publicPath=`events/${id}/public/${kind}/${u.uid}/${mid}.${kind==='photos'?'jpg':ext}`;
    // The full original goes to an organiser-read-only vault; guests only get a display copy.
@@ -141,6 +141,26 @@ const store={
    item.url=await f.storageMod.getDownloadURL(published);item.privatePath=privatePath;item.publicPath=publicPath;
    await dbSet($getPath(id,`${kind}/${mid}`),item);item.id=mid;return item;
   }catch(e){if(quotaReserved){try{await f.dbMod.runTransaction(f.dbMod.ref(db,$getPath(id,'usage/'+u.uid)),v=>({count:Math.max(0,(v?.count||1)-1)}),{applyLocally:false})}catch{}}throw e}
+ },
+ async replaceVoice(id,recordId,file){
+  await setup();const ev=await store.getEvent(id);ownerCheck(ev);
+  if(!file || !['audio/wav','audio/x-wav','audio/mp4','audio/m4a','audio/mpeg'].includes(file.type))throw Error('Pilih fail WAV, M4A atau MP3 yang sah.');
+  if(file.size<256 || file.size>12*1024*1024)throw Error('Fail rakaman mesti antara 256 bait hingga 12 MB.');
+  const originals=await store.listContent(id,'voices'),record=originals.find(x=>x.id===recordId);
+  if(!record)throw Error('Rekod suara tidak dijumpai.');
+  if(isDemo()){
+   const mediaKey=`${id}_voices_repair_${uuid()}`;await putBlob(mediaKey,file);
+   const list=read('voices',id,[]),idx=list.findIndex(x=>x.id===recordId);if(idx<0)throw Error('Rekod suara tidak ditemui.');
+   list[idx]={...list[idx],mediaKey,url:'',mimeType:file.type,updatedAt:Date.now(),audioReplaced:true};write('voices',id,list);return;
+  }
+  const owner=auth.currentUser.uid,extension=file.type==='audio/wav'||file.type==='audio/x-wav'?'wav':file.type==='audio/mpeg'?'mp3':'m4a',uid=owner,token=uuid();
+  const privatePath=`events/${id}/vault/${owner}/voices/${uid}/${token}.${extension}`;
+  const publicPath=`events/${id}/public/voices/${uid}/${token}.${extension}`;
+  const privateRef=f.storageMod.ref(storage,privatePath),publicRef=f.storageMod.ref(storage,publicPath);
+  const contentType=file.type==='audio/x-wav'?'audio/wav':file.type;
+  await f.storageMod.uploadBytes(privateRef,file,{contentType});await f.storageMod.uploadBytes(publicRef,file,{contentType});
+  const url=await f.storageMod.getDownloadURL(publicRef);
+  await dbUpdate($getPath(id,`voices/${recordId}`),{url,privatePath,publicPath,mimeType:contentType,updatedAt:Date.now(),audioReplaced:true});
  },
  async saveWish(id,guestName,message){await setup();const event=await store.getEvent(id);if(!event||event.status!=='published'||!event.allowWishes)throw Error('Ucapan tidak dibenarkan untuk majlis ini.');const u=await store.guest();const item={id:uuid(),uid:u.uid,guestName:guestName.trim().slice(0,55),message:message.trim().slice(0,600),createdAt:Date.now()};if(isDemo()){const arr=read('wishes',id,[]);arr.push(item);write('wishes',id,arr)}else{await dbSet($getPath(id,`wishes/${item.id}`),{...item,id:null})}return item},
  async getOwnerArchiveData(id){

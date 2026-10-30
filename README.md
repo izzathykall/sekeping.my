@@ -110,3 +110,47 @@ Penerangan `Kandungan satu ZIP: Gambar/ ... Suara/ ... Ucapan/ ... MAKLUMAT-MAJL
 - Foto pengantin yang sudah tersimpan dalam Firebase akan terus digunakan, tidak perlu upload semula.
 - Dalam browser automatik, saya uji upload foto pengantin, paparan banner galeri, empat tab, suara M4A yang berjaya dimainkan, ucapan, muat turun gambar sendiri/ZIP dan skrin pengurus pada telefon (390px), iPad (820px) dan desktop (1280px). Tiada ralat JavaScript atau horizontal overflow dalam ujian itu.
 - **Ujian Safari iPhone dengan rakaman produksi lama dan Firebase live belum dilakukan.** Jika rakaman lama masih gagal, semak format fail/audio Storage dan migrasikan fail bermasalah ke M4A/AAC; audio baru diuji menggunakan M4A sebenar dalam browser Chromium.
+
+---
+
+## Sekeping.my V9 — Rakaman WAV, Framing Pintar, Kamera 4:3/16:9 & Lightbox
+
+Versi ini dibina terus daripada **V8** dan mengekalkan tema krim/hijau gelap, dashboard pengurus, enam QR A5, galeri bersama, hak muat turun foto sendiri serta arkib ZIP untuk pengurus. **Tiada subfolder** dalam ZIP pemasangan GitHub Pages.
+
+### Rakaman suara baharu
+
+- Masalah rakaman Safari yang tidak dapat dimainkan atau terhasil sebagai fail kosong ditangani dengan kaedah rakaman **Web Audio PCM → WAV** secara terus apabila browser menyokongnya. Kualiti mono PCM 16-bit pada sample rate sebenar peranti; saiz sekitar 2.9 MB untuk 30 saat pada 48 kHz (lebih kecil pada sample rate rendah).
+- Rakaman mesti melebihi kira-kira 1.4 saat sebelum butang berhenti dibenarkan. Kemajuan masa dipaparkan semasa rakaman. Selepas berhenti, rakaman boleh dimainkan dan disemak sebelum dihantar.
+- Jika Web Audio tidak tersedia, sistem cuba `MediaRecorder` sebagai pelan sandaran. Format WAV menggunakan MIME `audio/wav` dan sambungan `.wav` untuk muat naik Firebase baharu.
+- Pengurus majlis mempunyai pilihan **Gantikan audio** pada setiap rekod dalam **Dashboard → Suara & ucapan** untuk memilih WAV, M4A atau MP3 yang sah. Ia mengemas kini pautan rakaman tanpa menghilangkan nama pengirim/ucapan lain. Fail asal yang rosak tidak dipulihkan secara ajaib: gunakan fail audio sah yang masih anda miliki, atau minta rakaman semula. Untuk produksi, fail lama yang digantikan mungkin tetap wujud sebagai objek Storage yang belum dibersihkan.
+- Rakaman lama yang formatnya tidak disokong atau benar-benar kosong masih tidak dapat dimainkan sebelum digantikan. Browser yang boleh memainkan audio tidak semestinya boleh membaiki metadata atau isi fail yang rosak.
+
+### Foto pengantin landskap dalam bingkai potret
+
+- Dashboard **Reka bentuk majlis** kini mempunyai dua pratonton serentak: bingkai **4:5 potret** dan **16:9 landskap**.
+- **Penuhi bingkai** — foto memenuhi frame dengan `object-fit:cover`, bahagian luar akan dicrop (sesuai apabila subjek berada di tengah).
+- **Papar keseluruhan** — seluruh foto kelihatan dengan `object-fit:contain`; ruang kosong menggunakan **latar kabur daripada foto sama**, bukan kawasan kosong hitam/putih. Ini disyorkan untuk gambar pasangan landskap.
+- Kedudukan X/Y dan Zum boleh dilaraskan. Tetapan `coverFit` disimpan mengikut majlis dan dikongsi pada hero laman utama serta banner galeri.
+
+### Kamera: nisbah gambar yang jelas
+
+- Butang **Biasa/Lebar** yang dahulu mengubah orientasi secara tidak jelas digantikan nisbah tepat:
+  - **3:4 (potret) / 4:3 (landskap)** — biasa, disyorkan untuk foto kumpulan, ruang lebih fleksibel.
+  - **9:16 (potret) / 16:9 (landskap)** — lebih panoramik/sinematik tetapi crop lebih besar.
+- Butang **Potret/Landskap** berasingan. Pemidang tilik sekarang ada bingkai yang berubah mengikut nisbah sebelum foto ditangkap. Gambar dieksport mengikut resolusi dan nisbah dipilih. 26 filter, Grain, Vignette, flash, kamera depan/belakang dan upload galeri kekal.
+
+### Paparan gambar penuh galeri
+
+- Tekan mana-mana gambar dalam **Galeri Kenangan → Semua Foto / Foto Saya** untuk membuka **lightbox skrin penuh** dengan imej lebih besar dan latar gelap.
+- Butang tutup, gambar sebelumnya/seterusnya dan pintasan keyboard Escape/anak panah pada komputer.
+- **Butang Simpan gambar saya** hanya ditunjukkan apabila foto milik sesi tetamu berkenaan. Foto tetamu lain boleh dilihat tetapi tiada butang muat turun.
+
+### Perubahan fail
+
+Untuk kemas kini daripada V8, ganti `app.js`, `camera-effects.js`, `data.js`, `styles.css`, `guest-v4.css`, dan `README.md` di root repositori. Fail lain kekal. **Tiada perubahan rules** yang diperlukan untuk V9 jika anda sudah menggunakan `storage.rules` dan `database.rules.json` V7/V8 yang disertakan. Untuk menggantikan audio produksi, log masuk pengurus sebenar dan pastikan peraturan upload Storage telah diterbitkan.
+
+### Ujian setakat ini
+
+- Ujian browser automatik pada lebar 390, 820, 1280 piksel: framing foto, mod contain/cover, gallery image lightbox, mod kamera biasa/lebar dan Potret/Landskap — lulus tanpa ralat JavaScript atau horizontal overflow.
+- Rakaman PCM WAV sebenar daripada aliran WebAudio sintetik sepanjang 2.7 saat, play, simpan galeri dan upload gantian audio dalam mod demo — berjaya dimainkan tanpa ralat.
+- **Had ujian:** belum diuji pada Safari iPhone fizikal atau Firebase live di repositori sebenar, dan tidak dapat menjamin pembaikan rakaman lama yang rosak. Sila uji rakaman 5–10 saat pada iPhone selepas upload ke GitHub sebelum acara sebenar.

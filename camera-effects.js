@@ -50,7 +50,7 @@ function vignetteCSS(strength){
 }
 function grainOpacity(strength){return Math.max(0,Math.min(.55,Number(strength)/100*.53))}
 function draw(source,options={}){
- const landscape=options.orientation==='landscape';const w=landscape?1440:1080,h=landscape?1080:1440;
+ const landscape=options.orientation==='landscape',wide=options.aspect==='wide';const w=landscape?(wide?1920:1600):(wide?1080:1200),h=landscape?(wide?1080:1200):(wide?1920:1600);
  const c=document.createElement('canvas');c.width=w;c.height=h;const ctx=c.getContext('2d',{willReadFrequently:false});
  const swidth=source.videoWidth||source.naturalWidth||source.width;
  const sheight=source.videoHeight||source.naturalHeight||source.height;
