@@ -1,44 +1,32 @@
-# Sekeping.my V15 — Single-Screen Guest Dashboard
+# Sekeping.my V15 — Still & Simple
 
-Versi V15 berdasarkan **Sekeping.my V14** yang disemak sebelum ini, khusus untuk menyusun semula *dashboard tetamu* pada telefon supaya fungsi utama muat pada satu skrin dengan gaya klasik Sekeping: **ivory, sage green, antique gold, tipografi editorial**.
+**Dashboard tetamu profesional, klasik minimalis dan mesra iPhone.** Versi ini bermula daripada ZIP `sekeping.my-main 2.zip` yang dimuat naik. Identiti Sekeping (ivory, sage green, emas antik, tipografi serif) dikekalkan, tanpa meniru reka bentuk Kenang.my.
 
-## Reka bentuk baharu
+## Perubahan V15
 
-- **Satu skrin:** identiti Sekeping + tukar bahasa, gambar pengantin, nama pasangan, tarikh dan lokasi, ruangan nama, baki foto, kamera, Galeri, Suara, Ucapan dan Salam Kaut.
-- **Gambar pengantin sebenar:** menggunakan tetapan gambar, zoom dan posisi foto yang pengurus simpan; tiada gambar contoh dimasukkan ke dalam website produksi.
-- **Butang ringkas dan seragam:** tiga pilihan kenangan sebaris serta Salam Kaut berasingan. Kamera jelas sebagai tindakan utama.
-- **Reka bentuk responsif:** ruang foto menggunakan baki ketinggian skrin; butang penting tetap kelihatan dalam viewport yang telah diuji.
-- **Penyesuaian kandungan:** fungsi dimatikan oleh pengurus (pesanan suara, ucapan, hadiah) tidak muncul, sementara kamera mengikut had foto tetamu.
-- **Fungsi sedia ada dikekalkan:** perakam kaset retro, kamera dengan filter, galeri, ucapan, Salam Kaut, muat turun foto sendiri, dashboard pengurus dan PDF QR A5, Firebase.
-- **Tidak mengubah Firebase Rules atau data majlis.**
+- Susun atur satu skrin untuk telefon biasa: header kecil → foto pengantin & maklumat majlis → borang nama & butang kamera → empat fungsi dalam grid 2 × 2. Tiada fungsi kamera pendua atau banner panjang.
+- Foto pengantin berasal **terus daripada tetapan pengurus** (menghormati `coverFit`, `coverX`, `coverY` dan `coverZoom`). Tiada foto contoh dimasukkan dalam website.
+- Nama dan lokasi majlis dipaparkan dengan hierarki visual yang lebih jelas. Maklumat alu-aluan dipendekkan pada skrin kecil supaya pilihan utama sentiasa nampak.
+- Kamera sebagai satu-satunya tindakan utama; galeri, rakaman suara, ucapan dan Salam Kaut disusun berasingan dalam kad ringkas. Fungsi yang ditutup oleh pengurus tidak dipaparkan.
+- Baki foto menunjukkan data sebenar kuota pengguna (`state.used`/`photoLimit`). Input nama mengekalkan cara penyimpanan asal.
+- Pilihan Bahasa Melayu / English masih berfungsi. Kad, butang dan label menyokong navigasi menggunakan papan kekunci.
+- **Perubahan terhad kepada dashboard utama tetamu**: `guestHome()` dalam `app.js` dan gaya `v15-guest.css`. Tiada perubahan logik Firebase, kamera, galeri, QR, suara atau dashboard pengurus. Perakam kaset retro V13 kekal.
 
-## Cara pasang di GitHub Pages
+## Cara pasang
 
-### Jika website masih pada V14
+**ZIP lengkap**: Extract semua fail dan upload ke **root** GitHub Pages, sebaris dengan `index.html`. Jangan buat subfolder.
 
-1. Buka ZIP **`Sekeping-my-V15-Kemaskini-Sahaja.zip`**.
-2. Gantikan `index.html`, `app.js` dan `README.md` di root GitHub Pages, dan tambah `v15-guest.css` di root.
-3. Pastikan `v14-guest.css`, `guest-v4.css`, `retro-recorder.js`, `retro-recorder.css` dan semua fail V14 yang lain masih ada.
-4. Commit dan tunggu GitHub Pages selesai menerbitkan fail, kemudian refresh laman pada iPhone.
+**ZIP kemas kini**: Jika repositori menggunakan versi fail yang sama dengan `sekeping.my-main 2.zip`, gantikan hanya `app.js`, `index.html`, `README.md` dan tambah fail `v15-guest.css` di root.
 
-### Jika pasang baru
+`index.html` menambah `<link rel="stylesheet" href="v15-guest.css?v=15.0" />` selepas stylesheet lain dan menggunakan `app.js?v=15.0` untuk membantu cache refresh. **Tidak perlu ubah Firebase Rules.**
 
-Extract **`Sekeping-my-V15-Single-Screen-Lengkap.zip`** dan letak semua fail di root repositori GitHub Pages, **tanpa subfolder**.
+Setelah deploy, buka pautan tetamu sebenar pada iPhone, refresh browser, dan cuba kamera, audio, ucapan dan hadiah. Pastikan tiada fail lama yang tertinggal dalam cache.
 
-## Had reka bentuk & hasil ujian
+## Ujian dan had
 
-- Ujian Chromium simulasi pada viewport 320×568, 360×640, 375×667, 390×650, 390×750, 390×844, 430×740, 430×932, 820×1180 dan 1280×850: tiada horizontal overflow, tiada vertical scroll pada viewport utama untuk kandungan contoh biasa.
-- Ujian butang BM/EN, kamera, galeri, Pesanan Suara, Ucapan & Doa dan Salam Kaut lulus tanpa ralat JavaScript.
-- Paparan foto pengantin dalam gambar pratonton menggunakan **foto contoh yang diekstrak daripada tangkap layar pengguna semata-mata untuk ujian**; foto itu **tidak dimasukkan dalam ZIP website**.
-- Halaman fungsi seperti Galeri dan Pesanan Suara mungkin mempunyai scroll apabila terdapat banyak kandungan; permintaan satu skrin digunakan pada **dashboard tetamu utama**.
-- Jika tetamu menaip dan papan kekunci dibuka, halaman boleh berubah saiz mengikut Safari. Pada viewport terlalu rendah (contohnya landscape atau zoom), scroll dibenarkan sebagai fallback supaya kawalan tidak terpotong.
-- Teks nama atau lokasi yang sangat panjang dan tetapan pembesaran browser yang luar biasa boleh memerlukan ruang tambahan; keadaan demikian tidak boleh dijamin satu skrin pada semua peranti.
-- Belum menguji langsung Firebase produksi dan Safari iPhone fizikal; buat ujian di URL GitHub Pages selepas publish.
+- Ujian Chromium simulasi pada 320 × 568, 360 × 650, 375 × 667, 390 × 650, 390 × 720, 390 × 844, 430 × 850, 768 × 1024 dan 1280 × 800 menunjukkan **tiada horizontal overflow / vertical overflow pada skrin dashboard** dengan nama dan kandungan contoh.
+- Semakan interaksi pada 390 × 720: BM/English, nama tetamu → kamera, galeri, perakam kaset suara, borang ucapan, Salam Kaut — semua boleh dibuka, tiada ralat JavaScript.
+- Ukuran skrin/toolbar Safari berbeza antara iPhone, tetapan kebolehaksesan dan Zoom. Jika tulisan sangat besar, nama pasangan terlalu panjang atau ruang browser sangat pendek (contohnya papan kekunci sedang dibuka), scroll mungkin berlaku **untuk mengelakkan kandungan dipotong**. Hanya halaman **dashboard utama tetamu** disasar menjadi satu skrin; halaman kamera, galeri dan perakam suara dibenarkan scroll apabila perlu.
+- Ujian belum dilakukan pada Safari iPhone sebenar atau Firebase produksi. Fail ini bukan kemas kini automatik ke website awam; publish GitHub Pages perlu dibuat pada repositori.
 
-## Fail
-
-**Website**: `index.html`, `app.js`, `data.js`, `styles.css`, `guest-v4.css`, `qr-studio.css`, `v14-guest.css`, `v15-guest.css`, `qr-templates.js`, `qrcode.js`, `pdf.js`, `camera-effects.js`, `archive-export.js`, `zip-export.js`, `retro-recorder.css`, `retro-recorder.js`, `favicon.svg`.
-
-**Tetapan Firebase**: `database.rules.json`, `storage.rules`.
-
-**Dokumentasi**: `README.md`, `NOTA-PASANG-V13.txt`, `FAIL-TIDAK-DIGUNAKAN.txt`.
+**Nota visual:** imej preview PNG yang disediakan berasingan menggunakan foto yang kelihatan dalam screenshot pengguna untuk menggambarkan susunan. PNG tersebut **tidak dibundel** dalam website; foto majlis sebenar diterima melalui Firebase seperti sebelum ini.
