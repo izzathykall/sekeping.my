@@ -39,7 +39,7 @@ function externalEventUrl(id){const custom=localStorage.getItem('sekeping_public
 const u=new URL(location.href);u.search='';u.hash='';u.searchParams.set('e',id);if(S.isDemo)u.searchParams.set('demo','1');return u.toString()}
 const FX=window.SekepingCameraEffects, QR=window.SekepingQRStudio;
 const safeSetting=(key,defaultValue)=>{try{const v=localStorage.getItem('sekeping_camera_'+key);return v===null?defaultValue:v}catch{return defaultValue}};
-const state={route:'home',guestTab:'home',dashTab:'overview',events:[],event:null,photos:[],voices:[],wishes:[],used:0,guestName:localStorage.getItem('sekeping_guest_name')||'',dashboardUser:null,loginMode:'login',guestUid:'',qrDraft:null,qrDraftEvent:null,qrDirty:false,deleteTarget:null,lang:localStorage.getItem('sekeping_lang')||'ms',albumTab:'all',albumFilter:'all',albumGuestUid:'',giftSaving:false,filter:FX.filters[safeSetting('filter','natural')]?safeSetting('filter','natural'):'natural',filterGroup:'semua',grain:safeSetting('grain','off')==='on',vignette:safeSetting('vignette','off')==='on',grainStrength:Number(safeSetting('grainStrength','45')),vignetteStrength:Number(safeSetting('vignetteStrength','60')),orientation:'portrait',aspect:safeSetting('aspect','classic')==='wide'?'wide':'classic',flash:false,facing:'environment',filterPanelOpen:false,stream:null,photoBlob:null,photoUrl:null,recorder:null,voiceBlob:null,voiceUrl:null,recStream:null,recSeconds:0,recTimer:null,recordingEngine:null,recordingStart:0,lightboxId:null,coverObjectUrl:null,editEvent:null,saving:false};
+const state={route:'home',guestTab:'home',dashTab:'overview',events:[],event:null,photos:[],voices:[],wishes:[],used:0,guestName:localStorage.getItem('sekeping_guest_name')||'',dashboardUser:null,loginMode:'login',guestUid:'',qrDraft:null,qrDraftEvent:null,qrDirty:false,deleteTarget:null,lang:localStorage.getItem('sekeping_lang')||'ms',albumTab:'all',albumFilter:'all',albumGuestUid:'',giftSaving:false,filter:FX.filters[safeSetting('filter','natural')]?safeSetting('filter','natural'):'natural',filterGroup:'semua',grain:safeSetting('grain','off')==='on',vignette:safeSetting('vignette','off')==='on',grainStrength:Number(safeSetting('grainStrength','45')),vignetteStrength:Number(safeSetting('vignetteStrength','60')),orientation:'portrait',aspect:safeSetting('aspect','classic')==='wide'?'wide':'classic',flash:false,facing:'environment',filterPanelOpen:false,quickFiltersCollapsed:safeSetting('quickFilters','show')==='hide',stream:null,photoBlob:null,photoUrl:null,recorder:null,voiceBlob:null,voiceUrl:null,recStream:null,recSeconds:0,recTimer:null,recordingEngine:null,recordingStart:0,lightboxId:null,coverObjectUrl:null,editEvent:null,saving:false};
 let toastTimer;
 let cameraRequestId=0;
 function toast(msg){const el=document.querySelector('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3700)}
@@ -123,12 +123,11 @@ function quickFilterCard(key,item){return `<button type="button" class="sk22-fil
 function cameraSection(){
  const v=state.event,remaining=Math.max(0,v.photoLimit-state.used),shot=!!state.photoBlob,active=filters[state.filter];
  const stamp=dateText(v.date).toUpperCase();
- const shownFilters=Object.entries(filters).filter(([key,f])=>state.filterGroup==='semua'||f.group===state.filterGroup);
- const picks=['natural','klasik94','kodak','fuji','polaroid','dreamy','bw'];
- if(!picks.includes(state.filter))picks.splice(1,0,state.filter);
+ const shownFilters=Object.entries(filters);
+ const picks=Object.keys(filters);
  const targetFront=state.facing!=='user';
  const flipIcon=`<svg class="sk22-flip-svg" viewBox="0 0 32 32" width="30" height="30" fill="none" aria-hidden="true"><rect x="7" y="10.5" width="18" height="12" rx="3" stroke="currentColor" stroke-width="1.65"/><path d="M13 10.5 14.2 8h4.1l1.3 2.5" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"/><circle cx="16" cy="16.5" r="3.1" stroke="currentColor" stroke-width="1.55"/><path d="M7.5 5.6a13 13 0 0 1 14.8 0M21 2.5l1.8 3.5-3.8.1M24.5 26.4a13 13 0 0 1-14.8 0M11 29.5l-1.8-3.5 3.8-.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
- return `<main class="camera-immersive sek-camera-v21 sek-camera-v22 ${shot?'is-review':''} ${state.filterPanelOpen?'filters-open':''}" aria-label="Kamera majlis">
+ return `<main class="camera-immersive sek-camera-v21 sek-camera-v22 sek-camera-v23 ${shot?'is-review':''} ${state.filterPanelOpen?'filters-open':''} ${state.quickFiltersCollapsed?'filters-mini':''}" aria-label="Kamera majlis">
  <div class="camera-frame ${state.orientation==='landscape'?'landscape':''} ${state.aspect==='wide'?'aspect-wide':'aspect-classic'}" id="cameraFrame">
  <div class="camera-preview-stage">
  <video id="cameraVideo" autoplay playsinline muted style="filter:${active.style};${shot?'display:none':''}"></video>
@@ -145,24 +144,25 @@ function cameraSection(){
  </div>
  <div class="camera-controls">
  ${!shot?`
- <div class="sk22-filter-strip" aria-label="Pilih filter kamera">
-  <div class="sk22-filter-heading"><span><i class="sk22-gold-spark">✦</i> PILIH FILTER</span><button type="button" data-action="toggle-filters" class="sk22-all-filters">Semua filter ${icon('arrow','sm')}</button></div>
-  <div class="sk22-filter-rail" role="group" aria-label="Filter pantas">${picks.map(key=>quickFilterCard(key,filters[key])).join('')}</div>
+ <div class="sk23-filter-strip ${state.quickFiltersCollapsed?'is-collapsed':''}" aria-label="Pilih filter kamera">
+  <div class="sk22-filter-heading"><span><i class="sk22-gold-spark">✦</i> FILTER CANTIK</span><div class="sk23-filter-heading-actions"><button type="button" data-action="toggle-filter-strip" class="sk23-filter-toggle">${state.quickFiltersCollapsed?'Tunjuk':'Sembunyi'}</button><button type="button" data-action="toggle-filters" class="sk22-all-filters">Semua ${icon('arrow','sm')}</button></div></div>
+  <div class="sk23-filter-summary" ${state.quickFiltersCollapsed?'':'hidden'}>Filter aktif: <strong>${e(active.label)}</strong></div>
+  <div class="sk22-filter-rail" role="group" aria-label="Filter pantas" ${state.quickFiltersCollapsed?'hidden':''}>${picks.map(key=>quickFilterCard(key,filters[key])).join('')}</div>
  </div>
  <div class="camera-actions-row">
   <button class="sk22-action" type="button" data-action="toggle-flash" aria-label="Flash ${state.flash?'hidup':'mati'}" aria-pressed="${state.flash}"><span class="sk22-action-icon">${icon('flash','big')}</span><span class="sk22-action-text">FLASH ${state.flash?'ON':'OFF'}</span></button>
   <div class="camera-ratio" role="group" aria-label="Nisbah gambar"><button type="button" data-action="set-classic" class="${state.aspect==='classic'?'selected':''}" aria-pressed="${state.aspect==='classic'}">BIASA</button><button type="button" data-action="set-wide" class="${state.aspect==='wide'?'selected':''}" aria-pressed="${state.aspect==='wide'}">LEBAR</button></div>
   <button class="sk22-action sk22-flip" type="button" data-action="flip-camera" aria-label="Tukar ke kamera ${targetFront?'depan':'belakang'}"><span class="sk22-action-icon">${flipIcon}</span><span class="sk22-action-text">KE ${targetFront?'DEPAN':'BELAKANG'}</span></button>
  </div>
- <div class="camera-snap-row"><div class="cam-remaining"><b>${String(remaining).padStart(2,'0')}</b><span>KEPING</span></div><button type="button" class="camera-shutter" data-action="${state.stream?'capture':'open-camera'}" aria-label="${state.stream?'Tangkap gambar':'Aktifkan kamera'}" ${remaining===0?'disabled':''}><span></span></button><div class="sk22-shutter-hint" aria-hidden="true">TEKAN UNTUK<br>AMBIL GAMBAR</div></div>
+ <div class="sk23-capture-meta"><div class="cam-remaining"><b>${String(remaining).padStart(2,'0')}</b><span>KEPING</span></div><div class="sk23-capture-note">Filter akan kekal pada gambar yang disimpan.</div></div>
+ <div class="camera-snap-row"><button type="button" class="camera-shutter" data-action="${state.stream?'capture':'open-camera'}" aria-label="${state.stream?'Tangkap gambar':'Aktifkan kamera'}" ${remaining===0?'disabled':''}><span></span></button></div>
  <label class="cam-upload" for="galleryUpload">${icon('image','sm')} <span>Pilih gambar dari galeri</span></label><input id="galleryUpload" class="sr" type="file" accept="image/*" ${remaining===0?'disabled':''} aria-label="Pilih foto dari galeri">`:
  `<div class="camera-review-actions"><button type="button" class="cam-glass" data-action="retake">${icon('refresh')} Ambil semula</button><button type="button" class="cam-review-save" data-action="save-photo">${icon('check')} Simpan gambar</button></div>`}
  </div></div>
  <button type="button" class="sk21-filter-scrim" data-action="close-filters" aria-label="Tutup pilihan filter" ${state.filterPanelOpen?'':'hidden'}></button>
  <section class="filter-studio" id="filterStudio" aria-label="Pilihan filter dan efek" role="dialog" aria-modal="true" ${state.filterPanelOpen&&!shot?'':'hidden'}>
- <div class="sk21-drawer-grip" aria-hidden="true"></div><div class="filter-studio-header"><div><span class="micro">SEKEPING · CAMERA STUDIO</span><h2 class="serif">Filter & kesan</h2><p>Sentuh filter untuk lihat hasil terus di kamera.</p></div><button type="button" class="sk21-drawer-close" data-action="close-filters" aria-label="Tutup filter">${icon('close','big')}</button></div>
+ <div class="sk21-drawer-grip" aria-hidden="true"></div><div class="filter-studio-header"><div><span class="micro">SEKEPING · CAMERA STUDIO</span><h2 class="serif">Filter & kesan</h2><p>Pilih beberapa gaya terbaik dan lihat terus pada kamera.</p></div><button type="button" class="sk21-drawer-close" data-action="close-filters" aria-label="Tutup filter">${icon('close','big')}</button></div>
  <div class="sk22-panel-active">${icon('check','sm')} Filter dipilih: <strong id="sk22-panel-active-label">${e(active.label)}</strong></div>
- <div class="filter-category-row">${FX.groups.map(g=>`<button class="filter-category ${state.filterGroup===g.id?'active':''}" data-filter-category="${g.id}" aria-pressed="${state.filterGroup===g.id}">${e(g.name)}</button>`).join('')}</div>
  <div class="filter-preview-grid">${shownFilters.map(([key,item])=>filterCard(key,item)).join('')}</div>
  <div class="effects-heading">${icon('sliders','big')} <div><strong>Sentuhan akhir</strong><p>Tambah tekstur Grain atau bayang Vignette.</p></div></div>
  <div class="effects-grid">${effectSwitch('grain','Grain','Tekstur filem analog')}${effectSwitch('vignette','Vignette','Bayang lembut di penjuru')}</div>
@@ -366,6 +366,7 @@ async function handleAction(action,btn){switch(action){
  case 'leave-camera':setGuestTab('home');break;
  case 'toggle-filters':state.filterPanelOpen=!state.filterPanelOpen;render();break;
  case 'close-filters':state.filterPanelOpen=false;render();break;
+ case 'toggle-filter-strip':state.quickFiltersCollapsed=!state.quickFiltersCollapsed;try{localStorage.setItem('sekeping_camera_quickFilters',state.quickFiltersCollapsed?'hide':'show')}catch{}render();break;
  case 'jump-filters':state.filterPanelOpen=true;render();break;
  case 'jump-camera':state.filterPanelOpen=false;render();break;
  case 'set-portrait':state.orientation='portrait';render();break;

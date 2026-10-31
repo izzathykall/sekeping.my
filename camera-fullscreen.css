@@ -330,3 +330,38 @@ body.sek-camera-open #app { height:100dvh; overflow:hidden; }
  .sek-camera-v22 .cam-remaining b {font-size:22px;}
 }
 @media (prefers-reduced-motion:reduce){.sek-camera-v22 .sk22-filter-thumb,.sek-camera-v22 .sk22-top-filter{transition:none}}
+
+
+/* SEK E P I N G — Camera Studio V23
+   Fewer better filters, collapsible quick filter rail, and a truly centered shutter. */
+.sek-camera-v23 .sk23-filter-strip{width:min(100%,480px);margin:0 auto 15px;padding:11px 12px 12px;border-radius:22px;background:rgba(14,13,12,.32);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.sek-camera-v23 .sk22-filter-heading{margin:0;color:#f7f0e5}
+.sek-camera-v23 .sk23-filter-heading-actions{display:flex;align-items:center;gap:8px}
+.sek-camera-v23 .sk23-filter-toggle{display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:7px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#f6e8cf;font:700 10px/1 'DM Sans',sans-serif;letter-spacing:.6px}
+.sek-camera-v23 .sk23-filter-summary{margin-top:10px;padding:11px 12px;border-radius:14px;background:rgba(255,255,255,.08);color:#f4ecdf;font:600 11px/1.4 'DM Sans',sans-serif;letter-spacing:.15px}
+.sek-camera-v23 .sk23-filter-summary strong{color:#f4d5a1}
+.sek-camera-v23 .sk22-filter-rail{margin-top:10px}
+.sek-camera-v23 .camera-actions-row{margin-bottom:13px}
+.sek-camera-v23 .sk23-capture-meta{width:min(100%,390px);margin:0 auto 10px;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px}
+.sek-camera-v23 .cam-remaining{justify-self:start;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;background:rgba(255,255,255,.06);border:1px solid #ffffff36;box-shadow:none;width:67px;height:67px;border-radius:16px}
+.sek-camera-v23 .cam-remaining b{font:500 30px/1 'Playfair Display',Georgia,serif;letter-spacing:0}
+.sek-camera-v23 .cam-remaining span{font:600 9px/1 'DM Sans',sans-serif;letter-spacing:1.15px;color:#dacebf}
+.sek-camera-v23 .sk23-capture-note{min-width:0;color:#ddd0bf;font:500 10px/1.45 'DM Sans',sans-serif;letter-spacing:.25px;text-align:right}
+.sek-camera-v23 .camera-snap-row{display:flex;justify-content:center;align-items:center;width:min(100%,390px);margin:0 auto 14px}
+.sek-camera-v23 .camera-shutter{margin-inline:auto}
+.sek-camera-v23 .sk22-shutter-hint{display:none}
+.sek-camera-v23 .cam-upload{width:min(100%,390px);margin-inline:auto}
+.sek-camera-v23 .filter-preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:420px){
+ .sek-camera-v23 .sk23-capture-meta{grid-template-columns:1fr;justify-items:center;gap:8px}
+ .sek-camera-v23 .sk23-capture-note{text-align:center;font-size:9.5px;max-width:240px}
+ .sek-camera-v23 .sk23-filter-heading-actions{gap:6px}
+ .sek-camera-v23 .sk22-all-filters,.sek-camera-v23 .sk23-filter-toggle{font-size:9.5px;padding-inline:9px}
+}
+@media (max-width:360px){
+ .sek-camera-v23 .sk23-filter-strip{padding:10px}
+ .sek-camera-v23 .sk22-filter-chip{flex-basis:54px}
+ .sek-camera-v23 .sk22-filter-thumb{width:49px;height:49px}
+ .sek-camera-v23 .camera-shutter{width:76px;height:76px}
+ .sek-camera-v23 .camera-shutter span{width:60px;height:60px}
+}
