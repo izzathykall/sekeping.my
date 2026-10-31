@@ -365,3 +365,26 @@ body.sek-camera-open #app { height:100dvh; overflow:hidden; }
  .sek-camera-v23 .camera-shutter{width:76px;height:76px}
  .sek-camera-v23 .camera-shutter span{width:60px;height:60px}
 }
+
+
+/* Sekeping V25 — single entry point for filters, bottom-anchored camera tools.
+   The filter picker remains accessible from the header FILTER button. */
+.sek-camera-v23 .sk23-filter-strip {display:none!important;}
+.sek-camera-v23 .camera-controls {padding-top:8px;}
+.sek-camera-v23 .camera-actions-row {margin-bottom:5px;}
+.sek-camera-v23 .sk23-capture-meta {margin-bottom:5px;gap:7px;}
+.sek-camera-v23 .camera-snap-row {margin-bottom:10px;}
+@media (max-width:420px) {
+  .sek-camera-v23 .sk23-capture-meta {
+    grid-template-columns:auto minmax(0,1fr);
+    justify-items:stretch;
+    gap:10px;
+  }
+  .sek-camera-v23 .sk23-capture-note {text-align:right;max-width:none;}
+}
+@media (max-height:650px) {
+  .sek-camera-v23 .camera-controls {padding-top:5px;}
+  .sek-camera-v23 .camera-actions-row {margin-bottom:3px;}
+  .sek-camera-v23 .sk23-capture-meta {margin-bottom:3px;}
+  .sek-camera-v23 .camera-snap-row {margin-bottom:7px;}
+}
