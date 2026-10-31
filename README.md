@@ -41,3 +41,13 @@ Setelah deploy, buka pautan tetamu sebenar pada iPhone, refresh browser, dan cub
 - Kamera belakang dipilih secara lalai, dan browser meminta kebenaran kamera pada penggunaan pertama.
 - Muat naik dan kamera fizikal memerlukan browser yang menyokong fungsi berkenaan; kamera web memerlukan HTTPS atau localhost.
 - Fail asal V20 tidak diubah; versi ini dikeluarkan secara ZIP baharu.
+
+## Kemas kini kamera V22 — profesional & filter mudah dicapai
+- Kamera kekal terbuka dalam susun atur skrin penuh apabila tetamu tekan “Jadilah Lensa Kami”.
+- 7 filter pantas terus tersedia dalam bar boleh leret di atas butang tangkap; sentuh satu untuk lihat perubahan secara langsung.
+- Dua cara jelas untuk membuka pilihan penuh: butang **FILTER** di penjuru atas dan **Semua filter** di bar filter.
+- Panel filter dirombak dengan kategori, contoh gaya, filter terpilih, Grain dan Vignette.
+- Ikon tukar kamera baharu (kamera + dua anak panah) mempunyai label tindakan jelas **KE DEPAN** / **KE BELAKANG** dan bertukar mengikut kamera yang dipilih.
+- Butang flash, BIASA/LEBAR, kuota gambar dan muat naik galeri disusun dengan kemas serta adaptif untuk telefon kecil.
+- Semua fungsi kamera, foto, filter, efek, muat naik dan simpan yang sedia ada dikekalkan.
+- Nota: akses kamera memerlukan HTTPS/localhost dan kebenaran peranti. Di Safari alamat dan bar bawah ialah UI sistem yang tak boleh dibuang oleh laman web biasa.
