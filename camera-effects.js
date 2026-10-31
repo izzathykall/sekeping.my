@@ -3,15 +3,36 @@
 (function(){
 'use strict';
 const GROUPS=[
- {id:'semua',name:'Semua'}
+ {id:'semua',name:'Semua'}, {id:'asas',name:'Asas'}, {id:'filem',name:'Filem'},
+ {id:'sinematik',name:'Sinematik'}, {id:'warna',name:'Warna'}, {id:'mono',name:'Monokrom'}
 ];
 const FILTERS={
- natural:{label:'Asli',group:'semua',style:'none'},
- klasik94:{label:'Klasik 94',group:'semua',style:'sepia(.24) saturate(.84) contrast(1.13) brightness(.97)'},
- kodak:{label:'Kodak Gold',group:'semua',style:'sepia(.21) saturate(1.3) contrast(1.13) brightness(1.03)'},
- fuji:{label:'Fuji 400',group:'semua',style:'hue-rotate(-9deg) saturate(.83) contrast(1.12) brightness(1.04)'},
- dreamy:{label:'Dreamy',group:'semua',style:'brightness(1.11) saturate(.82) contrast(.88)'},
- bw:{label:'B&W Klasik',group:'semua',style:'grayscale(1) contrast(1.13)'}
+ natural:{label:'Asli',group:'asas',style:'none'},
+ lembut:{label:'Lembut',group:'asas',style:'brightness(1.06) contrast(.91) saturate(.88)'},
+ terang:{label:'Cerah',group:'asas',style:'brightness(1.14) contrast(1.04) saturate(1.06)'},
+ bersih:{label:'Bersih',group:'asas',style:'contrast(1.07) saturate(1.07)'},
+ dreamy:{label:'Dreamy',group:'asas',style:'brightness(1.11) saturate(.82) contrast(.88)'},
+ klasik94:{label:'Klasik 94',group:'filem',style:'sepia(.24) saturate(.84) contrast(1.13) brightness(.97)'},
+ kodak:{label:'Kodak Gold',group:'filem',style:'sepia(.21) saturate(1.3) contrast(1.13) brightness(1.03)'},
+ fuji:{label:'Fuji 400',group:'filem',style:'hue-rotate(-9deg) saturate(.83) contrast(1.12) brightness(1.04)'},
+ polaroid:{label:'Polaroid',group:'filem',style:'sepia(.18) saturate(.78) brightness(1.11) contrast(.88)'},
+ faded:{label:'Pudar 70s',group:'filem',style:'sepia(.29) contrast(.79) saturate(.67) brightness(1.1)'},
+ disposable:{label:'Disposable',group:'filem',style:'sepia(.16) saturate(1.46) contrast(1.21) brightness(.96)'},
+ cinema:{label:'Cinema',group:'sinematik',style:'contrast(1.23) saturate(.81) brightness(.92)'},
+ teal:{label:'Teal & Orange',group:'sinematik',style:'hue-rotate(164deg) saturate(.95) contrast(1.19)'},
+ moody:{label:'Moody',group:'sinematik',style:'brightness(.79) contrast(1.34) saturate(.72)'},
+ matte:{label:'Matte Film',group:'sinematik',style:'contrast(.83) saturate(.84) brightness(1.03)'},
+ midnight:{label:'Midnight',group:'sinematik',style:'brightness(.75) hue-rotate(20deg) saturate(.81) contrast(1.18)'},
+ sunset:{label:'Sunset',group:'warna',style:'sepia(.32) hue-rotate(-9deg) saturate(1.5) brightness(1.06)'},
+ golden:{label:'Golden Hour',group:'warna',style:'sepia(.27) saturate(1.28) brightness(1.13)'},
+ blush:{label:'Rosy',group:'warna',style:'sepia(.13) hue-rotate(324deg) saturate(1.27) brightness(1.09)'},
+ olive:{label:'Olive',group:'warna',style:'sepia(.16) hue-rotate(35deg) saturate(.8) contrast(1.12)'},
+ sejuk:{label:'Biru Sejuk',group:'warna',style:'hue-rotate(17deg) saturate(.89) contrast(1.06)'},
+ vivid:{label:'Pop Colour',group:'warna',style:'saturate(1.76) contrast(1.16)'},
+ bw:{label:'B&W Klasik',group:'mono',style:'grayscale(1) contrast(1.13)'},
+ silver:{label:'Silver',group:'mono',style:'grayscale(1) contrast(.94) brightness(1.11)'},
+ noir:{label:'Noir',group:'mono',style:'grayscale(1) contrast(1.55) brightness(.87)'},
+ sepia:{label:'Sepia',group:'mono',style:'sepia(.95) contrast(1.08)'},
 };
 let noiseTile=null;
 function getNoiseTile(){
