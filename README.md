@@ -30,3 +30,14 @@ Setelah deploy, buka pautan tetamu sebenar pada iPhone, refresh browser, dan cub
 - Ujian belum dilakukan pada Safari iPhone sebenar atau Firebase produksi. Fail ini bukan kemas kini automatik ke website awam; publish GitHub Pages perlu dibuat pada repositori.
 
 **Nota visual:** imej preview PNG yang disediakan berasingan menggunakan foto yang kelihatan dalam screenshot pengguna untuk menggambarkan susunan. PNG tersebut **tidak dibundel** dalam website; foto majlis sebenar diterima melalui Firebase seperti sebelum ini.
+
+
+## V21 — Kamera skrin penuh (31 Oktober 2026)
+
+- Tekan **Jadilah Lensa Kami**: paparan kamera terus dibuka, tanpa halaman perantaraan atau scroll.
+- Paparan menepati ruang browser (Safari toolbar kekal dikawal oleh iOS).
+- Filter dibuka sebagai panel terapung melalui nama filter atau ikon tetapan.
+- Kawalan Lebar / Biasa, flash, tukar kamera, tangkap dan muat naik galeri kekal.
+- Kamera belakang dipilih secara lalai, dan browser meminta kebenaran kamera pada penggunaan pertama.
+- Muat naik dan kamera fizikal memerlukan browser yang menyokong fungsi berkenaan; kamera web memerlukan HTTPS atau localhost.
+- Fail asal V20 tidak diubah; versi ini dikeluarkan secara ZIP baharu.

@@ -1,0 +1,194 @@
+/* Sekeping Camera V21 · full-screen viewfinder; only the filter drawer scrolls. */
+body.sek-camera-open { overflow:hidden !important; overscroll-behavior:none; }
+body.sek-camera-open #app { height:100dvh; overflow:hidden; }
+.sek-camera-v21,.sek-camera-v21 * { box-sizing:border-box; }
+.sek-camera-v21.camera-immersive {
+ position:fixed; inset:0; z-index:1200; width:100%; height:100vh; height:100dvh;
+ min-height:0; margin:0; padding:0; overflow:hidden; background:#201d1b;
+ font-family:'DM Sans',system-ui,sans-serif; color:#fffdf5;
+}
+.sek-camera-v21 .camera-frame,
+.sek-camera-v21 .camera-frame.landscape {
+ position:absolute; inset:0; width:100%; height:100%; max-width:none; max-height:none;
+ min-height:0; min-width:0; border:0; border-radius:0; box-shadow:none;
+ aspect-ratio:auto !important; overflow:hidden; background:#292722; margin:0; transform:none;
+}
+.sek-camera-v21 .camera-preview-stage,
+.sek-camera-v21 .camera-frame.aspect-classic:not(.landscape) .camera-preview-stage,
+.sek-camera-v21 .camera-frame.aspect-wide .camera-preview-stage,
+.sek-camera-v21 .camera-frame.landscape.aspect-classic .camera-preview-stage,
+.sek-camera-v21 .camera-frame.landscape.aspect-wide .camera-preview-stage {
+ position:absolute; inset:0; top:0; left:0; width:100%; height:100%; max-width:none;
+ max-height:none; aspect-ratio:auto; transform:none; background:#34332f; overflow:hidden;
+}
+.sek-camera-v21 .camera-frame .camera-preview-stage video,
+.sek-camera-v21 .camera-frame .camera-preview-stage #capturePreview {
+ position:absolute; inset:0; display:block; width:100%; height:100%; min-height:100%;
+ object-fit:cover; object-position:center; transform:none;
+}
+/* A real difference between Lebar and Biasa, without shrinking the viewfinder. */
+.sek-camera-v21 .camera-frame.aspect-classic .camera-preview-stage video { transform:scale(1.11); }
+.sek-camera-v21 .camera-frame.aspect-wide .camera-preview-stage video { transform:scale(1); }
+.sek-camera-v21.is-review #capturePreview { object-fit:contain; background:#171511; }
+.sek-camera-v21 .sk21-screen-shade { position:absolute; z-index:4; inset:0; pointer-events:none;
+ background:linear-gradient(180deg,rgba(12,12,12,.62) 0%,rgba(12,12,12,.21) 17%,transparent 37%,transparent 52%,rgba(8,8,8,.16) 65%,rgba(8,8,8,.70) 100%); }
+.sek-camera-v21 .cam-guide { display:none; }
+.sek-camera-v21 .cam-overlay-header {
+ position:absolute; top:0; left:0; right:0; z-index:11;
+ display:grid; grid-template-columns:54px minmax(0,1fr) 54px;
+ align-items:start; gap:6px; text-align:center;
+ padding:calc(22px + env(safe-area-inset-top,0px)) 20px 0;
+ background:none; color:#fff; pointer-events:none;
+}
+.sek-camera-v21 .cam-overlay-header button { pointer-events:auto; }
+.sek-camera-v21 .cam-glass {
+ color:#fff; border:1px solid rgba(255,255,255,.27); background:rgba(24,23,22,.54);
+ backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+ box-shadow:0 4px 20px rgba(0,0,0,.12);
+}
+.sek-camera-v21 .cam-glass.circle { width:52px; height:52px; min-height:52px; padding:0; border-radius:50%; }
+.sek-camera-v21 .cam-glass.circle .ico { width:23px; height:23px; }
+.sek-camera-v21 .cam-wedding-title { display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0; padding:4px 0 0;
+ text-shadow:0 2px 12px rgba(0,0,0,.6); }
+.sek-camera-v21 .cam-wedding-title strong { display:block; margin:0; max-width:100%;
+ font:600 clamp(23px,6.8vw,37px)/1.13 'Playfair Display',Georgia,serif;
+ letter-spacing:.1px; color:#fff; white-space:normal; overflow-wrap:anywhere; text-overflow:clip;
+}
+.sek-camera-v21 .cam-wedding-title small { font:500 clamp(9px,2.4vw,12px)/1.45 ui-monospace,SFMono-Regular,monospace;
+ letter-spacing:clamp(1.4px,.52vw,3px); color:#e7e2d9; }
+.sek-camera-v21 .sk21-look-switch {
+ display:flex; align-items:center; overflow:hidden; border-radius:100px;
+ background:rgba(22,21,19,.60); border:1px solid rgba(255,255,255,.34);
+ margin:5px auto 0; box-shadow:0 2px 8px rgba(0,0,0,.18);
+ max-width:100%; backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+}
+.sek-camera-v21 .sk21-look-switch button,
+.sek-camera-v21 .sk21-look-switch span {
+ display:inline-flex; align-items:center; justify-content:center; padding:8px 14px; min-height:34px;
+ font:600 10px/1 ui-monospace,SFMono-Regular,monospace; letter-spacing:1.8px; white-space:nowrap;
+}
+.sek-camera-v21 .sk21-look-switch button { border:0; background:transparent; color:#e7d9c4; cursor:pointer; }
+.sek-camera-v21 .sk21-look-switch span { background:#f7f3ea; border-radius:40px; color:#4b4135; }
+.sek-camera-v21 .sk21-top-settings .ico { width:22px; height:22px; }
+.sek-camera-v21 .cam-film-stamp { position:absolute; top:auto; bottom:28%; left:23px; right:auto;
+ font:600 clamp(10px,2.5vw,13px)/1.15 ui-monospace,SFMono-Regular,monospace;
+ writing-mode:vertical-rl; transform:none; color:#ed9f70; letter-spacing:3px; text-shadow:0 1px 4px #1a090b;
+ max-height:42%; overflow:hidden; pointer-events:none; z-index:9;
+}
+.sek-camera-v21 .camera-controls {
+ position:absolute; z-index:12; left:0; right:0; bottom:0;
+ padding:25px clamp(16px,5vw,30px) max(28px,calc(18px + env(safe-area-inset-bottom,0px)));
+ background:none; color:#fff; pointer-events:none;
+}
+.sek-camera-v21 .camera-controls button,.sek-camera-v21 .camera-controls label { pointer-events:auto; }
+.sek-camera-v21 .camera-actions-row {
+ display:grid; grid-template-columns:56px minmax(0,1fr) 56px; gap:12px;
+ align-items:center; margin:0 auto 24px; width:min(100%,460px); max-width:none;
+}
+.sek-camera-v21 .camera-actions-row>.cam-glass { width:54px; height:54px; min-height:54px; }
+.sek-camera-v21 .camera-actions-row>.cam-glass[aria-pressed="true"] { background:#f6f0e3; color:#4b3625; }
+.sek-camera-v21 .camera-ratio { justify-self:center; display:flex; padding:4px;
+ background:rgba(34,30,29,.70); border:1px solid rgba(255,255,255,.43); border-radius:100px;
+ gap:2px; max-width:100%; }
+.sek-camera-v21 .camera-ratio button { border:0; border-radius:50px; min-width:0;
+ padding:12px clamp(13px,4vw,24px); letter-spacing:2px;
+ font:600 clamp(10px,2.4vw,12px)/1 ui-monospace,SFMono-Regular,monospace;
+ color:#eae2d7; background:transparent; }
+.sek-camera-v21 .camera-ratio button.selected { background:#f7f4ed; color:#302b28; }
+.sek-camera-v21 .camera-snap-row {
+ display:grid; grid-template-columns:1fr 104px 1fr; align-items:center; justify-items:center;
+ width:min(100%,400px); max-width:none; gap:0; margin:0 auto 22px;
+}
+.sek-camera-v21 .camera-shutter { width:94px; height:94px; border:6px solid #f6f4ef;
+ background:#faf8f1; border-radius:50%; box-shadow:inset 0 0 0 6px #4e4442,0 4px 13px #0003; }
+.sek-camera-v21 .camera-shutter:disabled { opacity:.45; }
+.sek-camera-v21 .cam-remaining { justify-self:start; width:75px; height:79px; border-radius:23px;
+ background:rgba(26,27,26,.68); box-shadow:0 7px 30px rgba(0,0,0,.2); gap:3px; }
+.sek-camera-v21 .cam-remaining b { font-size:34px; font-weight:500; line-height:1.06; }
+.sek-camera-v21 .cam-remaining span { font:600 10px/1.2 ui-monospace,monospace; letter-spacing:2.2px; }
+.sek-camera-v21 .cam-upload { width:min(100%,400px); min-height:55px; margin:0 auto;
+ display:flex; justify-content:center; align-items:center; padding:13px 17px;
+ color:#f5f0e8; background:rgba(10,10,10,.68); border:1px solid rgba(255,255,255,.38);
+ border-radius:100px; font:500 clamp(9px,2.8vw,12px)/1.2 ui-monospace,SFMono-Regular,monospace;
+ letter-spacing:2px; cursor:pointer; }
+.sek-camera-v21 .cam-upload:hover { background:rgba(29,29,28,.82); }
+.sek-camera-v21 .camera-message { z-index:7; top:47%; width:min(86%,380px);
+ border-radius:22px; padding:22px; background:rgba(23,22,19,.58);
+ backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); font-size:13px; }
+.sek-camera-v21 .camera-message p { margin:7px 0 0; }
+.sek-camera-v21 .camera-review-actions { justify-content:center; align-items:center;
+ gap:14px; width:min(100%,420px); margin:0 auto 8px; flex-wrap:nowrap; }
+.sek-camera-v21 .camera-review-actions button { min-height:53px; flex:1 1 50%; font-size:13px; }
+.sek-camera-v21 .cam-review-save { border:1px solid #f9efe4; border-radius:35px; justify-content:center; }
+.sek-camera-v21 .sk21-filter-scrim { position:fixed; inset:0; border:0; z-index:15;
+ background:rgba(0,0,0,.54); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); }
+.sek-camera-v21 .sk21-filter-scrim[hidden],
+.sek-camera-v21 .filter-studio[hidden] { display:none!important; }
+.sek-camera-v21 .filter-studio {
+ position:fixed; left:0; right:0; bottom:0; z-index:17;
+ width:100%; max-width:780px; max-height:min(81dvh,760px); overflow-y:auto;
+ overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
+ margin:0 auto; padding:14px clamp(15px,4vw,30px) max(22px,calc(18px + env(safe-area-inset-bottom,0px)));
+ background:#fcf8ef; color:#342b24; border:1px solid #e7d9c8; border-bottom:0;
+ border-radius:25px 25px 0 0; box-shadow:0 -13px 60px rgba(0,0,0,.32);
+}
+.sek-camera-v21 .sk21-drawer-grip { width:42px; height:4px; border-radius:8px; background:#c8b9a7; margin:0 auto 16px; }
+.sek-camera-v21 .filter-studio-header { gap:13px; margin-bottom:16px; }
+.sek-camera-v21 .filter-studio-header h2 { font:500 clamp(21px,5.5vw,29px)/1.25 'Playfair Display',Georgia,serif; margin:5px 0; }
+.sek-camera-v21 .filter-studio-header p { line-height:1.35; font-size:11px; }
+.sek-camera-v21 .sk21-drawer-close { width:40px; height:40px; flex:0 0 40px; display:grid; place-items:center;
+ border-radius:50%; border:1px solid #dacbb8; background:#f5ece1; color:#3a2e25; }
+.sek-camera-v21 .filter-category-row { padding-bottom:10px; }
+.sek-camera-v21 .filter-preview-grid { padding-bottom:10px; }
+.sek-camera-v21 .filter-preview-card { flex-basis:94px; }
+.sek-camera-v21 .effects-heading { padding-top:13px; }
+.sek-camera-v21 .effects-grid { margin:9px 0 16px; }
+.sek-camera-v21 .effect-card { padding:13px; }
+.sek-camera-v21 .effect-range { margin-top:11px; }
+.sek-camera-v21 .sk21-drawer-done { background:#2e4335!important; color:#fff; margin-top:7px; min-height:47px; }
+.sek-camera-v21.is-review .filter-studio { display:none!important; }
+@media (min-width:730px) {
+ .sek-camera-v21 .cam-overlay-header {padding-top:35px;}
+ .sek-camera-v21 .camera-controls {padding-bottom:35px;}
+ .sek-camera-v21 .cam-film-stamp {left:35px;}
+}
+@media (max-width:620px) {
+ .sek-camera-v21 .cam-overlay-header {grid-template-columns:44px minmax(0,1fr) 44px; padding:calc(15px + env(safe-area-inset-top,0px)) 16px 0; gap:6px;}
+ .sek-camera-v21 .cam-glass.circle {width:44px; height:44px; min-height:44px;}
+ .sek-camera-v21 .cam-wedding-title strong {font-size:clamp(22px,6.5vw,29px);}
+ .sek-camera-v21 .camera-actions-row {grid-template-columns:48px minmax(0,1fr) 48px; margin-bottom:20px; gap:7px;}
+ .sek-camera-v21 .camera-actions-row>.cam-glass {width:48px;height:48px;min-height:48px;}
+ .sek-camera-v21 .camera-ratio button {padding:10px clamp(13px,4vw,21px);}
+ .sek-camera-v21 .camera-controls {padding-inline:16px; padding-bottom:max(24px,calc(14px + env(safe-area-inset-bottom,0px)));}
+ .sek-camera-v21 .camera-snap-row {grid-template-columns:1fr 90px 1fr; margin-bottom:20px;}
+ .sek-camera-v21 .camera-shutter {width:88px;height:88px;}
+ .sek-camera-v21 .cam-remaining {width:67px;height:73px;border-radius:20px;}
+ .sek-camera-v21 .cam-film-stamp {left:14px;bottom:29%;font-size:10px;letter-spacing:2px;}
+ .sek-camera-v21 .cam-upload {min-height:51px;}
+ .sek-camera-v21 .effects-grid {grid-template-columns:1fr;}
+}
+@media (max-height:680px) {
+ .sek-camera-v21 .cam-overlay-header {padding-top:11px;}
+ .sek-camera-v21 .cam-wedding-title strong {font-size:clamp(20px,5vw,26px);}
+ .sek-camera-v21 .cam-wedding-title {gap:3px;}
+ .sek-camera-v21 .sk21-look-switch {margin-top:3px;}
+ .sek-camera-v21 .sk21-look-switch button,.sek-camera-v21 .sk21-look-switch span {min-height:29px;padding:6px 11px;font-size:9px;}
+ .sek-camera-v21 .camera-actions-row {margin-bottom:12px;}
+ .sek-camera-v21 .camera-snap-row {margin-bottom:12px;}
+ .sek-camera-v21 .camera-shutter {width:74px;height:74px;}
+ .sek-camera-v21 .camera-snap-row {grid-template-columns:1fr 82px 1fr;}
+ .sek-camera-v21 .cam-remaining {height:58px;width:60px;border-radius:16px;}
+ .sek-camera-v21 .cam-remaining b {font-size:26px;}
+ .sek-camera-v21 .cam-upload {min-height:44px;}
+ .sek-camera-v21 .camera-controls {padding-bottom:14px;}
+ .sek-camera-v21 .cam-film-stamp {max-height:33%;bottom:33%;}
+}
+@media (max-width:350px) {
+ .sek-camera-v21 .cam-overlay-header {padding-inline:10px;}
+ .sek-camera-v21 .cam-wedding-title strong {font-size:21px;}
+ .sek-camera-v21 .camera-ratio button {padding-inline:10px;letter-spacing:1.5px;}
+ .sek-camera-v21 .camera-controls {padding-inline:10px;}
+ .sek-camera-v21 .cam-film-stamp {left:8px;}
+ .sek-camera-v21 .sk21-look-switch button,.sek-camera-v21 .sk21-look-switch span {padding-inline:9px;letter-spacing:1px;}
+}
+@media (prefers-reduced-motion:reduce){.sek-camera-v21 .camera-shutter{transition:none;}}
