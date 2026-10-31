@@ -399,3 +399,12 @@ body.sek-camera-open #app { height:100dvh; overflow:hidden; }
  .sek-camera-v23 .sk23-capture-meta{margin-bottom:2px}
  .sek-camera-v23 .camera-snap-row{margin-bottom:2px}
 }
+
+/* V27 */
+.sek-camera-v23 .cam-overlay-header{grid-template-columns:71px minmax(0,1fr) 71px}
+.sek-camera-v23 .camera-actions-row{margin-bottom:0}
+.sek-camera-v23 .camera-snap-row{display:grid;grid-template-columns:1fr 84px 1fr;align-items:center;gap:8px;margin:0 auto 18px;min-height:88px}
+.sek-camera-v23 .camera-snap-row .sk23-capture-meta{grid-column:1;grid-row:1;justify-self:start;margin:0;width:auto}
+.sek-camera-v23 .camera-snap-row .camera-shutter{grid-column:2;grid-row:1;justify-self:center}
+.sek-camera-v23 .camera-snap-row .sk27-snap-spacer{grid-column:3;grid-row:1}
+@media(max-width:420px){.sek-camera-v23 .cam-overlay-header{grid-template-columns:64px minmax(0,1fr) 64px}.sek-camera-v23 .camera-snap-row{grid-template-columns:1fr 76px 1fr;gap:6px;margin-bottom:18px;min-height:78px}}

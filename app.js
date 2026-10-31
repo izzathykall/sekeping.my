@@ -138,11 +138,7 @@ function cameraSection(){
  <div class="cam-overlay-header">
  <button type="button" class="cam-glass circle sk22-back" data-action="leave-camera" aria-label="Kembali ke halaman tetamu">${icon('back','big')}</button>
  <div class="cam-wedding-title"><span class="sk22-eyebrow">SEKEPING <i>•</i> FOTO MAJLIS</span><strong class="serif">${e(v.bride)} & ${e(v.groom)}</strong><small>${e(stamp)}</small></div>
- <div class="sk23-top-tools" aria-label="Tetapan kamera segera">
- <button type="button" class="sk23-top-toggle ${state.grain?'is-on':''}" data-effect-quick="grain" aria-pressed="${state.grain}" aria-label="Grain ${state.grain?'hidup':'mati'}"><span>GRAIN ${state.grain?'ON':'OFF'}</span></button>
- <button type="button" class="sk23-top-toggle ${state.vignette?'is-on':''}" data-effect-quick="vignette" aria-pressed="${state.vignette}" aria-label="Vignette ${state.vignette?'hidup':'mati'}"><span>VIGNETTE ${state.vignette?'ON':'OFF'}</span></button>
  <button type="button" class="sk22-top-filter" data-action="toggle-filters" aria-label="Buka semua pilihan filter">${icon('sliders')}<span>FILTER</span></button>
- </div>
  </div>
  <div class="camera-controls">
  ${!shot?`
@@ -151,8 +147,7 @@ function cameraSection(){
   <div class="camera-ratio" role="group" aria-label="Nisbah gambar"><button type="button" data-action="set-classic" class="${state.aspect==='classic'?'selected':''}" aria-pressed="${state.aspect==='classic'}">BIASA</button><button type="button" data-action="set-wide" class="${state.aspect==='wide'?'selected':''}" aria-pressed="${state.aspect==='wide'}">LEBAR</button></div>
   <button class="sk22-action sk22-flip" type="button" data-action="flip-camera" aria-label="Tukar ke kamera ${targetFront?'depan':'belakang'}"><span class="sk22-action-icon">${flipIcon}</span><span class="sk22-action-text">KE ${targetFront?'DEPAN':'BELAKANG'}</span></button>
  </div>
- <div class="sk23-capture-meta"><div class="cam-remaining"><b>${String(remaining).padStart(2,'0')}</b><span>KEPING</span></div></div>
- <div class="camera-snap-row"><button type="button" class="camera-shutter" data-action="${state.stream?'capture':'open-camera'}" aria-label="${state.stream?'Tangkap gambar':'Aktifkan kamera'}" ${remaining===0?'disabled':''}><span></span></button></div>
+ <div class="camera-snap-row"><div class="sk23-capture-meta"><div class="cam-remaining"><b>${String(remaining).padStart(2,'0')}</b><span>KEPING</span></div></div><button type="button" class="camera-shutter" data-action="${state.stream?'capture':'open-camera'}" aria-label="${state.stream?'Tangkap gambar':'Aktifkan kamera'}" ${remaining===0?'disabled':''}><span></span></button><div class="sk27-snap-spacer" aria-hidden="true"></div></div>
  <label class="cam-upload" for="galleryUpload">${icon('image','sm')} <span>Pilih gambar dari galeri</span></label><input id="galleryUpload" class="sr" type="file" accept="image/*" ${remaining===0?'disabled':''} aria-label="Pilih foto dari galeri">`:
  `<div class="camera-review-actions"><button type="button" class="cam-glass" data-action="retake">${icon('refresh')} Ambil semula</button><button type="button" class="cam-review-save" data-action="save-photo">${icon('check')} Simpan gambar</button></div>`}
  </div></div>
