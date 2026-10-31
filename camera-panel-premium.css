@@ -1,0 +1,287 @@
+/*
+ Sekeping — Camera Studio V24
+ Premium bottom sheet applied on top of V23 camera-fullscreen.css.
+ Only modifies the filter drawer. Everything else stays as-is.
+*/
+.sek-camera-v23 .filter-studio.sk24-panel,
+.sek-camera-v22 .filter-studio.sk24-panel {
+ --sk24-ink:#2f2924;
+ --sk24-gold:#ac8660;
+ --sk24-soft:#a19484;
+ --sk24-cream:#faf7f1;
+ --sk24-border:#e9e0d6;
+ position:fixed;
+ left:0;right:0;bottom:0;
+ z-index:22;
+ box-sizing:border-box;
+ display:block;
+ width:100%;max-width:640px;
+ height:auto;max-height:min(82dvh,740px);
+ overflow-y:auto;overscroll-behavior:contain;
+ -webkit-overflow-scrolling:touch;
+ padding:13px clamp(18px,5vw,32px) max(25px,calc(18px + env(safe-area-inset-bottom,0px)));
+ margin:0 auto;
+ border:1px solid #f5eee6;border-bottom:0;
+ border-radius:27px 27px 0 0;
+ background:var(--sk24-cream);
+ box-shadow:0 -22px 90px rgba(0,0,0,.42);
+ color:var(--sk24-ink);
+ scrollbar-width:thin;scrollbar-color:#ccb8a0 transparent;
+ text-align:left;
+}
+.sek-camera-v23 .filter-studio.sk24-panel[hidden],
+.sek-camera-v22 .filter-studio.sk24-panel[hidden] {display:none!important}
+.sek-camera-v23 .sk24-panel *,
+.sek-camera-v22 .sk24-panel * {box-sizing:border-box}
+.sek-camera-v23 .sk24-panel .sk21-drawer-grip,
+.sek-camera-v22 .sk24-panel .sk21-drawer-grip {
+ display:block;width:38px;height:4px;border-radius:9px;
+ background:#cdc0b0;margin:0 auto 17px;
+}
+.sek-camera-v23 .sk24-panel .filter-studio-header,
+.sek-camera-v22 .sk24-panel .filter-studio-header {
+ display:flex;align-items:flex-start;justify-content:space-between;
+ gap:14px;margin:0 0 17px;
+}
+.sek-camera-v23 .sk24-panel .filter-studio-header>div,
+.sek-camera-v22 .sk24-panel .filter-studio-header>div {min-width:0}
+.sek-camera-v23 .sk24-panel .filter-studio-header .micro,
+.sek-camera-v22 .sk24-panel .filter-studio-header .micro {
+ display:block;color:#9e815f;
+ font:700 9px/1.3 'DM Sans',system-ui,sans-serif;
+ letter-spacing:1.5px;
+}
+.sek-camera-v23 .sk24-panel .filter-studio-header h2,
+.sek-camera-v22 .sk24-panel .filter-studio-header h2 {
+ font:600 clamp(25px,6.5vw,33px)/1.18 'Playfair Display',Georgia,serif;
+ letter-spacing:-.45px;color:#2b241e;margin:6px 0 5px;
+}
+.sek-camera-v23 .sk24-panel .filter-studio-header p,
+.sek-camera-v22 .sk24-panel .filter-studio-header p {
+ color:#8c7f70;margin:0;font:400 11.5px/1.45 'DM Sans',system-ui,sans-serif;
+}
+.sek-camera-v23 .sk24-panel .sk21-drawer-close,
+.sek-camera-v22 .sk24-panel .sk21-drawer-close {
+ display:grid;place-items:center;flex:none;width:37px;height:37px;
+ border-radius:50%;border:1px solid #e4dace;background:#f0e9df;
+ color:#65574a;cursor:pointer;box-shadow:none;
+}
+.sek-camera-v23 .sk24-panel .sk21-drawer-close .ico,
+.sek-camera-v22 .sk24-panel .sk21-drawer-close .ico {width:18px;height:18px}
+.sek-camera-v23 .sk24-panel .sk24-current-look,
+.sek-camera-v22 .sk24-panel .sk24-current-look {
+ display:flex;align-items:center;gap:13px;
+ position:relative;min-height:86px;
+ padding:11px 13px;border-radius:15px;
+ color:#f5efe6;
+ background:linear-gradient(125deg,#2a342f 0%,#384438 62%,#424637 100%);
+ box-shadow:inset 0 1px 0 #ffffff18,0 8px 25px #2c271f19;
+ overflow:hidden;margin-bottom:18px;
+}
+.sek-camera-v23 .sk24-panel .sk24-current-look:after,
+.sek-camera-v22 .sk24-panel .sk24-current-look:after {
+ position:absolute;content:'';right:-31px;top:-68px;width:200px;height:170px;
+ border-radius:50%;background:radial-gradient(circle,#d9c28d28,transparent 68%);
+ pointer-events:none;
+}
+.sek-camera-v23 .sk24-panel .sk24-current-scene,
+.sek-camera-v22 .sk24-panel .sk24-current-scene {
+ display:block;width:66px;height:65px;flex:0 0 66px;
+ overflow:hidden;padding:3px;border:1px solid #d2c4aa79;
+ border-radius:10px;background:#8e9e8d20;
+}
+.sek-camera-v23 .sk24-panel .sk24-mini-scene,
+.sek-camera-v22 .sk24-panel .sk24-mini-scene {
+ display:block;position:relative;width:100%;height:100%;border-radius:7px;
+ overflow:hidden;background:linear-gradient(155deg,#b5c4b9 0%,#f1d7ad 56%,#bf9777 100%);
+}
+.sek-camera-v23 .sk24-panel .sk24-mini-scene i,
+.sek-camera-v22 .sk24-panel .sk24-mini-scene i {
+ display:block;position:absolute;width:17px;height:17px;right:11px;top:10px;
+ background:#ffe9b8;border-radius:50%;box-shadow:0 0 14px #ffebc8;
+}
+.sek-camera-v23 .sk24-panel .sk24-mini-scene b,
+.sek-camera-v22 .sk24-panel .sk24-mini-scene b {
+ position:absolute;bottom:-18px;left:-15px;width:100px;height:42px;
+ border-radius:50%;transform:rotate(-18deg);background:#6e806b;
+}
+.sek-camera-v23 .sk24-panel .sk24-mini-scene em,
+.sek-camera-v22 .sk24-panel .sk24-mini-scene em {
+ position:absolute;bottom:-23px;right:-14px;width:80px;height:43px;
+ border-radius:50%;transform:rotate(14deg);background:#435951;
+}
+.sek-camera-v23 .sk24-panel .sk24-current-copy,
+.sek-camera-v22 .sk24-panel .sk24-current-copy {
+ position:relative;z-index:1;display:flex;flex-direction:column;gap:3px;
+ flex:1;min-width:0;
+}
+.sek-camera-v23 .sk24-panel .sk24-meta,
+.sek-camera-v22 .sk24-panel .sk24-meta {
+ display:block;color:#dbcaac;font:700 8px/1.4 'DM Sans',system-ui,sans-serif;
+ letter-spacing:1.6px;
+}
+.sek-camera-v23 .sk24-panel .sk24-active-name,
+.sek-camera-v22 .sk24-panel .sk24-active-name {
+ font:600 clamp(17px,4.4vw,23px)/1.2 'Playfair Display',Georgia,serif;
+ color:#fffaf1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.sek-camera-v23 .sk24-panel .sk24-active-desc,
+.sek-camera-v22 .sk24-panel .sk24-active-desc {
+ color:#d4d5c8;font:400 10px/1.4 'DM Sans',system-ui,sans-serif;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.sek-camera-v23 .sk24-panel .sk24-active-pill,
+.sek-camera-v22 .sk24-panel .sk24-active-pill {
+ position:relative;z-index:1;display:flex;align-items:center;gap:5px;flex:none;
+ align-self:flex-start;color:#e2d6bd;border:1px solid #b3b7a04a;
+ background:#e5e2ca15;padding:6px 7px;border-radius:30px;
+ font:700 8px/1 'DM Sans',system-ui,sans-serif;letter-spacing:1px;
+}
+.sek-camera-v23 .sk24-panel .sk24-active-dot,
+.sek-camera-v22 .sk24-panel .sk24-active-dot {
+ display:block;width:5px;height:5px;background:#d7cd95;border-radius:50%;
+}
+.sek-camera-v23 .sk24-panel .sk24-section-label,
+.sek-camera-v22 .sk24-panel .sk24-section-label {
+ display:flex;align-items:center;justify-content:space-between;gap:8px;
+ margin:0 0 11px;
+}
+.sek-camera-v23 .sk24-panel .sk24-section-label>div,
+.sek-camera-v22 .sk24-panel .sk24-section-label>div {display:flex;align-items:center;gap:10px}
+.sek-camera-v23 .sk24-panel .sk24-section-index,
+.sek-camera-v22 .sk24-panel .sk24-section-index,
+.sek-camera-v23 .sk24-panel .sk24-effects-index,
+.sek-camera-v22 .sk24-panel .sk24-effects-index {
+ display:grid;place-items:center;flex:none;
+ width:26px;height:26px;border:1px solid #ded2c2;border-radius:8px;
+ background:#f0eae0;color:#927455;
+ font:700 10px/1 'DM Sans',sans-serif;
+}
+.sek-camera-v23 .sk24-panel .sk24-section-label strong,
+.sek-camera-v22 .sk24-panel .sk24-section-label strong {
+ font:700 12px/1.3 'DM Sans',system-ui,sans-serif;letter-spacing:.12px;
+}
+.sek-camera-v23 .sk24-panel .sk24-section-label small,
+.sek-camera-v22 .sk24-panel .sk24-section-label small {
+ color:#958475;font:500 10px/1.4 'DM Sans',system-ui,sans-serif;
+}
+.sek-camera-v23 .sk24-panel .sk24-hide-original-active,
+.sek-camera-v22 .sk24-panel .sk24-hide-original-active,
+.sek-camera-v23 .sk24-panel .sk24-hide-categories,
+.sek-camera-v22 .sk24-panel .sk24-hide-categories {display:none!important}
+.sek-camera-v23 .sk24-panel .filter-preview-grid,
+.sek-camera-v22 .sk24-panel .filter-preview-grid {
+ display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+ width:100%;padding:0;margin:0;overflow:visible;
+}
+.sek-camera-v23 .sk24-panel .filter-preview-card,
+.sek-camera-v22 .sk24-panel .filter-preview-card {
+ position:relative;display:flex;flex-direction:column;align-items:stretch;
+ justify-content:flex-start;gap:6px;min-width:0;width:100%;flex:auto;
+ scroll-snap-align:none;padding:6px;border:1.5px solid #e5ded3;
+ border-radius:13px;background:#fffcf7;
+ box-shadow:none;transform:none;transition:border-color .16s,background .16s;
+}
+.sek-camera-v23 .sk24-panel .filter-preview-card:hover,
+.sek-camera-v22 .sk24-panel .filter-preview-card:hover {transform:none;border-color:#bda483}
+.sek-camera-v23 .sk24-panel .filter-preview-card.active,
+.sek-camera-v22 .sk24-panel .filter-preview-card.active {
+ border:2px solid #a5835d;background:#f3eade;
+ padding:5.5px;
+ box-shadow:0 0 0 1px #ad89601a;
+}
+.sek-camera-v23 .sk24-panel .filter-thumbnail,
+.sek-camera-v22 .sk24-panel .filter-thumbnail {
+ position:relative;width:100%;height:auto;aspect-ratio:1.55;
+ display:block;overflow:hidden;border-radius:8px;background:#ded1bd;
+}
+.sek-camera-v23 .sk24-panel .filter-landscape,
+.sek-camera-v22 .sk24-panel .filter-landscape {
+ width:100%;height:100%;border-radius:8px;
+}
+.sek-camera-v23 .sk24-panel .filter-name,
+.sek-camera-v22 .sk24-panel .filter-name {
+ display:block;width:100%;color:#54483b;
+ font:650 10px/1.3 'DM Sans',system-ui,sans-serif;
+ text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+ padding-bottom:2px;
+}
+.sek-camera-v23 .sk24-panel .filter-preview-card.active .filter-name,
+.sek-camera-v22 .sk24-panel .filter-preview-card.active .filter-name {color:#735334}
+.sek-camera-v23 .sk24-panel .filter-selected,
+.sek-camera-v22 .sk24-panel .filter-selected {
+ position:absolute;right:10px;top:9px;display:grid;place-items:center;
+ width:19px;height:19px;border-radius:50%;background:#a27d55;color:#fff;
+ border:2px solid #fffcf7;box-shadow:0 2px 5px #0004;
+}
+.sek-camera-v23 .sk24-panel .filter-selected .ico,
+.sek-camera-v22 .sk24-panel .filter-selected .ico {width:10px;height:10px}
+.sek-camera-v23 .sk24-panel .sk24-grid-hint,
+.sek-camera-v22 .sk24-panel .sk24-grid-hint {
+ color:#9a8c7b;margin:9px 0 19px;
+ font:400 10px/1.35 'DM Sans',system-ui,sans-serif;
+}
+.sek-camera-v23 .sk24-panel .sk24-effects-heading,
+.sek-camera-v22 .sk24-panel .sk24-effects-heading {
+ display:flex;align-items:center;gap:10px;margin:0 0 10px;
+ padding:14px 0 0;border-top:1px solid var(--sk24-border);
+}
+.sek-camera-v23 .sk24-panel .sk24-effects-heading > .ico,
+.sek-camera-v22 .sk24-panel .sk24-effects-heading > .ico {display:none}
+.sek-camera-v23 .sk24-panel .sk24-effects-heading strong,
+.sek-camera-v22 .sk24-panel .sk24-effects-heading strong {
+ display:block;color:#342c26;font:700 12px/1.3 'DM Sans',system-ui,sans-serif;
+}
+.sek-camera-v23 .sk24-panel .sk24-effects-heading p,
+.sek-camera-v22 .sk24-panel .sk24-effects-heading p {
+ color:#958475;font:400 10px/1.4 'DM Sans',system-ui,sans-serif;margin:3px 0 0;
+}
+.sek-camera-v23 .sk24-panel .sk24-effect-list,
+.sek-camera-v22 .sk24-panel .sk24-effect-list {
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 14px;
+}
+.sek-camera-v23 .sk24-panel .effect-card,
+.sek-camera-v22 .sk24-panel .effect-card {
+ min-width:0;margin:0;border:1px solid #e2dacd;background:#fffcf8;
+ border-radius:13px;padding:12px 10px;
+ box-shadow:none;
+}
+.sek-camera-v23 .sk24-panel .effect-card-row,
+.sek-camera-v22 .sk24-panel .effect-card-row {align-items:center;gap:7px}
+.sek-camera-v23 .sk24-panel .effect-label,
+.sek-camera-v22 .sk24-panel .effect-label {font:700 11px/1.3 'DM Sans',sans-serif}
+.sek-camera-v23 .sk24-panel .effect-caption,
+.sek-camera-v22 .sk24-panel .effect-caption {font:400 9px/1.4 'DM Sans',sans-serif;color:#978979}
+.sek-camera-v23 .sk24-panel .effect-status,
+.sek-camera-v22 .sk24-panel .effect-status {font-size:8px;letter-spacing:.2px}
+.sek-camera-v23 .sk24-panel .effect-toggle,
+.sek-camera-v22 .sk24-panel .effect-toggle {flex:none}
+.sek-camera-v23 .sk24-panel .effect-toggle.active,
+.sek-camera-v22 .sk24-panel .effect-toggle.active {background:#41604b}
+.sek-camera-v23 .sk24-panel .effect-range,
+.sek-camera-v22 .sk24-panel .effect-range {margin-top:12px;gap:4px;font-size:9px}
+.sek-camera-v23 .sk24-panel .sk24-done,
+.sek-camera-v22 .sk24-panel .sk24-done {
+ display:flex;align-items:center;justify-content:center;gap:10px;
+ position:sticky;bottom:0;z-index:3;width:100%;min-height:49px;
+ margin:10px 0 0;padding:11px 18px;border-radius:40px;
+ border:1px solid #35483b;background:#35483b!important;color:#fcf9f3!important;
+ box-shadow:0 5px 18px #171b1937;font:700 12px/1.2 'DM Sans',system-ui,sans-serif;
+ text-align:center;
+}
+.sek-camera-v23 .sk24-panel .sk24-done svg,
+.sek-camera-v22 .sk24-panel .sk24-done svg {width:16px;height:16px;flex:none}
+@media (max-width:360px) {
+ .sek-camera-v23 .sk24-panel .sk24-current-look,
+ .sek-camera-v22 .sk24-panel .sk24-current-look {gap:9px;padding:9px}
+ .sek-camera-v23 .sk24-panel .sk24-active-pill,
+ .sek-camera-v22 .sk24-panel .sk24-active-pill {font-size:7px;padding:4px}
+ .sek-camera-v23 .sk24-panel .filter-preview-grid,
+ .sek-camera-v22 .sk24-panel .filter-preview-grid {gap:6px}
+ .sek-camera-v23 .sk24-panel .filter-name,
+ .sek-camera-v22 .sk24-panel .filter-name {font-size:9px}
+}
+@media (prefers-reduced-motion:reduce) {
+ .sek-camera-v23 .sk24-panel .filter-preview-card,
+ .sek-camera-v22 .sk24-panel .filter-preview-card {transition:none}
+}
