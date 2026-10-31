@@ -285,14 +285,3 @@
  .sek-camera-v23 .sk24-panel .filter-preview-card,
  .sek-camera-v22 .sk24-panel .filter-preview-card {transition:none}
 }
-/* V25: clear live view, compact filter popover */
-.sek-camera-v23 .sk21-screen-shade,.sek-camera-v22 .sk21-screen-shade{background:transparent!important;pointer-events:none!important}
-.sek-camera-v23 .camera-controls,.sek-camera-v22 .camera-controls{background:transparent!important}
-.sek-camera-v23 .camera-frame:before,.sek-camera-v22 .camera-frame:before{background:none!important}
-.sek-camera-v23 .filter-studio.sk24-panel,.sek-camera-v22 .filter-studio.sk24-panel{bottom:auto!important;top:50%!important;left:50%!important;right:auto!important;transform:translate(-50%,-50%)!important;width:calc(100% - 32px)!important;max-width:410px!important;max-height:min(70dvh,560px)!important;padding:16px!important;border:1px solid #e9e0d6!important;border-radius:22px!important;box-shadow:0 14px 65px #0007!important}
-.sek-camera-v23 .sk24-panel .sk24-current-look,.sek-camera-v22 .sk24-panel .sk24-current-look{padding:10px!important;margin:7px 0!important}
-.sek-camera-v23 .sk24-panel .filter-preview-grid,.sek-camera-v22 .sk24-panel .filter-preview-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;max-height:205px;overflow:auto}
-.sek-camera-v23 .sk24-panel .filter-preview-card,.sek-camera-v22 .sk24-panel .filter-preview-card{min-width:0!important;width:100%!important}
-.sek-camera-v23 .sk24-panel .sk24-grid-hint,.sek-camera-v22 .sk24-panel .sk24-grid-hint{display:none!important}
-.sek-camera-v23 .sk21-filter-scrim,.sek-camera-v22 .sk21-filter-scrim{background:rgba(0,0,0,.32)!important}
-@media(max-height:700px){.sek-camera-v23 .filter-studio.sk24-panel,.sek-camera-v22 .filter-studio.sk24-panel{max-height:78dvh!important}.sek-camera-v23 .sk24-panel .filter-preview-grid,.sek-camera-v22 .sk24-panel .filter-preview-grid{max-height:145px}}
