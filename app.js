@@ -138,7 +138,11 @@ function cameraSection(){
  <div class="cam-overlay-header">
  <button type="button" class="cam-glass circle sk22-back" data-action="leave-camera" aria-label="Kembali ke halaman tetamu">${icon('back','big')}</button>
  <div class="cam-wedding-title"><span class="sk22-eyebrow">SEKEPING <i>•</i> FOTO MAJLIS</span><strong class="serif">${e(v.bride)} & ${e(v.groom)}</strong><small>${e(stamp)}</small></div>
+ <div class="sk23-top-tools" aria-label="Tetapan kamera segera">
+ <button type="button" class="sk23-top-toggle ${state.grain?'is-on':''}" data-effect-quick="grain" aria-pressed="${state.grain}" aria-label="Grain ${state.grain?'hidup':'mati'}"><span>GRAIN ${state.grain?'ON':'OFF'}</span></button>
+ <button type="button" class="sk23-top-toggle ${state.vignette?'is-on':''}" data-effect-quick="vignette" aria-pressed="${state.vignette}" aria-label="Vignette ${state.vignette?'hidup':'mati'}"><span>VIGNETTE ${state.vignette?'ON':'OFF'}</span></button>
  <button type="button" class="sk22-top-filter" data-action="toggle-filters" aria-label="Buka semua pilihan filter">${icon('sliders')}<span>FILTER</span></button>
+ </div>
  </div>
  <div class="camera-controls">
  ${!shot?`
@@ -147,7 +151,7 @@ function cameraSection(){
   <div class="camera-ratio" role="group" aria-label="Nisbah gambar"><button type="button" data-action="set-classic" class="${state.aspect==='classic'?'selected':''}" aria-pressed="${state.aspect==='classic'}">BIASA</button><button type="button" data-action="set-wide" class="${state.aspect==='wide'?'selected':''}" aria-pressed="${state.aspect==='wide'}">LEBAR</button></div>
   <button class="sk22-action sk22-flip" type="button" data-action="flip-camera" aria-label="Tukar ke kamera ${targetFront?'depan':'belakang'}"><span class="sk22-action-icon">${flipIcon}</span><span class="sk22-action-text">KE ${targetFront?'DEPAN':'BELAKANG'}</span></button>
  </div>
- <div class="sk23-capture-meta"><div class="cam-remaining"><b>${String(remaining).padStart(2,'0')}</b><span>KEPING</span></div><div class="sk23-capture-note">Filter akan kekal pada gambar yang disimpan.</div></div>
+ <div class="sk23-capture-meta"><div class="cam-remaining"><b>${String(remaining).padStart(2,'0')}</b><span>KEPING</span></div></div>
  <div class="camera-snap-row"><button type="button" class="camera-shutter" data-action="${state.stream?'capture':'open-camera'}" aria-label="${state.stream?'Tangkap gambar':'Aktifkan kamera'}" ${remaining===0?'disabled':''}><span></span></button></div>
  <label class="cam-upload" for="galleryUpload">${icon('image','sm')} <span>Pilih gambar dari galeri</span></label><input id="galleryUpload" class="sr" type="file" accept="image/*" ${remaining===0?'disabled':''} aria-label="Pilih foto dari galeri">`:
  `<div class="camera-review-actions"><button type="button" class="cam-glass" data-action="retake">${icon('refresh')} Ambil semula</button><button type="button" class="cam-review-save" data-action="save-photo">${icon('check')} Simpan gambar</button></div>`}
@@ -165,7 +169,7 @@ function cameraSection(){
 function updateEffectPreview(){const video=document.querySelector('#cameraVideo');if(video)video.style.filter=filters[state.filter].style;const activeLabel=document.querySelector('#sk22-panel-active-label');if(activeLabel)activeLabel.textContent=filters[state.filter].label;
  const grain=document.querySelector('#liveGrain');if(grain){grain.classList.toggle('hidden',!state.grain||!!state.photoBlob);grain.style.opacity=FX.grainOpacity(state.grainStrength);}
  const vignette=document.querySelector('#liveVignette');if(vignette){vignette.classList.toggle('hidden',!state.vignette||!!state.photoBlob);vignette.style.background=FX.vignetteCSS(state.vignetteStrength);}
- for(const name of ['grain','vignette']){const sw=document.querySelector(`[data-effect-toggle="${name}"]`);if(sw){sw.classList.toggle('active',state[name]);sw.setAttribute('aria-checked',String(state[name]))};const status=document.querySelector('#'+name+'Status');if(status)status.textContent=state[name]?'ON':'OFF';const slider=document.querySelector(`[data-effect-strength="${name}"]`);if(slider)slider.disabled=!state[name];document.querySelector('#'+name+'Range')?.classList.toggle('is-disabled',!state[name]);const label=document.querySelector('#'+name+'StrengthLabel');if(label)label.textContent=state[name+'Strength']+'%';}
+ for(const name of ['grain','vignette']){const sw=document.querySelector(`[data-effect-toggle="${name}"]`);if(sw){sw.classList.toggle('active',state[name]);sw.setAttribute('aria-checked',String(state[name]))};const quick=document.querySelector(`[data-effect-quick="${name}"]`);if(quick){quick.classList.toggle('is-on',state[name]);quick.setAttribute('aria-pressed',String(state[name]));const label=quick.querySelector('span');if(label)label.textContent=(name==='grain'?'GRAIN':'VIGNETTE')+' '+(state[name]?'ON':'OFF');}const status=document.querySelector('#'+name+'Status');if(status)status.textContent=state[name]?'ON':'OFF';const slider=document.querySelector(`[data-effect-strength="${name}"]`);if(slider)slider.disabled=!state[name];document.querySelector('#'+name+'Range')?.classList.toggle('is-disabled',!state[name]);const label=document.querySelector('#'+name+'StrengthLabel');if(label)label.textContent=state[name+'Strength']+'%';}
  document.querySelectorAll('[data-filter]').forEach(node=>{node.classList.toggle('active',node.dataset.filter===state.filter);node.setAttribute('aria-pressed',String(node.dataset.filter===state.filter));});
 }
 
@@ -423,6 +427,7 @@ app.addEventListener('click',async ev=>{
  const category=ev.target.closest('[data-filter-category]');if(category){state.filterGroup=category.dataset.filterCategory;render();return}
  const filter=ev.target.closest('[data-filter]');if(filter){setCameraSetting('filter',filter.dataset.filter);updateEffectPreview();return}
  const toggle=ev.target.closest('[data-effect-toggle]');if(toggle){const k=toggle.dataset.effectToggle;if(['grain','vignette'].includes(k)){setCameraSetting(k,!state[k]);updateEffectPreview()}return}
+ const quickToggle=ev.target.closest('[data-effect-quick]');if(quickToggle){const k=quickToggle.dataset.effectQuick;if(['grain','vignette'].includes(k)){setCameraSetting(k,!state[k]);updateEffectPreview()}return}
  const del=ev.target.closest('[data-delete-id]');if(del){if(!confirm('Padam item daripada galeri majlis? Untuk Firebase sebenar, fail media dalam Storage mungkin masih kekal dan perlu dipadam berasingan.'))return;try{await S.deleteRecord(state.event.id,del.dataset.deleteKind,del.dataset.deleteId);await fillContent();render();toast('Item dipadam daripada galeri.')}catch(err){showError(err)}return}
  const btn=ev.target.closest('[data-action]');if(btn){ev.preventDefault();try{await handleAction(btn.dataset.action,btn)}catch(err){showError(err)}}
 });

@@ -28,6 +28,15 @@ function vignetteCSS(strength){
  return `radial-gradient(ellipse at center, rgba(0,0,0,0) 18%, rgba(0,0,0,${(alpha*.13).toFixed(3)}) 47%, rgba(0,0,0,${alpha.toFixed(3)}) 100%)`;
 }
 function grainOpacity(strength){return Math.max(0,Math.min(.55,Number(strength)/100*.53))}
+function applyManualBW(ctx,w,h){
+ const img=ctx.getImageData(0,0,w,h),d=img.data,contrast=1.12,offset=128*(1-contrast);
+ for(let i=0;i<d.length;i+=4){
+  const g=.2126*d[i]+.7152*d[i+1]+.0722*d[i+2];
+  const tone=Math.max(0,Math.min(255,g*contrast+offset));
+  d[i]=tone;d[i+1]=tone;d[i+2]=tone;
+ }
+ ctx.putImageData(img,0,0);
+}
 function draw(source,options={}){
  const landscape=options.orientation==='landscape',wide=options.aspect==='wide';const w=landscape?(wide?1920:1600):(wide?1080:1200),h=landscape?(wide?1080:1200):(wide?1920:1600);
  const c=document.createElement('canvas');c.width=w;c.height=h;const ctx=c.getContext('2d',{willReadFrequently:false});
@@ -35,9 +44,11 @@ function draw(source,options={}){
  const sheight=source.videoHeight||source.naturalHeight||source.height;
  if(!swidth||!sheight)throw new Error('Imej kamera belum tersedia. Cuba sekali lagi.');
  const ratio=Math.max(w/swidth,h/sheight),cropW=w/ratio,cropH=h/ratio;
- ctx.filter=FILTERS[options.filter]?.style||'none';
+ const filterKey=options.filter;
+ ctx.filter=filterKey==='bw'?'none':(FILTERS[filterKey]?.style||'none');
  ctx.drawImage(source,(swidth-cropW)/2,(sheight-cropH)/2,cropW,cropH,0,0,w,h);
  ctx.filter='none';
+ if(filterKey==='bw')applyManualBW(ctx,w,h);
  if(options.grain){
   ctx.save();ctx.globalAlpha=grainOpacity(options.grainStrength??40);ctx.globalCompositeOperation='overlay';
   const pat=ctx.createPattern(getNoiseTile(),'repeat');ctx.fillStyle=pat;ctx.fillRect(0,0,w,h);ctx.restore();

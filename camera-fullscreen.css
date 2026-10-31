@@ -367,24 +367,35 @@ body.sek-camera-open #app { height:100dvh; overflow:hidden; }
 }
 
 
-/* Sekeping V25 — single entry point for filters, bottom-anchored camera tools.
-   The filter picker remains accessible from the header FILTER button. */
-.sek-camera-v23 .sk23-filter-strip {display:none!important;}
-.sek-camera-v23 .camera-controls {padding-top:8px;}
-.sek-camera-v23 .camera-actions-row {margin-bottom:5px;}
-.sek-camera-v23 .sk23-capture-meta {margin-bottom:5px;gap:7px;}
-.sek-camera-v23 .camera-snap-row {margin-bottom:10px;}
-@media (max-width:420px) {
-  .sek-camera-v23 .sk23-capture-meta {
-    grid-template-columns:auto minmax(0,1fr);
-    justify-items:stretch;
-    gap:10px;
-  }
-  .sek-camera-v23 .sk23-capture-note {text-align:right;max-width:none;}
+/* Sekeping Camera V26 — cleaner bottom spacing, top quick toggles, centered shutter. */
+.sek-camera-v23 .sk23-filter-strip{display:none!important}
+.sek-camera-v23 .cam-overlay-header{grid-template-columns:52px minmax(0,1fr) auto;align-items:start;gap:6px}
+.sek-camera-v23 .sk23-top-tools{justify-self:end;display:flex;flex-direction:column;align-items:flex-end;gap:6px;pointer-events:auto}
+.sek-camera-v23 .sk23-top-toggle,.sek-camera-v23 .sk22-top-filter{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:0 11px;border-radius:18px;border:1px solid #ffffff70;background:#f8f4efec;color:#342a21;box-shadow:0 3px 20px #0003;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font:700 9.5px/1 'DM Sans',sans-serif;letter-spacing:.9px;cursor:pointer;pointer-events:auto;white-space:nowrap}
+.sek-camera-v23 .sk23-top-toggle.is-on{background:#e9d4ac;color:#2d2922;border-color:#ebd9b8}
+.sek-camera-v23 .sk22-top-filter svg{width:15px;height:15px;stroke-width:1.5}
+.sek-camera-v23 .camera-controls{padding-top:8px;padding-bottom:max(12px,calc(10px + env(safe-area-inset-bottom,0px)))}
+.sek-camera-v23 .camera-actions-row{margin-bottom:6px}
+.sek-camera-v23 .sk23-capture-meta{width:min(100%,390px);margin:0 auto 4px;display:flex;justify-content:flex-start;align-items:center;min-height:0}
+.sek-camera-v23 .sk23-capture-note{display:none!important}
+.sek-camera-v23 .camera-snap-row{display:flex;justify-content:center;align-items:center;width:min(100%,390px);margin:0 auto 6px}
+.sek-camera-v23 .cam-upload{width:min(100%,390px);margin:0 auto}
+.sek-camera-v23 .camera-shutter{display:grid;place-items:center;appearance:none;-webkit-appearance:none;margin-inline:auto;padding:0;border-radius:50%;background:transparent;line-height:0}
+.sek-camera-v23 .camera-shutter span{display:block;flex:none;margin:0;border-radius:50%}
+@media (max-width:420px){
+ .sek-camera-v23 .cam-overlay-header{grid-template-columns:44px minmax(0,1fr) auto;padding-inline:12px}
+ .sek-camera-v23 .sk23-top-tools{gap:5px}
+ .sek-camera-v23 .sk23-top-toggle,.sek-camera-v23 .sk22-top-filter{min-height:31px;padding:0 9px;font-size:8.6px;letter-spacing:.75px}
+ .sek-camera-v23 .camera-controls{padding-left:14px;padding-right:14px;padding-bottom:max(8px,calc(6px + env(safe-area-inset-bottom,0px)))}
+ .sek-camera-v23 .camera-actions-row{margin-bottom:4px}
+ .sek-camera-v23 .sk23-capture-meta{margin-bottom:2px}
+ .sek-camera-v23 .camera-snap-row{margin-bottom:4px}
+ .sek-camera-v23 .camera-shutter{width:74px;height:74px}
+ .sek-camera-v23 .camera-shutter span{width:58px;height:58px}
 }
-@media (max-height:650px) {
-  .sek-camera-v23 .camera-controls {padding-top:5px;}
-  .sek-camera-v23 .camera-actions-row {margin-bottom:3px;}
-  .sek-camera-v23 .sk23-capture-meta {margin-bottom:3px;}
-  .sek-camera-v23 .camera-snap-row {margin-bottom:7px;}
+@media (max-height:700px){
+ .sek-camera-v23 .camera-controls{padding-top:4px;padding-bottom:max(6px,calc(4px + env(safe-area-inset-bottom,0px)))}
+ .sek-camera-v23 .camera-actions-row{margin-bottom:2px}
+ .sek-camera-v23 .sk23-capture-meta{margin-bottom:2px}
+ .sek-camera-v23 .camera-snap-row{margin-bottom:2px}
 }
